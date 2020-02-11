@@ -1,5 +1,12 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+
+// DEBUG: Test Database Connection:
+$name = "";
+$query = $this->db->query("SELECT First_Name FROM students WHERE StudentID=1");
+foreach ($query->result() as $row) {
+     $name = $row->First_Name;
+}
 ?>
 
 <!DOCTYPE html>
@@ -7,13 +14,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
 
      <title>Eatery Cafe and Restaurant Template</title>
-	<!-- 
 
-	Eatery Cafe Template 
-
-	http://www.templatemo.com/tm-515-eatery
-
-	-->
      <meta charset="UTF-8">
      <meta http-equiv="X-UA-Compatible" content="IE=Edge">
      <meta name="description" content="">
@@ -30,19 +31,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
      <!-- MAIN CSS -->
      <link rel="stylesheet" href="css/templatemo-style.css">
-
 </head>
 <body>
 
      <!-- PRE LOADER -->
      <section class="preloader">
           <div class="spinner">
-
                <span class="spinner-rotate"></span>
-               
           </div>
      </section>
-
 
      <!-- MENU -->
      <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
@@ -74,10 +71,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                          <a href="#footer" class="section-btn">Reserve a table</a>
                     </ul>
                </div>
-
           </div>
      </section>
-
 
      <!-- HOME -->
      <section id="home" class="slider" data-stellar-background-ratio="0.5">
@@ -124,12 +119,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
           </div>
      </section>
 
-
      <!-- ABOUT -->
      <section id="about" data-stellar-background-ratio="0.5">
           <div class="container">
                <div class="row">
-
                     <div class="col-md-6 col-sm-12">
                          <div class="about-info">
                               <div class="section-title wow fadeInUp" data-wow-delay="0.2s">
@@ -137,19 +130,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                    <h2>We've been Making The Delicious Foods Since 1999</h2>
                               </div>
 
+                              <!-- DEBUG: Test Database Result: -->
+                              <p><b><?php echo $name; ?></b></p>
+
                               <div class="wow fadeInUp" data-wow-delay="0.4s">
                                    <p>Fusce hendrerit malesuada lacinia. Donec semper semper sem vitae malesuada. Proin scelerisque risus et ipsum semper molestie sed in nisi. Ut rhoncus congue lectus, rhoncus venenatis leo malesuada id.</p>
                                    <p>Sed elementum vel felis sed scelerisque. In arcu diam, sollicitudin eu nibh ac, posuere tristique magna. You can use this template for your cafe or restaurant website. Please tell your friends about <a href="https://plus.google.com/+templatemo" target="_parent">templatemo</a>. Thank you.</p>
                               </div>
                          </div>
                     </div>
-
                     <div class="col-md-6 col-sm-12">
                          <div class="wow fadeInUp about-image" data-wow-delay="0.6s">
                               <img src="images/about-image.jpg" class="img-responsive" alt="">
                          </div>
                     </div>
-                    
                </div>
           </div>
      </section>
@@ -159,14 +153,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
      <section id="team" data-stellar-background-ratio="0.5">
           <div class="container">
                <div class="row">
-
                     <div class="col-md-12 col-sm-12">
                          <div class="section-title wow fadeInUp" data-wow-delay="0.1s">
                               <h2>Meet our chefs</h2>
                               <h4>They are nice &amp; friendly</h4>
                          </div>
                     </div>
-
                     <div class="col-md-4 col-sm-4">
                          <div class="team-thumb wow fadeInUp" data-wow-delay="0.2s">
                               <img src="images/team-image1.jpg" class="img-responsive" alt="">
