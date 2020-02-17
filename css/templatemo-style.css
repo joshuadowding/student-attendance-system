@@ -212,6 +212,7 @@ http://www.templatemo.com/tm-515-eatery
     border: none;
     margin-bottom: 0;
     padding: 25px 0;
+    background-color: rgba(0, 0, 0, 0.75);
   }
 
   .custom-navbar .navbar-brand {
@@ -300,7 +301,7 @@ http://www.templatemo.com/tm-515-eatery
   @media(min-width:768px) {
     .custom-navbar {
       border-bottom: 0;
-      background: 0 0; 
+      background-color: rgba(0, 0, 0, 0.75);
     }
 
     .custom-navbar.top-nav-collapse {
