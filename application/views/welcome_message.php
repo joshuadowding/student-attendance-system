@@ -131,7 +131,7 @@ foreach ($query->result() as $row) {
                               </div>
 
                               <!-- DEBUG: Test Database Result: -->
-                              <p><b><?php echo $name; ?></b></p>
+                              <p>Test Database Result: <b><?php echo $name; ?></b></p>
 
                               <div class="wow fadeInUp" data-wow-delay="0.4s">
                                    <p>Fusce hendrerit malesuada lacinia. Donec semper semper sem vitae malesuada. Proin scelerisque risus et ipsum semper molestie sed in nisi. Ut rhoncus congue lectus, rhoncus venenatis leo malesuada id.</p>
