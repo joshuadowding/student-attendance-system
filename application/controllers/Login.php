@@ -23,4 +23,10 @@ class Login extends CI_Controller {
 		$this->load->database();
 		$this->load->view('login');
 	}
+
+	public function process()
+	{
+		$this->load->helper('url');
+		redirect(base_url(), 'refresh'); // DEBUG: Redirect to homepage.
+	}
 }

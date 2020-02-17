@@ -28,11 +28,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 <body>
 
     <?php include("includes/body-preloader-contents.php"); ?>
-    <?php include("includes/body-menu-contents.php"); ?>
+    <?php //include("includes/body-menu-contents.php"); ?>
 
-    <!-- CONTENT -->
+    <!-- LOGIN -->
+    <form action="/student-attendance-system/index.php/login/process" method="post">
+        <input type="submit">
+    </form>
 
-    <?php include("includes/body-footer-contents.php"); ?>
+    <?php //include("includes/body-footer-contents.php"); ?>
 
     <script src="../js/jquery.js"></script>
     <script src="../js/bootstrap.min.js"></script>
