@@ -20,6 +20,8 @@ class Home extends CI_Controller {
 	 */
 	public function index()
 	{
+		session_start(); // DEBUG: Start/Resume session.
+
 		$this->load->database();
 		$this->load->view('home');
 	}

@@ -31,9 +31,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <?php //include("includes/body-menu-contents.php"); ?>
 
     <!-- LOGIN -->
-    <form action="/student-attendance-system/index.php/login/process" method="post">
-        <input type="submit">
-    </form>
+    <div class="user-login-wrapper">
+        <form id="user-login" action="/student-attendance-system/index.php/login" method="post">
+            <label for="input-username">Username:</label>
+            <input type="text" id="input-username" name="input-username" required="required" value="">
+
+            <label for="input-password">Password:</label>
+            <input type="password" id="input-password" name="input-password" required="required" value="">
+
+            <input type="submit" name="submit" id="login-submit" value="Login">
+        </form>
+    </div>
 
     <?php //include("includes/body-footer-contents.php"); ?>
 

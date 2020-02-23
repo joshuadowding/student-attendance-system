@@ -93,8 +93,16 @@ foreach ($query->result() as $row) {
                             <h2>We've been Making The Delicious Foods Since 1999</h2>
                         </div>
 
-                        <!-- DEBUG: Test Database Result: -->
-                        <p>Test Database Result: <b><?php echo $name; ?></b></p>
+                        <div class="wow fadeInUp" data-wow-delay="0.4s">
+                            <!-- DEBUG: Test Database Result: -->
+                            <p>Test Database Result: <b><?php echo $name; ?></b></p>
+
+                            <?php if(!empty($_SESSION["currentUsername"])) {
+                                echo "<p>Test Session Result: <b>";
+                                echo $_SESSION["currentUsername"];
+                                echo "</b></p>";
+                            }?>
+                        </div>
 
                         <div class="wow fadeInUp" data-wow-delay="0.4s">
                             <p>Fusce hendrerit malesuada lacinia. Donec semper semper sem vitae malesuada. Proin

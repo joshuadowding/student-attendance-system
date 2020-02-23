@@ -20,13 +20,70 @@ class Login extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->database();
-		$this->load->view('login');
+		if($_SERVER["REQUEST_METHOD"] == "POST") {
+			$this->load->database();
+
+			if($this->process()) {
+				$this->load->helper('url');
+				redirect(base_url(), 'location'); // DEBUG: Redirect to homepage.
+				exit();
+			}
+			else {
+				// TODO: Failed to login.
+				$this->load->view('login');
+			}
+		}
+		else if($_SERVER["REQUEST_METHOD"] == "GET") {
+			$this->load->view('login');
+		}
 	}
 
 	public function process()
 	{
-		$this->load->helper('url');
-		redirect(base_url(), 'refresh'); // DEBUG: Redirect to homepage.
+		$validationSuccess = true;
+		$inputUsername = "";
+		$inputPassword = "";
+
+		if(!empty($_POST["input-username"])) {
+			$inputUsername = $this->validate($_POST["input-username"]);
+		}
+		else {
+			$validationSuccess = false;
+			exit('Invalid Request');
+		}
+
+		if(!empty($_POST["input-password"])) {
+			$inputPassword = $this->validate($_POST["input-password"]);
+		}
+		else {
+			$validationSuccess = false;
+			exit('Invalid Request');
+		}
+
+		//TODO: Validate against database.
+		$result = $this->db->query("SELECT * FROM `students` WHERE `Username`='" . $inputUsername . "';");
+
+		if($result->num_rows() != 0) {
+			$username = $result->row();
+			//$username = $result->row_object(0)->Username;
+		}
+
+		if(isset($username)) {
+			session_start(); // DEBUG: Start/Resume session.
+			$_SESSION["currentUsername"] = $username->Username;
+		}
+		else {
+			$validationSuccess = false;
+		}
+
+		return $validationSuccess;
+	}
+
+	private function validate($input)
+	{
+		$input = trim($input);
+		$input = stripslashes($input);
+		$input = htmlspecialchars($input);
+		return $input;
 	}
 }
