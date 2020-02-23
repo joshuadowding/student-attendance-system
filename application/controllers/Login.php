@@ -30,8 +30,7 @@ class Login extends CI_Controller {
 				exit();
 			}
 			else {
-				// TODO: Failed to login:
-				$this->load->view('login');
+				$this->load->view('login'); // DEBUG: Go back to login screen on login failure.
 			}
 		}
 		else if($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -40,7 +39,7 @@ class Login extends CI_Controller {
 	}
 
 	public function process() {
-		$validationSuccess = true;
+		$validationSuccess = false;
 		$inputUsername = "";
 		$inputPassword = "";
 
@@ -48,30 +47,42 @@ class Login extends CI_Controller {
 			$inputUsername = $this->validate($_POST["input-username"]);
 		}
 		else {
-			$validationSuccess = false;
-			exit('Invalid Request');
+			exit();
 		}
 
 		if(!empty($_POST["input-password"])) {
 			$inputPassword = $this->validate($_POST["input-password"]);
 		}
 		else {
-			$validationSuccess = false;
-			exit('Invalid Request');
+			exit();
 		}
 
 		$result = $this->db->query("SELECT * FROM `students` WHERE `Username`='" . $inputUsername . "';");
 		if($result->num_rows() != 0) {
-			$username = $result->row();
 			//$username = $result->row_object(0)->Username;
+			$username = $result->row()->Username;
+		}
+
+		$result = $this->db->query("SELECT * FROM `students` WHERE `Password`='" . $inputPassword . "';");
+		if($result->num_rows() != 0) {
+			//$password = $result->row_object(0)->Password;
+			$password = $result->row()->Password;
 		}
 
 		if(isset($username)) {
-			$_SESSION["currentUsername"] = $username->Username;
+			$_SESSION["currentUsername"] = $username;
+
+			if(isset($password)) {
+				//$_SESSION["currentPassword"] = $password;
+				$_SESSION["loginError"] = null;
+				$validationSuccess = true;
+			}
+			else {
+				$_SESSION["loginError"] = "Invalid Password";
+			}
 		}
 		else {
 			$_SESSION["loginError"] = "Invalid Username";
-			$validationSuccess = false;
 		}
 
 		return $validationSuccess;
