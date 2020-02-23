@@ -349,6 +349,7 @@ http://www.templatemo.com/tm-515-eatery
 
   .user-login-wrapper {
     display: flex;
+    flex-direction: column;
     position: absolute;
     top: 0;
     bottom: 0;
@@ -357,6 +358,19 @@ http://www.templatemo.com/tm-515-eatery
     height: 100%;
     justify-content: center;
     align-items: center;
+  }
+
+  .user-login-wrapper .user-login-message {
+    width: 392px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    border: 1px solid black;
+    margin-bottom: 16px;
+  }
+
+  .user-login-wrapper .user-login-message p {
+    margin-bottom: 0;
   }
 
 

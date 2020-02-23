@@ -32,6 +32,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- LOGIN -->
     <div class="user-login-wrapper">
+        <!-- NOTE: Display login error (if any): -->
+        <?php if(!empty($_SESSION["loginError"])) {
+            echo "<div class='user-login-message'><p><b>";
+            echo $_SESSION["loginError"];
+            echo "</b></p></div>";
+        }?>
+
         <form id="user-login" action="/student-attendance-system/index.php/login" method="post">
             <label for="input-username">Username:</label>
             <input type="text" id="input-username" name="input-username" required="required" value="">

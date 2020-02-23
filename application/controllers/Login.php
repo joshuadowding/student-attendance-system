@@ -18,8 +18,9 @@ class Login extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
-	public function index()
-	{
+	public function index() {
+		session_start(); // DEBUG: Start/Resume session.
+
 		if($_SERVER["REQUEST_METHOD"] == "POST") {
 			$this->load->database();
 
@@ -29,7 +30,7 @@ class Login extends CI_Controller {
 				exit();
 			}
 			else {
-				// TODO: Failed to login.
+				// TODO: Failed to login:
 				$this->load->view('login');
 			}
 		}
@@ -38,8 +39,7 @@ class Login extends CI_Controller {
 		}
 	}
 
-	public function process()
-	{
+	public function process() {
 		$validationSuccess = true;
 		$inputUsername = "";
 		$inputPassword = "";
@@ -60,27 +60,24 @@ class Login extends CI_Controller {
 			exit('Invalid Request');
 		}
 
-		//TODO: Validate against database.
 		$result = $this->db->query("SELECT * FROM `students` WHERE `Username`='" . $inputUsername . "';");
-
 		if($result->num_rows() != 0) {
 			$username = $result->row();
 			//$username = $result->row_object(0)->Username;
 		}
 
 		if(isset($username)) {
-			session_start(); // DEBUG: Start/Resume session.
 			$_SESSION["currentUsername"] = $username->Username;
 		}
 		else {
+			$_SESSION["loginError"] = "Invalid Username";
 			$validationSuccess = false;
 		}
 
 		return $validationSuccess;
 	}
 
-	private function validate($input)
-	{
+	private function validate($input) {
 		$input = trim($input);
 		$input = stripslashes($input);
 		$input = htmlspecialchars($input);
