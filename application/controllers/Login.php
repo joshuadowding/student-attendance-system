@@ -39,50 +39,62 @@ class Login extends CI_Controller {
 	}
 
 	public function process() {
-		$validationSuccess = false;
-		$inputUsername = "";
-		$inputPassword = "";
+		$validationSuccess = false; // NOTE: Result
+		$inputUsername = null;
+		$inputPassword = null;
 
 		if(!empty($_POST["input-username"])) {
 			$inputUsername = $this->validate($_POST["input-username"]);
 		}
 		else {
-			exit();
+			$_SESSION["loginError"] = "Invalid Username";
+			return $validationSuccess;
 		}
 
 		if(!empty($_POST["input-password"])) {
 			$inputPassword = $this->validate($_POST["input-password"]);
 		}
 		else {
-			exit();
+			$_SESSION["loginError"] = "Invalid Password";
+			return $validationSuccess;
 		}
 
-		$result = $this->db->query("SELECT * FROM `students` WHERE `Username`='" . $inputUsername . "';");
-		if($result->num_rows() != 0) {
-			//$username = $result->row_object(0)->Username;
-			$username = $result->row()->Username;
-		}
+		$username = null;
+		$password = null;
 
-		$result = $this->db->query("SELECT * FROM `students` WHERE `Password`='" . $inputPassword . "';");
-		if($result->num_rows() != 0) {
-			//$password = $result->row_object(0)->Password;
-			$password = $result->row()->Password;
-		}
-
-		if(isset($username)) {
-			$_SESSION["currentUsername"] = $username;
-
-			if(isset($password)) {
-				//$_SESSION["currentPassword"] = $password;
-				$_SESSION["loginError"] = null;
-				$validationSuccess = true;
+		try {
+			$queryString = "SELECT * FROM `students` WHERE `Username` = ?;";
+			$queryResult = $this->db->query($queryString, array($inputUsername));
+			if($queryResult->num_rows() != 0) {
+				$username = $queryResult->row()->Username;
+			}
+			else {
+				$_SESSION["loginError"] = "Invalid Username";
+				return $validationSuccess;
+			}
+	
+			$queryString = "SELECT * FROM `students` WHERE `Password` = ?;";
+			$queryResult = $this->db->query($queryString, array($inputPassword));
+			if($queryResult->num_rows() != 0) {
+				$password = $queryResult->row()->Password;
 			}
 			else {
 				$_SESSION["loginError"] = "Invalid Password";
+				return $validationSuccess;
 			}
 		}
-		else {
-			$_SESSION["loginError"] = "Invalid Username";
+		catch(PDOException $exception) {
+			$_SESSION["loginError"] = "Internal Server Error";
+			return $validationSuccess;
+		}
+
+		if(isset($username)) { // TODO: Build user model:
+			$_SESSION["currentUsername"] = $username; // DEBUG: Take note of the username.
+
+			if(isset($password)) {
+				$_SESSION["loginError"] = null;
+				$validationSuccess = true;
+			}
 		}
 
 		return $validationSuccess;
