@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 17, 2020 at 03:59 PM
+-- Generation Time: Mar 02, 2020 at 03:32 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `attendance_database`
+-- Database: `attendance_system`
 --
 
 -- --------------------------------------------------------
@@ -101,14 +101,19 @@ CREATE TABLE `rooms` (
 
 CREATE TABLE `staff` (
   `StaffID` int(11) NOT NULL,
-  `First_Name` varchar(250) DEFAULT NULL,
-  `Last_Name` varchar(250) DEFAULT NULL,
-  `Email` varchar(250) DEFAULT NULL,
-  `Username` varchar(250) DEFAULT NULL,
-  `Password` varchar(250) DEFAULT NULL,
-  `Elevated` tinyint(1) DEFAULT NULL,
-  `Type` enum('Lecturer','Manager','Administrator','') DEFAULT NULL
+  `FirstName` varchar(255) DEFAULT NULL,
+  `LastName` varchar(255) DEFAULT NULL,
+  `Email` varchar(255) DEFAULT NULL,
+  `Type` enum('Lecturer','Manager','Administrator') DEFAULT NULL,
+  `UserID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `staff`
+--
+
+INSERT INTO `staff` (`StaffID`, `FirstName`, `LastName`, `Email`, `Type`, `UserID`) VALUES
+(1, 'Janvi', 'Patel', 'janvi.patel@student.anglia.ac.uk', 'Administrator', 1);
 
 -- --------------------------------------------------------
 
@@ -118,20 +123,40 @@ CREATE TABLE `staff` (
 
 CREATE TABLE `students` (
   `StudentID` int(11) NOT NULL,
-  `First_Name` varchar(250) DEFAULT NULL,
-  `Last_Name` varchar(250) DEFAULT NULL,
-  `Email` varchar(150) DEFAULT NULL,
-  `Username` varchar(250) DEFAULT NULL,
-  `Password` varchar(250) DEFAULT NULL,
-  `Concern` tinyint(1) DEFAULT NULL
+  `FirstName` varchar(255) DEFAULT NULL,
+  `LastName` varchar(255) DEFAULT NULL,
+  `Email` varchar(255) DEFAULT NULL,
+  `Concern` tinyint(1) DEFAULT NULL,
+  `UserID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`StudentID`, `First_Name`, `Last_Name`, `Email`, `Username`, `Password`, `Concern`) VALUES
-(1, 'Joshua', 'Dowding', 'josh.dowding@student.anglia.ac.uk', 'josh.dowding', 'test', NULL);
+INSERT INTO `students` (`StudentID`, `FirstName`, `LastName`, `Email`, `Concern`, `UserID`) VALUES
+(1, 'Joshua', 'Dowding', 'josh.dowding@student.anglia.ac.uk', NULL, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `UserID` int(11) NOT NULL,
+  `Username` varchar(255) DEFAULT NULL,
+  `Password` varchar(255) DEFAULT NULL,
+  `DateCreated` datetime DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`UserID`, `Username`, `Password`, `DateCreated`) VALUES
+(1, 'janvi.patel', 'test2', '2020-03-02 14:30:03'),
+(2, 'josh.dowding', 'test1', '2020-03-02 14:30:14');
 
 --
 -- Indexes for dumped tables
@@ -171,13 +196,21 @@ ALTER TABLE `rooms`
 -- Indexes for table `staff`
 --
 ALTER TABLE `staff`
-  ADD PRIMARY KEY (`StaffID`);
+  ADD PRIMARY KEY (`StaffID`),
+  ADD KEY `UserID` (`UserID`);
 
 --
 -- Indexes for table `students`
 --
 ALTER TABLE `students`
-  ADD PRIMARY KEY (`StudentID`);
+  ADD PRIMARY KEY (`StudentID`),
+  ADD KEY `UserID` (`UserID`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`UserID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -211,13 +244,19 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT for table `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `StaffID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `StaffID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
   MODIFY `StudentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

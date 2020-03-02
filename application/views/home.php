@@ -3,9 +3,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // DEBUG: Test Database Connection:
 $name = "";
-$query = $this->db->query("SELECT First_Name FROM students WHERE StudentID=1");
+$query = $this->db->query("SELECT FirstName FROM students WHERE StudentID=1");
 foreach ($query->result() as $row) {
-     $name = $row->First_Name;
+     $name = $row->FirstName;
 }
 ?>
 
