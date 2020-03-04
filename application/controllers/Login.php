@@ -19,6 +19,7 @@ class Login extends CI_Controller {
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
 	public function index() {
+		include_once('application/models/User.php');
 		session_start(); // DEBUG: Start/Resume session.
 
 		if($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -95,13 +96,9 @@ class Login extends CI_Controller {
 			return $validationSuccess;
 		}
 
-		if(isset($username)) {
-			$_SESSION["currentUsername"] = $username; // DEBUG: Take note of the username.
-
-			if(isset($password)) {
-				$_SESSION["loginError"] = null;
-				$validationSuccess = true;
-			}
+		if(isset($username) && isset($password)) {
+			$_SESSION["loginError"] = null; // NOTE: Remove any error that might already be present.
+			$validationSuccess = true;
 		}
 
 		return $validationSuccess;
@@ -114,22 +111,25 @@ class Login extends CI_Controller {
 		try {
 			$queryString = "SELECT `FirstName`, `LastName`, `Email`, `UserID` FROM `students` UNION SELECT `FirstName`, `LastName`, `Email`, `UserID` FROM `staff`;";
 			$queryResult = $this->db->query($queryString);
-			if($queryResult->num_rows != 0) {
+			if($queryResult->num_rows() != 0) {
 				$userModel = new User();
 
 				$userModel->userFirstName = $queryResult->row()->FirstName;
 				$userModel->userLastName = $queryResult->row()->LastName;
 				$userModel->userEmail = $queryResult->row()->Email;
 				$userModel->userID = $queryResult->row()->UserID;
+
+				$retrievalSuccess = true;
+				$_SESSION["currentUser"] = $userModel; // NOTE: Assign populated user model to session.
 			}
 			else {
 				$_SESSION["loginError"] = "Unable to retrieve user credentials: not found.";
-				return $validationSuccess;
+				return $retrievalSuccess;
 			}
 		}
 		catch(PDOException $exception) {
 			$_SESSION["loginError"] = "Internal Server Error";
-			return $validationSuccess;
+			return $retrievalSuccess;
 		}
 
 		return $retrievalSuccess;

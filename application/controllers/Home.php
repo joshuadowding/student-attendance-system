@@ -19,6 +19,7 @@ class Home extends CI_Controller {
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
 	public function index() {
+		include_once('application/models/User.php');
 		session_start(); // DEBUG: Start/Resume session.
 
 		$this->load->database();

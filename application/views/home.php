@@ -97,9 +97,11 @@ foreach ($query->result() as $row) {
                             <!-- DEBUG: Test Database Result: -->
                             <p>Test Database Result: <b><?php echo $name; ?></b></p>
 
-                            <?php if(!empty($_SESSION["currentUsername"])) {
+                            <?php if(!empty($_SESSION["currentUser"])) {
                                 echo "<p>Test Session Result (logged-in as): <b>";
-                                echo $_SESSION["currentUsername"];
+                                echo $_SESSION["currentUser"]->userFirstName;
+                                echo " ";
+                                echo $_SESSION["currentUser"]->userLastName;
                                 echo "</b></p>";
                             }?>
                         </div>
