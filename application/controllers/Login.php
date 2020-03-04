@@ -19,17 +19,25 @@ class Login extends CI_Controller {
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
 	public function index() {
+		include_once('application/models/User.php');
 		session_start(); // DEBUG: Start/Resume session.
 
 		if($_SERVER["REQUEST_METHOD"] == "POST") {
 			$this->load->database();
 
 			if($this->process()) {
-				$this->load->helper('url');
-				redirect(base_url(), 'location'); // DEBUG: Redirect to homepage.
-				exit();
+				if($this->retrieve()) {
+					$this->load->helper('url');
+					redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (home) page.
+				}
+				else {
+					// NOTE: Unable to retrieve user information. Display error(?).
+					$_SESSION["loginError"] = "Unable to retrieve user information.";
+					$this->load->view('login'); // DEBUG: Go back to login screen on login failure.
+				}
 			}
 			else {
+				$_SESSION["loginError"] = "Unable to retrieve user credentials.";
 				$this->load->view('login'); // DEBUG: Go back to login screen on login failure.
 			}
 		}
@@ -63,7 +71,7 @@ class Login extends CI_Controller {
 		$password = null;
 
 		try {
-			$queryString = "SELECT * FROM `students` WHERE `Username` = ?;";
+			$queryString = "SELECT * FROM `users` WHERE `Username` = ?;";
 			$queryResult = $this->db->query($queryString, array($inputUsername));
 			if($queryResult->num_rows() != 0) {
 				$username = $queryResult->row()->Username;
@@ -73,7 +81,7 @@ class Login extends CI_Controller {
 				return $validationSuccess;
 			}
 	
-			$queryString = "SELECT * FROM `students` WHERE `Password` = ?;";
+			$queryString = "SELECT * FROM `users` WHERE `Password` = ?;";
 			$queryResult = $this->db->query($queryString, array($inputPassword));
 			if($queryResult->num_rows() != 0) {
 				$password = $queryResult->row()->Password;
@@ -88,16 +96,43 @@ class Login extends CI_Controller {
 			return $validationSuccess;
 		}
 
-		if(isset($username)) { // TODO: Build user model:
-			$_SESSION["currentUsername"] = $username; // DEBUG: Take note of the username.
-
-			if(isset($password)) {
-				$_SESSION["loginError"] = null;
-				$validationSuccess = true;
-			}
+		if(isset($username) && isset($password)) {
+			$_SESSION["loginError"] = null; // NOTE: Remove any error that might already be present.
+			$validationSuccess = true;
 		}
 
 		return $validationSuccess;
+	}
+
+	private function retrieve() {
+		// TODO: Get user information:
+		$retrievalSuccess = false;
+
+		try {
+			$queryString = "SELECT `FirstName`, `LastName`, `Email`, `UserID` FROM `students` UNION SELECT `FirstName`, `LastName`, `Email`, `UserID` FROM `staff`;";
+			$queryResult = $this->db->query($queryString);
+			if($queryResult->num_rows() != 0) {
+				$userModel = new User();
+
+				$userModel->userFirstName = $queryResult->row()->FirstName;
+				$userModel->userLastName = $queryResult->row()->LastName;
+				$userModel->userEmail = $queryResult->row()->Email;
+				$userModel->userID = $queryResult->row()->UserID;
+
+				$retrievalSuccess = true;
+				$_SESSION["currentUser"] = $userModel; // NOTE: Assign populated user model to session.
+			}
+			else {
+				$_SESSION["loginError"] = "Unable to retrieve user credentials: not found.";
+				return $retrievalSuccess;
+			}
+		}
+		catch(PDOException $exception) {
+			$_SESSION["loginError"] = "Internal Server Error";
+			return $retrievalSuccess;
+		}
+
+		return $retrievalSuccess;
 	}
 
 	private function validate($input) {

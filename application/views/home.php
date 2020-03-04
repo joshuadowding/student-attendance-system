@@ -3,9 +3,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 // DEBUG: Test Database Connection:
 $name = "";
-$query = $this->db->query("SELECT First_Name FROM students WHERE StudentID=1");
+$query = $this->db->query("SELECT FirstName FROM students WHERE StudentID=1");
 foreach ($query->result() as $row) {
-     $name = $row->First_Name;
+     $name = $row->FirstName;
 }
 ?>
 
@@ -97,9 +97,11 @@ foreach ($query->result() as $row) {
                             <!-- DEBUG: Test Database Result: -->
                             <p>Test Database Result: <b><?php echo $name; ?></b></p>
 
-                            <?php if(!empty($_SESSION["currentUsername"])) {
+                            <?php if(!empty($_SESSION["currentUser"])) {
                                 echo "<p>Test Session Result (logged-in as): <b>";
-                                echo $_SESSION["currentUsername"];
+                                echo $_SESSION["currentUser"]->userFirstName;
+                                echo " ";
+                                echo $_SESSION["currentUser"]->userLastName;
                                 echo "</b></p>";
                             }?>
                         </div>
