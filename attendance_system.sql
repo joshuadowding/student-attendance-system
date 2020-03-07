@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 02, 2020 at 03:32 PM
+-- Generation Time: Mar 07, 2020 at 07:41 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -127,6 +127,7 @@ CREATE TABLE `students` (
   `LastName` varchar(255) DEFAULT NULL,
   `Email` varchar(255) DEFAULT NULL,
   `Concern` tinyint(1) DEFAULT NULL,
+  `Type` varchar(255) DEFAULT NULL,
   `UserID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -134,8 +135,8 @@ CREATE TABLE `students` (
 -- Dumping data for table `students`
 --
 
-INSERT INTO `students` (`StudentID`, `FirstName`, `LastName`, `Email`, `Concern`, `UserID`) VALUES
-(1, 'Joshua', 'Dowding', 'josh.dowding@student.anglia.ac.uk', NULL, 2);
+INSERT INTO `students` (`StudentID`, `FirstName`, `LastName`, `Email`, `Concern`, `Type`, `UserID`) VALUES
+(1, 'Joshua', 'Dowding', 'josh.dowding@student.anglia.ac.uk', 0, 'Student', 2);
 
 -- --------------------------------------------------------
 

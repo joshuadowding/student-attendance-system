@@ -105,11 +105,10 @@ class Login extends CI_Controller {
 	}
 
 	private function retrieve() {
-		// TODO: Get user information:
 		$retrievalSuccess = false;
 
 		try {
-			$queryString = "SELECT `FirstName`, `LastName`, `Email`, `UserID` FROM `students` UNION SELECT `FirstName`, `LastName`, `Email`, `UserID` FROM `staff`;";
+			$queryString = "SELECT `FirstName`, `LastName`, `Email`, `UserID`, `Type` FROM `students` UNION SELECT `FirstName`, `LastName`, `Email`, `UserID`, `Type` FROM `staff`;";
 			$queryResult = $this->db->query($queryString);
 			if($queryResult->num_rows() != 0) {
 				$userModel = new User();
@@ -118,6 +117,7 @@ class Login extends CI_Controller {
 				$userModel->userLastName = $queryResult->row()->LastName;
 				$userModel->userEmail = $queryResult->row()->Email;
 				$userModel->userID = $queryResult->row()->UserID;
+				$userModel->userType = $queryResult->row()->Type;
 
 				$retrievalSuccess = true;
 				$_SESSION["currentUser"] = $userModel; // NOTE: Assign populated user model to session.
