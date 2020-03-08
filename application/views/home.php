@@ -102,6 +102,12 @@ foreach ($query->result() as $row) {
                                 echo $_SESSION["currentUser"]->userFirstName;
                                 echo " ";
                                 echo $_SESSION["currentUser"]->userLastName;
+                                echo " ";
+                                echo $_SESSION["currentUser"]->userEmail;
+                                echo " ";
+                                echo $_SESSION["currentUser"]->userID;
+                                echo " ";
+                                echo $_SESSION["currentUser"]->userType;
                                 echo "</b></p>";
                             }?>
                         </div>

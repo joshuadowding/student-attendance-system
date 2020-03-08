@@ -6,5 +6,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         public $userLastName;
         public $userEmail;
         public $userID;
+        public $userType;
     }
 ?>

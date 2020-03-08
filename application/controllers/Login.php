@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Login extends CI_Controller {
 
+	public $id = null;
+
 	/**
 	 * Index Page for this controller.
 	 *
@@ -42,6 +44,7 @@ class Login extends CI_Controller {
 			}
 		}
 		else if($_SERVER["REQUEST_METHOD"] == "GET") {
+			$_SESSION["currentUser"] = null; // NOTE: Remove existing user from session.
 			$this->load->view('login');
 		}
 	}
@@ -85,6 +88,7 @@ class Login extends CI_Controller {
 			$queryResult = $this->db->query($queryString, array($inputPassword));
 			if($queryResult->num_rows() != 0) {
 				$password = $queryResult->row()->Password;
+				$this->id = $queryResult->row()->UserID;
 			}
 			else {
 				$_SESSION["loginError"] = "Invalid Password";
@@ -105,22 +109,26 @@ class Login extends CI_Controller {
 	}
 
 	private function retrieve() {
-		// TODO: Get user information:
 		$retrievalSuccess = false;
 
 		try {
-			$queryString = "SELECT `FirstName`, `LastName`, `Email`, `UserID` FROM `students` UNION SELECT `FirstName`, `LastName`, `Email`, `UserID` FROM `staff`;";
+			$queryString = "SELECT `FirstName`, `LastName`, `Email`, `UserID`, `Type` FROM `students` UNION SELECT `FirstName`, `LastName`, `Email`, `UserID`, `Type` FROM `staff`;";
 			$queryResult = $this->db->query($queryString);
 			if($queryResult->num_rows() != 0) {
-				$userModel = new User();
+				foreach($queryResult->result() as $row) {
+					if($row->UserID == $this->id) {
+						$userModel = new User();
 
-				$userModel->userFirstName = $queryResult->row()->FirstName;
-				$userModel->userLastName = $queryResult->row()->LastName;
-				$userModel->userEmail = $queryResult->row()->Email;
-				$userModel->userID = $queryResult->row()->UserID;
+						$userModel->userFirstName = $row->FirstName;
+						$userModel->userLastName = $row->LastName;
+						$userModel->userEmail = $row->Email;
+						$userModel->userID = $row->UserID;
+						$userModel->userType = $row->Type;
 
-				$retrievalSuccess = true;
-				$_SESSION["currentUser"] = $userModel; // NOTE: Assign populated user model to session.
+						$retrievalSuccess = true;
+						$_SESSION["currentUser"] = $userModel; // NOTE: Assign populated user model to session.
+					}
+				}
 			}
 			else {
 				$_SESSION["loginError"] = "Unable to retrieve user credentials: not found.";
