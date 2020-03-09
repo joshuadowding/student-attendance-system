@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 07, 2020 at 07:41 PM
+-- Generation Time: Mar 09, 2020 at 03:56 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -127,7 +127,7 @@ CREATE TABLE `students` (
   `LastName` varchar(255) DEFAULT NULL,
   `Email` varchar(255) DEFAULT NULL,
   `Concern` tinyint(1) DEFAULT NULL,
-  `Type` varchar(255) DEFAULT NULL,
+  `Type` enum('Student') DEFAULT NULL,
   `UserID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -156,8 +156,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`UserID`, `Username`, `Password`, `DateCreated`) VALUES
-(1, 'janvi.patel', 'test2', '2020-03-02 14:30:03'),
-(2, 'josh.dowding', 'test1', '2020-03-02 14:30:14');
+(1, 'janvi.patel', '$2y$10$DL5rz.8JtJTxGMaBgs6KieSO6S5SeB6VKcUvCKsfn4Jhx1TgchuAS', '2020-03-02 14:30:03'),
+(2, 'josh.dowding', '$2y$10$WWG78UvVyIO0No4B2Xiv6eru7rciIt49EHxGlLWuMN6cDgavOq3eO', '2020-03-02 14:30:14');
 
 --
 -- Indexes for dumped tables
