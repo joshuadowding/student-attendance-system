@@ -24,7 +24,19 @@ class Admin extends CI_Controller {
 
         // TODO: Redirect the user if they're not an administrator.
 
-		$this->load->database();
-		$this->load->view('admin');
+        if(!empty($_SESSION["currentUser"])) {
+            if($_SESSION["currentUser"]->userType == "Administrator") {
+                $this->load->database();
+                $this->load->view('admin');
+            }
+            else {
+                $this->load->helper('url');
+                redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (home) page.
+            }
+        }
+        else {
+            $this->load->helper('url');
+            redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (home) page.
+        }
 	}
 }
