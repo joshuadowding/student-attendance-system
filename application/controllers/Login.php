@@ -34,12 +34,12 @@ class Login extends CI_Controller {
 				}
 				else {
 					// NOTE: Unable to retrieve user information. Display error(?).
-					$_SESSION["loginError"] = "Unable to retrieve user information.";
+					$_SESSION["loginError"] = "Unable to retrieve user information";
 					$this->load->view('login'); // DEBUG: Go back to login screen on login failure.
 				}
 			}
 			else {
-				$_SESSION["loginError"] = "Unable to retrieve user credentials.";
+				$_SESSION["loginError"] = "Unable to retrieve user credentials";
 				$this->load->view('login'); // DEBUG: Go back to login screen on login failure.
 			}
 		}
@@ -76,33 +76,30 @@ class Login extends CI_Controller {
 		try {
 			$queryString = "SELECT * FROM `users` WHERE `Username` = ?;";
 			$queryResult = $this->db->query($queryString, array($inputUsername));
+
 			if($queryResult->num_rows() != 0) {
-				$username = $queryResult->row()->Username;
+				$password = $queryResult->row()->Password;
+
+				if(password_verify($inputPassword, $password)) {
+					$username = $queryResult->row()->Username;
+					$this->id = $queryResult->row()->UserID;
+
+					$_SESSION["loginError"] = null; // NOTE: Remove any error that might already be present.
+					$validationSuccess = true;
+				}
+				else {
+					$_SESSION["loginError"] = "Invalid Password";
+					return $validationSuccess;
+				}
 			}
 			else {
 				$_SESSION["loginError"] = "Invalid Username";
-				return $validationSuccess;
-			}
-	
-			$queryString = "SELECT * FROM `users` WHERE `Password` = ?;";
-			$queryResult = $this->db->query($queryString, array($inputPassword));
-			if($queryResult->num_rows() != 0) {
-				$password = $queryResult->row()->Password;
-				$this->id = $queryResult->row()->UserID;
-			}
-			else {
-				$_SESSION["loginError"] = "Invalid Password";
 				return $validationSuccess;
 			}
 		}
 		catch(PDOException $exception) {
 			$_SESSION["loginError"] = "Internal Server Error";
 			return $validationSuccess;
-		}
-
-		if(isset($username) && isset($password)) {
-			$_SESSION["loginError"] = null; // NOTE: Remove any error that might already be present.
-			$validationSuccess = true;
 		}
 
 		return $validationSuccess;
@@ -114,6 +111,7 @@ class Login extends CI_Controller {
 		try {
 			$queryString = "SELECT `FirstName`, `LastName`, `Email`, `UserID`, `Type` FROM `students` UNION SELECT `FirstName`, `LastName`, `Email`, `UserID`, `Type` FROM `staff`;";
 			$queryResult = $this->db->query($queryString);
+
 			if($queryResult->num_rows() != 0) {
 				foreach($queryResult->result() as $row) {
 					if($row->UserID == $this->id) {

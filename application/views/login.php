@@ -9,7 +9,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <title>Login - Student Attendance System</title>
 
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="">

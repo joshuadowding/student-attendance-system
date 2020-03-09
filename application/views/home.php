@@ -1,12 +1,5 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
-
-// DEBUG: Test Database Connection:
-$name = "";
-$query = $this->db->query("SELECT FirstName FROM students WHERE StudentID=1");
-foreach ($query->result() as $row) {
-     $name = $row->FirstName;
-}
 ?>
 
 <!DOCTYPE html>
@@ -16,7 +9,7 @@ foreach ($query->result() as $row) {
     <title>Home - Student Attendance System</title>
 
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="">
@@ -33,7 +26,6 @@ foreach ($query->result() as $row) {
 </head>
 
 <body>
-
     <?php include("includes/body-preloader-contents.php"); ?>
     <?php include("includes/body-menu-contents.php"); ?>
 
@@ -94,9 +86,6 @@ foreach ($query->result() as $row) {
                         </div>
 
                         <div class="wow fadeInUp" data-wow-delay="0.4s">
-                            <!-- DEBUG: Test Database Result: -->
-                            <p>Test Database Result: <b><?php echo $name; ?></b></p>
-
                             <?php if(!empty($_SESSION["currentUser"])) {
                                 echo "<p>Test Session Result (logged-in as): <b>";
                                 echo $_SESSION["currentUser"]->userFirstName;
@@ -454,7 +443,6 @@ foreach ($query->result() as $row) {
     <script src="js/jquery.magnific-popup.min.js"></script>
     <script src="js/smoothscroll.js"></script>
     <script src="js/custom.js"></script>
-
 </body>
 
 </html>
