@@ -2,10 +2,10 @@
 -- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Mar 09, 2020 at 03:56 PM
+-- Host: 127.0.0.1:3307
+-- Generation Time: Mar 09, 2020 at 04:00 PM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.1
+-- PHP Version: 7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -49,6 +49,16 @@ CREATE TABLE `modules` (
   `Last_Edited` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `modules`
+--
+
+INSERT INTO `modules` (`ModuleID`, `Title`, `Leader`, `Last_Edited`) VALUES
+(6356, 'data center', 'adrian winckles', '2020-03-08'),
+(6363, 'Semantic data technology', 'arooj fatima', '2020-03-09'),
+(7464, 'web solutions', 'cristina luca', '2020-02-03'),
+(8654, 'web security', 'andrew moore', '2020-03-02');
+
 -- --------------------------------------------------------
 
 --
@@ -66,6 +76,15 @@ CREATE TABLE `modules.classes` (
   `End_Time` time DEFAULT NULL,
   `Class_Type` enum('Lecture','Practical','Laboratory','Seminar') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `modules.classes`
+--
+
+INSERT INTO `modules.classes` (`ClassID`, `ModuleID`, `StaffID`, `Start_Date`, `End_Date`, `Week_Day`, `Start_Time`, `End_Time`, `Class_Type`) VALUES
+(2, 6356, 121, '2020-03-03', '2020-04-03', 'monday friday', '14:00:32', '16:00:32', 'Practical'),
+(7, 6356, 121, '2020-03-02', '2020-04-03', 'monday friday', '11:00:04', '13:00:19', 'Lecture'),
+(202, 8654, 223, '2020-01-20', '2020-04-21', 'thursday', '10:00:16', '12:00:16', 'Lecture');
 
 -- --------------------------------------------------------
 
@@ -92,6 +111,22 @@ CREATE TABLE `rooms` (
   `Location` varchar(150) DEFAULT NULL,
   `Capacity` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `rooms`
+--
+
+INSERT INTO `rooms` (`RoomID`, `Name`, `Location`, `Capacity`) VALUES
+(1, 'lab001', 'ashcroft building, cambridge campus', 125),
+(2, 'cos002', 'coslett building, cambridge campus', 70),
+(3, 'sci003', 'science and web building,cambridge campus', 40),
+(7, 'compass house', 'compass house, cambridge campus', 65),
+(101, 'lab101', 'ashcroft building,cambridge campus', 60),
+(103, 'sci103', 'science and web building, cambridge campus', 30),
+(124, 'cos124', 'coslett building, cambridge campus', 70),
+(202, 'com202', 'compass house, cambridge campus', 40),
+(205, 'sci205', 'science and web building, cambridge campus', 40),
+(404, 'lab404', 'ashcroft builidng,cambridge campus', 70);
 
 -- --------------------------------------------------------
 
@@ -127,7 +162,7 @@ CREATE TABLE `students` (
   `LastName` varchar(255) DEFAULT NULL,
   `Email` varchar(255) DEFAULT NULL,
   `Concern` tinyint(1) DEFAULT NULL,
-  `Type` enum('Student') DEFAULT NULL,
+  `Type` varchar(255) DEFAULT NULL,
   `UserID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -156,8 +191,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`UserID`, `Username`, `Password`, `DateCreated`) VALUES
-(1, 'janvi.patel', '$2y$10$DL5rz.8JtJTxGMaBgs6KieSO6S5SeB6VKcUvCKsfn4Jhx1TgchuAS', '2020-03-02 14:30:03'),
-(2, 'josh.dowding', '$2y$10$WWG78UvVyIO0No4B2Xiv6eru7rciIt49EHxGlLWuMN6cDgavOq3eO', '2020-03-02 14:30:14');
+(1, 'janvi.patel', 'test2', '2020-03-02 14:30:03'),
+(2, 'josh.dowding', 'test1', '2020-03-02 14:30:14');
 
 --
 -- Indexes for dumped tables
@@ -227,19 +262,19 @@ ALTER TABLE `attendance`
 -- AUTO_INCREMENT for table `modules`
 --
 ALTER TABLE `modules`
-  MODIFY `ModuleID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ModuleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8655;
 
 --
 -- AUTO_INCREMENT for table `modules.classes`
 --
 ALTER TABLE `modules.classes`
-  MODIFY `ClassID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `ClassID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=203;
 
 --
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `RoomID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `RoomID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=405;
 
 --
 -- AUTO_INCREMENT for table `staff`
