@@ -32,7 +32,14 @@
             ?>
 
             <ul class="nav navbar-nav navbar-right">
-                <a href="/student-attendance-system/index.php/login" class="section-btn">Login</a>
+                <?php
+                    if(!empty($_SESSION["currentUser"])) {
+                        echo "<a href='/student-attendance-system/index.php/login' class='section-btn'>Logout</a>";
+                    }
+                    else {
+                        echo "<a href='/student-attendance-system/index.php/login' class='section-btn'>Login</a>";
+                    }
+                ?>
             </ul>
         </div>
     </div>
