@@ -2,10 +2,10 @@
 -- version 5.0.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3307
--- Generation Time: Mar 09, 2020 at 04:00 PM
+-- Host: 127.0.0.1
+-- Generation Time: Mar 10, 2020 at 03:10 PM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.2
+-- PHP Version: 7.4.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -191,8 +191,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`UserID`, `Username`, `Password`, `DateCreated`) VALUES
-(1, 'janvi.patel', 'test2', '2020-03-02 14:30:03'),
-(2, 'josh.dowding', 'test1', '2020-03-02 14:30:14');
+(1, 'janvi.patel', '$2y$10$DL5rz.8JtJTxGMaBgs6KieSO6S5SeB6VKcUvCKsfn4Jhx1TgchuAS', '2020-03-02 14:30:03'),
+(2, 'josh.dowding', '$2y$10$WWG78UvVyIO0No4B2Xiv6eru7rciIt49EHxGlLWuMN6cDgavOq3eO', '2020-03-02 14:30:14');
 
 --
 -- Indexes for dumped tables
