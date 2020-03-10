@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 10, 2020 at 05:19 PM
+-- Generation Time: Mar 10, 2020 at 07:09 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -273,7 +273,13 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`UserID`, `Username`, `Password`, `DateCreated`, `LastEdited`) VALUES
 (1, 'janvi.patel', '$2y$10$DL5rz.8JtJTxGMaBgs6KieSO6S5SeB6VKcUvCKsfn4Jhx1TgchuAS', '2020-03-02', NULL),
-(2, 'josh.dowding', '$2y$10$WWG78UvVyIO0No4B2Xiv6eru7rciIt49EHxGlLWuMN6cDgavOq3eO', '2020-03-02', NULL);
+(2, 'josh.dowding', '$2y$10$WWG78UvVyIO0No4B2Xiv6eru7rciIt49EHxGlLWuMN6cDgavOq3eO', '2020-03-02', NULL),
+(3, 'adrian.winckles', '$2y$10$voTpgPcKoUgx/4r9K9f6YeOYcuc.Em5RcjQnq.Li1fMLRRKCN4BLG', '2020-03-10', NULL),
+(4, 'arooj.fatima', '$2y$10$bnCON/cPpcH6zL14QznyiOc9WIK7ive6RLTy/edaUey.C5KPLz9SO', '2020-03-10', NULL),
+(5, 'cristina.luca', '$2y$10$JDwed0rtQM0B5mnI0swYKeh5AlOHPQb0zutG6Cjv26oTELhsjeGjq', '2020-03-10', NULL),
+(6, 'andrew.moore', '$2y$10$T6jvisdRPhKkb9hXHrA5kufAfK5gf9BshZ4bqCsDGcQ7UUtCwFZ1i', '2020-03-10', NULL),
+(7, 'jin.zhang', '$2y$10$xNOl/QB0/b8Q618gHX.JIejFXi9StUwCYCY3RwB2Srnr11bloETZ.', '2020-03-10', NULL),
+(8, 'marcian.cirstea', '$2y$10$VurbvuxNL4Tg9EbS.11plejJjinehKW6GXFfyXjsb.evR46xu1dci', '2020-03-10', NULL);
 
 --
 -- Indexes for dumped tables
@@ -373,7 +379,7 @@ ALTER TABLE `students`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
