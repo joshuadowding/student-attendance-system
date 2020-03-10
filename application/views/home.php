@@ -38,9 +38,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <div class="caption">
                         <div class="container">
                             <div class="col-md-8 col-sm-12">
-                                <h3>Eatery Cafe &amp; Restaurant</h3>
+                                <h3>Student attendance system</h3>
                                 <h1>Our mission is to provide an unforgettable experience</h1>
-                                <a href="#team" class="section-btn btn btn-default smoothScroll">Meet our chef</a>
+                                <a href="#roles" class="section-btn btn btn-default smoothScroll">view whole attendance_system</a>
                             </div>
                         </div>
                     </div>
@@ -50,9 +50,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <div class="caption">
                         <div class="container">
                             <div class="col-md-8 col-sm-12">
-                                <h3>Your Perfect Breakfast</h3>
-                                <h1>The best dinning quality can be here too!</h1>
-                                <a href="#menu" class="section-btn btn btn-default smoothScroll">Discover menu</a>
+                                <h3>overall attendance system</h3>
+                                <h1>The overall student attendance system to view all data </h1>
+                                <a href="#team" class="section-btn btn btn-default smoothScroll">Discover things</a>
                             </div>
                         </div>
                     </div>
@@ -62,9 +62,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <div class="caption">
                         <div class="container">
                             <div class="col-md-8 col-sm-12">
-                                <h3>New Restaurant in Town</h3>
-                                <h1>Enjoy our special menus every Sunday and Friday</h1>
-                                <a href="#contact" class="section-btn btn btn-default smoothScroll">Reservation</a>
+                                <h3>student data</h3>
+                                <h1>overall student attendance</h1>
+                                <a href="#contact" class="section-btn btn btn-default smoothScroll">view attendance</a>
                             </div>
                         </div>
                     </div>
@@ -81,8 +81,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 <div class="col-md-6 col-sm-12">
                     <div class="about-info">
                         <div class="section-title wow fadeInUp" data-wow-delay="0.2s">
-                            <h4>Read our story</h4>
-                            <h2>We've been Making The Delicious Foods Since 1999</h2>
+                            <h4>view manager side work</h4>
+                            <h2>overall room capacity</h2>
                         </div>
 
                         <div class="wow fadeInUp" data-wow-delay="0.4s">
@@ -102,12 +102,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </div>
 
                         <div class="wow fadeInUp" data-wow-delay="0.4s">
-                            <p>Fusce hendrerit malesuada lacinia. Donec semper semper sem vitae malesuada. Proin
-                                scelerisque risus et ipsum semper molestie sed in nisi. Ut rhoncus congue lectus,
-                                rhoncus venenatis leo malesuada id.</p>
-                            <p>Sed elementum vel felis sed scelerisque. In arcu diam, sollicitudin eu nibh ac, posuere
-                                tristique magna. You can use this template for your cafe or restaurant website. Please
-                                tell your friends about <a href="https://plus.google.com/+templatemo"
+                            <p>Use this advance system application to manage student attendance and diiferent types of works and schemas to view it and change if required.</p>
+                            <p>Today all know we are living between differnt types of applications so if u liked this system and u want to give any suggestions or any questions please feel free drop email or contact in following email_address and contact_number. mailto:info@company.com or 07436998828 <a href="https://plus.google.com/+templatemo"
                                     target="_parent">templatemo</a>. Thank you.</p>
                         </div>
                     </div>
@@ -127,7 +123,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             <div class="row">
                 <div class="col-md-12 col-sm-12">
                     <div class="section-title wow fadeInUp" data-wow-delay="0.1s">
-                        <h2>Meet our chefs</h2>
+                        <h2>meet our roles</h2>
                         <h4>They are nice &amp; friendly</h4>
                     </div>
                 </div>
@@ -136,7 +132,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <img src="images/team-image1.jpg" class="img-responsive" alt="">
                         <div class="team-hover">
                             <div class="team-item">
-                                <h4>Duis vel lacus id magna mattis vehicula</h4>
+                                <h4> as we have diffrent roles to manage ech of the data</h4>
                                 <ul class="social-icon">
                                     <li><a href="#" class="fa fa-linkedin-square"></a></li>
                                     <li><a href="#" class="fa fa-envelope-o"></a></li>
@@ -145,8 +141,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </div>
                     </div>
                     <div class="team-info">
-                        <h3>New Catherine</h3>
-                        <p>Kitchen Officer</p>
+                        <h3>New room</h3>
+                        <p>available spaces</p>
                     </div>
                 </div>
 
@@ -155,7 +151,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <img src="images/team-image2.jpg" class="img-responsive" alt="">
                         <div class="team-hover">
                             <div class="team-item">
-                                <h4>Cras suscipit neque quis odio feugiat</h4>
+                                <h4>find out spaces or capacity in rooms</h4>
                                 <ul class="social-icon">
                                     <li><a href="#" class="fa fa-instagram"></a></li>
                                     <li><a href="#" class="fa fa-flickr"></a></li>
@@ -164,7 +160,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </div>
                     </div>
                     <div class="team-info">
-                        <h3>Lindsay Perlen</h3>
+                        <h3>group of developer</h3>
                         <p>Owner &amp; Manager</p>
                     </div>
                 </div>
@@ -174,7 +170,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         <img src="images/team-image3.jpg" class="img-responsive" alt="">
                         <div class="team-hover">
                             <div class="team-item">
-                                <h4>Etiam auctor enim tristique faucibus</h4>
+                                <h4>main focus </h4>
                                 <ul class="social-icon">
                                     <li><a href="#" class="fa fa-github"></a></li>
                                     <li><a href="#" class="fa fa-google"></a></li>
@@ -183,8 +179,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         </div>
                     </div>
                     <div class="team-info">
-                        <h3>Isabella Grace</h3>
-                        <p>Pizza Specialist</p>
+                        <h3>administrator</h3>
+                        <p>view and manage all stored data</p>
                     </div>
                 </div>
 
@@ -199,177 +195,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
                 <div class="col-md-12 col-sm-12">
                     <div class="section-title wow fadeInUp" data-wow-delay="0.1s">
-                        <h2>Our Menus</h2>
-                        <h4>Tea Time &amp; Dining</h4>
+                        <h2>Our services</h2>
+                        <h4>students &amp; attendance</h4>
                     </div>
                 </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <!-- MENU THUMB -->
-                    <div class="menu-thumb">
-                        <a href="images/menu-image1.jpg" class="image-popup" title="American Breakfast">
-                            <img src="images/menu-image1.jpg" class="img-responsive" alt="">
-
-                            <div class="menu-info">
-                                <div class="menu-item">
-                                    <h3>American Breakfast</h3>
-                                    <p>Tomato / Eggs / Sausage</p>
-                                </div>
-                                <div class="menu-price">
-                                    <span>$25</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <!-- MENU THUMB -->
-                    <div class="menu-thumb">
-                        <a href="images/menu-image2.jpg" class="image-popup" title="Self-made Salad">
-                            <img src="images/menu-image2.jpg" class="img-responsive" alt="">
-
-                            <div class="menu-info">
-                                <div class="menu-item">
-                                    <h3>Self-made Salad</h3>
-                                    <p>Green / Fruits / Healthy</p>
-                                </div>
-                                <div class="menu-price">
-                                    <span>$18</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <!-- MENU THUMB -->
-                    <div class="menu-thumb">
-                        <a href="images/menu-image3.jpg" class="image-popup" title="Chinese Noodle">
-                            <img src="images/menu-image3.jpg" class="img-responsive" alt="">
-
-                            <div class="menu-info">
-                                <div class="menu-item">
-                                    <h3>Chinese Noodle</h3>
-                                    <p>Pepper / Chicken / Vegetables</p>
-                                </div>
-                                <div class="menu-price">
-                                    <span>$34</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <!-- MENU THUMB -->
-                    <div class="menu-thumb">
-                        <a href="images/menu-image4.jpg" class="image-popup" title="Rice Soup">
-                            <img src="images/menu-image4.jpg" class="img-responsive" alt="">
-
-                            <div class="menu-info">
-                                <div class="menu-item">
-                                    <h3>Rice Soup</h3>
-                                    <p>Green / Chicken</p>
-                                </div>
-                                <div class="menu-price">
-                                    <span>$28</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <!-- MENU THUMB -->
-                    <div class="menu-thumb">
-                        <a href="images/menu-image5.jpg" class="image-popup" title="Project title">
-                            <img src="images/menu-image5.jpg" class="img-responsive" alt="">
-
-                            <div class="menu-info">
-                                <div class="menu-item">
-                                    <h3>Deli Burger</h3>
-                                    <p>Beef / Fried Potatoes</p>
-                                </div>
-                                <div class="menu-price">
-                                    <span>$46</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="col-md-4 col-sm-6">
-                    <!-- MENU THUMB -->
-                    <div class="menu-thumb">
-                        <a href="images/menu-image6.jpg" class="image-popup" title="Project title">
-                            <img src="images/menu-image6.jpg" class="img-responsive" alt="">
-
-                            <div class="menu-info">
-                                <div class="menu-item">
-                                    <h3>Big Flat Fried</h3>
-                                    <p>Pepper / Crispy</p>
-                                </div>
-                                <div class="menu-price">
-                                    <span>$30</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-
-
             </div>
-        </div>
-    </section>
+     </section>
 
-    <!-- TESTIMONIAL -->
-    <section id="testimonial" data-stellar-background-ratio="0.5">
-        <div class="overlay"></div>
-        <div class="container">
-            <div class="row">
+   
 
-                <div class="col-md-12 col-sm-12">
-                    <div class="section-title wow fadeInUp" data-wow-delay="0.1s">
-                        <h2>Testimonials</h2>
-                    </div>
-                </div>
-
-                <div class="col-md-offset-2 col-md-8 col-sm-12">
-                    <div class="owl-carousel owl-theme">
-                        <div class="item">
-                            <p>Integer posuere erat a ante venenatis dapibus posuere velit aliquet. Maecenas faucibus
-                                mollis interdum ullamcorper nulla non.</p>
-                            <div class="tst-author">
-                                <h4>Digital Carlson</h4>
-                                <span>Pharetra quam sit amet</span>
-                            </div>
-                        </div>
-
-                        <div class="item">
-                            <p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis
-                                egestas. Sed vestibulum orci quam.</p>
-                            <div class="tst-author">
-                                <h4>Johnny Stephen</h4>
-                                <span>Magna nisi porta ligula</span>
-                            </div>
-                        </div>
-
-                        <div class="item">
-                            <p>Vivamus aliquet felis eu diam ultricies congue. Morbi porta lorem nec consectetur porta
-                                quis dui elit habitant morbi.</p>
-                            <div class="tst-author">
-                                <h4>Jessie White</h4>
-                                <span>Vitae lacinia augue urna quis</span>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
+                        
 
     <!-- CONTACT -->
     <section id="contact" data-stellar-background-ratio="0.5">
