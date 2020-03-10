@@ -20,8 +20,26 @@
                 <li><a href="" class="smoothScroll">Contact</a></li>
             </ul>
 
+            <?php
+                // NOTE: if currentUser is Type "Administrator", show "Admin" link:
+                if(!empty($_SESSION["currentUser"])) {
+                    if($_SESSION["currentUser"]->userType == "Administrator") {
+                        echo "<ul class='nav navbar-nav navbar-right'>
+                                <a href='/student-attendance-system/index.php/admin' class='section-btn'>Admin</a>
+                              </ul>";
+                    }
+                }
+            ?>
+
             <ul class="nav navbar-nav navbar-right">
-                <a href="/student-attendance-system/index.php/login" class="section-btn">Login</a>
+                <?php
+                    if(!empty($_SESSION["currentUser"])) {
+                        echo "<a href='/student-attendance-system/index.php/login' class='section-btn'>Logout</a>";
+                    }
+                    else {
+                        echo "<a href='/student-attendance-system/index.php/login' class='section-btn'>Login</a>";
+                    }
+                ?>
             </ul>
         </div>
     </div>

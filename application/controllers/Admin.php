@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Home extends CI_Controller {
+class Admin extends CI_Controller {
 
     /**
      * Index Page for this controller.
@@ -22,7 +22,19 @@ class Home extends CI_Controller {
         include_once('application/models/User.php');
         session_start(); // DEBUG: Start/Resume session.
 
-        $this->load->database();
-        $this->load->view('home');
+        // TODO: Redirect the user if they're not an administrator.
+
+        if (!empty($_SESSION["currentUser"])) {
+            if ($_SESSION["currentUser"]->userType == "Administrator") {
+                $this->load->database();
+                $this->load->view('admin');
+            } else {
+                $this->load->helper('url');
+                redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (home) page.
+            }
+        } else {
+            $this->load->helper('url');
+            redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (home) page.
+        }
     }
 }

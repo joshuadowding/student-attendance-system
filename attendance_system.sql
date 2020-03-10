@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 10, 2020 at 03:10 PM
+-- Generation Time: Mar 10, 2020 at 05:19 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.1
 
@@ -33,8 +33,63 @@ CREATE TABLE `attendance` (
   `ClassID` int(11) DEFAULT NULL,
   `StudentID` int(11) DEFAULT NULL,
   `Attended` tinyint(1) DEFAULT NULL,
-  `Late` tinyint(1) DEFAULT NULL
+  `Late` tinyint(1) DEFAULT NULL,
+  `Week` int(2) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `attendance`
+--
+
+INSERT INTO `attendance` (`AttendanceID`, `ClassID`, `StudentID`, `Attended`, `Late`, `Week`) VALUES
+(1, 1, 1, 1, 0, 1),
+(2, 1, 1, 1, 0, 2),
+(3, 1, 1, 1, 0, 3),
+(4, 1, 1, 1, 0, 4),
+(5, 1, 1, 1, 0, 5),
+(6, 1, 1, 1, 0, 6),
+(7, 1, 1, 1, 0, 7),
+(8, 1, 1, 1, 0, 8),
+(9, 1, 1, 1, 0, 9),
+(10, 1, 1, 1, 0, 10),
+(11, 1, 1, 1, 0, 11),
+(12, 1, 1, 1, 0, 12),
+(13, 2, 1, 1, 0, 1),
+(14, 2, 1, 1, 0, 2),
+(15, 2, 1, 1, 0, 3),
+(16, 2, 1, 1, 0, 4),
+(17, 2, 1, 1, 0, 5),
+(18, 2, 1, 1, 0, 6),
+(19, 2, 1, 1, 0, 7),
+(20, 2, 1, 1, 0, 8),
+(21, 2, 1, 1, 0, 9),
+(22, 2, 1, 1, 0, 10),
+(23, 2, 1, 1, 0, 11),
+(24, 2, 1, 1, 0, 12),
+(25, 3, 1, 1, 0, 1),
+(26, 3, 1, 1, 0, 2),
+(27, 3, 1, 1, 0, 3),
+(28, 3, 1, 1, 0, 4),
+(29, 3, 1, 1, 0, 5),
+(30, 3, 1, 1, 0, 6),
+(31, 3, 1, 1, 0, 7),
+(32, 3, 1, 1, 0, 8),
+(33, 3, 1, 1, 0, 9),
+(34, 3, 1, 1, 0, 10),
+(35, 3, 1, 1, 0, 11),
+(36, 3, 1, 1, 0, 12),
+(37, 4, 1, 1, 0, 1),
+(38, 4, 1, 1, 0, 2),
+(39, 4, 1, 1, 0, 3),
+(40, 4, 1, 1, 0, 4),
+(41, 4, 1, 1, 0, 5),
+(42, 4, 1, 1, 0, 6),
+(43, 4, 1, 1, 0, 7),
+(44, 4, 1, 1, 0, 8),
+(45, 4, 1, 1, 0, 9),
+(46, 4, 1, 1, 0, 10),
+(47, 4, 1, 1, 0, 11),
+(48, 4, 1, 1, 0, 12);
 
 -- --------------------------------------------------------
 
@@ -45,19 +100,21 @@ CREATE TABLE `attendance` (
 CREATE TABLE `modules` (
   `ModuleID` int(11) NOT NULL,
   `Title` varchar(250) DEFAULT NULL,
-  `Leader` varchar(150) DEFAULT NULL,
-  `Last_Edited` date DEFAULT NULL
+  `StaffID` int(11) DEFAULT NULL COMMENT 'Course Leader',
+  `DateCreated` date DEFAULT current_timestamp(),
+  `LastEdited` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `modules`
 --
 
-INSERT INTO `modules` (`ModuleID`, `Title`, `Leader`, `Last_Edited`) VALUES
-(6356, 'data center', 'adrian winckles', '2020-03-08'),
-(6363, 'Semantic data technology', 'arooj fatima', '2020-03-09'),
-(7464, 'web solutions', 'cristina luca', '2020-02-03'),
-(8654, 'web security', 'andrew moore', '2020-03-02');
+INSERT INTO `modules` (`ModuleID`, `Title`, `StaffID`, `DateCreated`, `LastEdited`) VALUES
+(1, 'Data Centre & Cloud Infrastructures', 1, '2020-02-04', '2020-03-08'),
+(2, 'Semantic Data Technologies', 2, '2020-02-04', '2020-03-09'),
+(3, 'Advanced Web Solutions', 3, '2020-02-04', '2020-02-03'),
+(4, 'Web Application Security', 4, '2020-02-04', '2020-03-02'),
+(5, 'Research Methods', 5, '2020-02-04', '2020-03-10');
 
 -- --------------------------------------------------------
 
@@ -69,22 +126,28 @@ CREATE TABLE `modules.classes` (
   `ClassID` int(11) NOT NULL,
   `ModuleID` int(11) DEFAULT NULL,
   `StaffID` int(11) DEFAULT NULL,
-  `Start_Date` date DEFAULT NULL,
-  `End_Date` date DEFAULT NULL,
-  `Week_Day` varchar(20) DEFAULT NULL,
-  `Start_Time` time DEFAULT NULL,
-  `End_Time` time DEFAULT NULL,
-  `Class_Type` enum('Lecture','Practical','Laboratory','Seminar') DEFAULT NULL
+  `StartDate` date DEFAULT NULL,
+  `EndDate` date DEFAULT NULL,
+  `Day` enum('Monday','Tuesday','Wednesday','Thursday','Friday') DEFAULT NULL,
+  `StartTime` time DEFAULT NULL,
+  `EndTime` time DEFAULT NULL,
+  `ClassType` enum('Lecture','Practical','Laboratory','Seminar') DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `modules.classes`
 --
 
-INSERT INTO `modules.classes` (`ClassID`, `ModuleID`, `StaffID`, `Start_Date`, `End_Date`, `Week_Day`, `Start_Time`, `End_Time`, `Class_Type`) VALUES
-(2, 6356, 121, '2020-03-03', '2020-04-03', 'monday friday', '14:00:32', '16:00:32', 'Practical'),
-(7, 6356, 121, '2020-03-02', '2020-04-03', 'monday friday', '11:00:04', '13:00:19', 'Lecture'),
-(202, 8654, 223, '2020-01-20', '2020-04-21', 'thursday', '10:00:16', '12:00:16', 'Lecture');
+INSERT INTO `modules.classes` (`ClassID`, `ModuleID`, `StaffID`, `StartDate`, `EndDate`, `Day`, `StartTime`, `EndTime`, `ClassType`) VALUES
+(1, 1, 1, '2019-09-16', '2019-12-12', 'Friday', '10:00:00', '12:00:00', 'Lecture'),
+(2, 1, 1, '2019-09-16', '2019-12-12', 'Friday', '13:00:00', '16:00:00', 'Practical'),
+(3, 2, 2, '2019-09-16', '2019-12-12', 'Tuesday', '11:00:00', '12:00:00', 'Lecture'),
+(4, 2, 2, '2019-09-16', '2019-12-12', 'Tuesday', '13:00:00', '15:00:00', 'Practical'),
+(5, 3, 3, '2020-01-20', '2020-04-24', 'Monday', '11:00:00', '13:00:00', 'Lecture'),
+(6, 3, 3, '2020-01-20', '2020-04-24', 'Monday', '14:00:00', '16:00:00', 'Practical'),
+(7, 4, 4, '2020-01-20', '2020-04-24', 'Thursday', '13:00:00', '14:00:00', 'Lecture'),
+(8, 4, 4, '2020-01-20', '2020-04-24', 'Thursday', '14:00:00', '16:00:00', 'Practical'),
+(9, 5, 5, '2020-01-20', '2020-04-24', 'Thursday', '10:00:00', '12:00:00', 'Seminar');
 
 -- --------------------------------------------------------
 
@@ -95,9 +158,20 @@ INSERT INTO `modules.classes` (`ClassID`, `ModuleID`, `StaffID`, `Start_Date`, `
 CREATE TABLE `modules.students` (
   `ModuleID` int(11) NOT NULL,
   `StudentID` int(11) DEFAULT NULL,
-  `Start_Date` date DEFAULT NULL,
-  `End_Date` date DEFAULT NULL
+  `StartDate` date DEFAULT NULL,
+  `EndDate` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `modules.students`
+--
+
+INSERT INTO `modules.students` (`ModuleID`, `StudentID`, `StartDate`, `EndDate`) VALUES
+(1, 1, '2019-09-16', '2019-12-12'),
+(2, 1, '2019-09-16', '2019-12-12'),
+(3, 1, '2020-01-20', '2020-04-24'),
+(4, 1, '2020-01-20', '2020-04-24'),
+(5, 1, '2020-01-20', '2020-04-24');
 
 -- --------------------------------------------------------
 
@@ -148,7 +222,12 @@ CREATE TABLE `staff` (
 --
 
 INSERT INTO `staff` (`StaffID`, `FirstName`, `LastName`, `Email`, `Type`, `UserID`) VALUES
-(1, 'Janvi', 'Patel', 'janvi.patel@student.anglia.ac.uk', 'Administrator', 1);
+(1, 'Adrian', 'Winckles', 'adrian.winckles@anglia.ac.uk', 'Manager', 3),
+(2, 'Arooj', 'Fatima', 'arooj.fatima@anglia.ac.uk', 'Lecturer', 4),
+(3, 'Cristina', 'Luca', 'cristina.luca@anglia.ac.uk', 'Manager', 5),
+(4, 'Andrew', 'Moore', 'andrew.moore@anglia.ac.uk', 'Lecturer', 6),
+(5, 'Jin', 'Zhang', 'jin.zhang@anglia.ac.uk', 'Lecturer', 7),
+(6, 'Marcian', 'Cirstea', 'marcian.cirstea@anglia.ac.uk', 'Administrator', 8);
 
 -- --------------------------------------------------------
 
@@ -162,7 +241,7 @@ CREATE TABLE `students` (
   `LastName` varchar(255) DEFAULT NULL,
   `Email` varchar(255) DEFAULT NULL,
   `Concern` tinyint(1) DEFAULT NULL,
-  `Type` varchar(255) DEFAULT NULL,
+  `Type` enum('Student') DEFAULT NULL,
   `UserID` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -171,7 +250,8 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`StudentID`, `FirstName`, `LastName`, `Email`, `Concern`, `Type`, `UserID`) VALUES
-(1, 'Joshua', 'Dowding', 'josh.dowding@student.anglia.ac.uk', 0, 'Student', 2);
+(1, 'Joshua', 'Dowding', 'josh.dowding@student.anglia.ac.uk', 0, 'Student', 2),
+(2, 'Janvi', 'Patel', 'janvi.patel@student.anglia.ac.uk', 0, 'Student', 1);
 
 -- --------------------------------------------------------
 
@@ -183,16 +263,17 @@ CREATE TABLE `users` (
   `UserID` int(11) NOT NULL,
   `Username` varchar(255) DEFAULT NULL,
   `Password` varchar(255) DEFAULT NULL,
-  `DateCreated` datetime DEFAULT current_timestamp()
+  `DateCreated` date DEFAULT current_timestamp(),
+  `LastEdited` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`UserID`, `Username`, `Password`, `DateCreated`) VALUES
-(1, 'janvi.patel', '$2y$10$DL5rz.8JtJTxGMaBgs6KieSO6S5SeB6VKcUvCKsfn4Jhx1TgchuAS', '2020-03-02 14:30:03'),
-(2, 'josh.dowding', '$2y$10$WWG78UvVyIO0No4B2Xiv6eru7rciIt49EHxGlLWuMN6cDgavOq3eO', '2020-03-02 14:30:14');
+INSERT INTO `users` (`UserID`, `Username`, `Password`, `DateCreated`, `LastEdited`) VALUES
+(1, 'janvi.patel', '$2y$10$DL5rz.8JtJTxGMaBgs6KieSO6S5SeB6VKcUvCKsfn4Jhx1TgchuAS', '2020-03-02', NULL),
+(2, 'josh.dowding', '$2y$10$WWG78UvVyIO0No4B2Xiv6eru7rciIt49EHxGlLWuMN6cDgavOq3eO', '2020-03-02', NULL);
 
 --
 -- Indexes for dumped tables
@@ -256,19 +337,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `attendance`
 --
 ALTER TABLE `attendance`
-  MODIFY `AttendanceID` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `AttendanceID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `modules`
 --
 ALTER TABLE `modules`
-  MODIFY `ModuleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8655;
+  MODIFY `ModuleID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8656;
 
 --
 -- AUTO_INCREMENT for table `modules.classes`
 --
 ALTER TABLE `modules.classes`
-  MODIFY `ClassID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=203;
+  MODIFY `ClassID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=209;
 
 --
 -- AUTO_INCREMENT for table `rooms`
@@ -280,13 +361,13 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT for table `staff`
 --
 ALTER TABLE `staff`
-  MODIFY `StaffID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `StaffID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `students`
 --
 ALTER TABLE `students`
-  MODIFY `StudentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `StudentID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `users`
