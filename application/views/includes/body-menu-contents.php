@@ -15,8 +15,7 @@
             <ul class="nav navbar-nav navbar-nav-first">
                 <li><a href="/student-attendance-system" class="smoothScroll">Home</a></li>
                 <li><a href="" class="smoothScroll">About</a></li>
-                <li><a href="" class="smoothScroll">Chef</a></li>
-                <li><a href="" class="smoothScroll">Menu</a></li>
+                <li><a href="" class="smoothScroll">list of roles</a></li>
                 <li><a href="" class="smoothScroll">Contact</a></li>
             </ul>
 
