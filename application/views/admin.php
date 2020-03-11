@@ -34,7 +34,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <div class="user-admin-wrapper">
         <?php
             // TODO: Build a table of students, modules and classes. Fill table with attendance marks.
-
             foreach ($modules as $module) {
                 echo "<div class='timetable-module'>";
                 echo "<table><caption>" . $module->title . "</caption>";
@@ -48,7 +47,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
                 for ($x = 1; $x <= 12; $x++) {
                     foreach ($module->lessons as $lesson) {
-                        echo "<th colspan='1'>" . $lesson->classType . "</th>";
+                        echo "<th colspan='";
+                        if(count($module->lessons) > 1) {
+                            echo "1";
+                        }
+                        else if(count($module->lessons) == 1) {
+                            echo "2";
+                        }
+                        echo "'>" . $lesson->classType[0] . "</th>";
                     }
                 }
 

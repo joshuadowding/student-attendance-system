@@ -20,7 +20,7 @@ http://www.templatemo.com/tm-515-eatery
      TYPOGRAPHY
   -----------------------------------------*/
 
-  h1,h2,h3,h4,h5,h6 {
+  h1, h2, h3, h4, h5, h6 {
     font-weight: bold;
     line-height: inherit;
   }
@@ -118,7 +118,7 @@ http://www.templatemo.com/tm-515-eatery
     padding: 100px 0;
   }
 
-  #team, 
+  #team,
   #menu,
   #testimonial {
     text-align: center;
