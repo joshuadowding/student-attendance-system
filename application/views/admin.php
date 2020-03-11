@@ -45,7 +45,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
                 echo "</tr><tr><th></th>";
 
-                for ($x = 1; $x <= 12; $x++) {
+                for ($x = 1; $x <= 12; $x++) { // TODO: Make dynamic.
                     foreach ($module->lessons as $lesson) {
                         echo "<th colspan='";
                         if(count($module->lessons) > 1) {
@@ -58,15 +58,23 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     }
                 }
 
-                echo "</tr></thead><tbody>";
+                echo "</tr></thead><tbody><tr>";
 
                 foreach ($module->students as $student) {
-                    echo "<tr><td>";
+                    echo "<td>";
                     echo $student->firstName . " " . $student->lastName;
-                    echo "</tr></td>";
+                    echo "</td>";
+
+                    foreach ($attendance as $record) {
+                        if ($record->studentID == $student->studentID) {
+                            echo "<td>";
+                            echo "<p>D</p>";
+                            echo "</td>";
+                        }
+                    }
                 }
 
-                echo "</tbody></table></div>";
+                echo "</tr></tbody></table></div>";
             }
         ?>
     </div>
