@@ -32,7 +32,37 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- ADMIN -->
     <div class="user-admin-wrapper">
+        <?php
+            // TODO: Build a table of students, modules and classes. Fill table with attendance marks.
 
+            foreach ($modules as $module) {
+                echo "<div class='timetable-module'>";
+                echo "<table><caption>" . $module->title . "</caption>";
+                echo "<thead><tr><th></th>";
+
+                for ($x = 1; $x <= 12; $x++) {
+                    echo "<th colspan='2'>Week " . $x . "</th>";
+                }
+
+                echo "</tr><tr><th></th>";
+
+                for ($x = 1; $x <= 12; $x++) {
+                    foreach ($module->lessons as $lesson) {
+                        echo "<th colspan='1'>" . $lesson->classType . "</th>";
+                    }
+                }
+
+                echo "</tr></thead><tbody>";
+
+                foreach ($module->students as $student) {
+                    echo "<tr><td>";
+                    echo $student->firstName . " " . $student->lastName;
+                    echo "</tr></td>";
+                }
+
+                echo "</tbody></table></div>";
+            }
+        ?>
     </div>
 
     <?php include("includes/body-footer-contents.php"); ?>

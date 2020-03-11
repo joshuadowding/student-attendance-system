@@ -11,7 +11,7 @@ http://www.templatemo.com/tm-515-eatery
   body {
     background: #ffffff;
     font-family: 'Montserrat', sans-serif;
-    overflow-x: hidden;
+    /* overflow-x: hidden; */
   }
 
 
@@ -372,6 +372,20 @@ http://www.templatemo.com/tm-515-eatery
   .user-login-wrapper .user-login-message p {
     margin-bottom: 0;
   }
+
+
+
+  /*---------------------------------------
+      LOGIN
+  -----------------------------------------*/
+
+    .user-admin-wrapper {
+        padding-top: 128px;
+    }
+
+    .user-admin-wrapper .timetable-module {
+        margin-bottom: 32px;
+    }
 
 
 
