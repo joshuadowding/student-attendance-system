@@ -24,6 +24,7 @@ class Admin extends CI_Controller {
         include_once('application/models/Module.php');
         include_once('application/models/Enrolment.php');
         include_once('application/models/Lesson.php');
+        include_once('application/models/Attendance.php');
 
         include_once('application/models/view_models/AdminViewModel.php'); // NOTE: View Model
 
@@ -40,6 +41,8 @@ class Admin extends CI_Controller {
 
                 $viewModel->students = $this->fetch_students();
                 $this->fetch_enrolments($viewModel->modules, $viewModel->students);
+
+                $viewModel->attendance = $this->fetch_attendance();
 
                 $this->load->view('admin', $viewModel);
             } else {
@@ -198,5 +201,37 @@ class Admin extends CI_Controller {
         }
 
         return $success;
+    }
+
+    public function fetch_attendance() {
+        $attendance = array();
+
+        try {
+            $queryString = "SELECT * FROM `attendance`;";
+            $queryResult = $this->db->query($queryString);
+
+            if ($queryResult->num_rows() != 0) {
+                foreach ($queryResult->result() as $row) {
+                    $attendanceModel = new Attendance();
+
+                    $attendanceModel->attendanceID = $row->AttendanceID;
+                    $attendanceModel->classID = $row->ClassID;
+                    $attendanceModel->studentID = $row->StudentID;
+                    $attendanceModel->attended = $row->Attended;
+                    $attendanceModel->late = $row->Late;
+                    $attendanceModel->week = $row->Week;
+
+                    array_push($attendance, $attendanceModel);
+                }
+            } else {
+                $_SESSION["loginError"] = "Unable to fetch attendance: no attendance records present.";
+                return null;
+            }
+        } catch (PDOException $exception) {
+            $_SESSION["loginError"] = "Internal Server Error";
+            return null;
+        }
+
+        return $attendance;
     }
 }
