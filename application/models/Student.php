@@ -10,5 +10,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         public $concern;
         public $type;
         public $userID;
+
+        public $enrolments = array();
+        public $timetable;
     }
 ?>

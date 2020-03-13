@@ -32,49 +32,72 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- ADMIN -->
     <div class="user-admin-wrapper">
+        <form id="user-admin-search" method="POST" action="/student-attendance-system/index.php/admin">
+            <label for="input-search">Search:</label>
+            <input type="text" id="input-username" name="input-search" required="required" placeholder="Student's Name" value="">
+
+            <input type="submit" name="submit" id="login-submit" value="Login">
+        </form>
+
         <?php
             // TODO: Build a table of students, modules and classes. Fill table with attendance marks.
-            foreach ($modules as $module) {
-                echo "<div class='timetable-module'>";
-                echo "<table><caption>" . $module->title . "</caption>";
-                echo "<thead><tr><th></th>";
+            foreach ($students as $student) {
+                echo "<div class='timetable-wrapper'>";
+                echo "<p>" . $student->firstName . " " . $student->lastName . "</p>";
 
-                for ($x = 1; $x <= 12; $x++) {
-                    echo "<th colspan='2'>Week " . $x . "</th>";
-                }
+                foreach ($student->timetable->schedule as $schedule) {
+                    echo "<div class='timetable-module'>";
+                    echo "<table><caption>";
 
-                echo "</tr><tr><th></th>";
-
-                for ($x = 1; $x <= 12; $x++) { // TODO: Make dynamic.
-                    foreach ($module->lessons as $lesson) {
-                        echo "<th colspan='";
-                        if(count($module->lessons) > 1) {
-                            echo "1";
-                        }
-                        else if(count($module->lessons) == 1) {
-                            echo "2";
-                        }
-                        echo "'>" . $lesson->classType[0] . "</th>";
-                    }
-                }
-
-                echo "</tr></thead><tbody><tr>";
-
-                foreach ($module->students as $student) {
-                    echo "<td>";
-                    echo $student->firstName . " " . $student->lastName;
-                    echo "</td>";
-
-                    foreach ($attendance as $record) {
-                        if ($record->studentID == $student->studentID) {
-                            echo "<td>";
-                            echo "<p>D</p>";
-                            echo "</td>";
+                    foreach ($modules as $module) { // TODO: I hate this solution.
+                        for ($x = 0; $x < count($schedule); $x++) {
+                            for ($y = 0; $y < count($schedule[$x]); $y++) {
+                                if ($module->moduleID == $schedule[$x][$y]->moduleID) {
+                                    echo $module->title;
+                                    break 2;
+                                }
+                            }
                         }
                     }
+
+                    echo "</caption><thead><tr>";
+
+                    for ($x = 0; $x < count($schedule); $x++) {
+                        echo "<th colspan='2'>Week" . ($x + 1) . "</th>";
+                    }
+
+                    echo "</tr><tr>";
+
+                    for ($x = 0; $x < count($schedule); $x++) {
+                        for ($y = 0; $y < count($schedule[$x]); $y++) {
+                            echo "<th colspan='1'>" . $schedule[$x][$y]->classType[0] . "</th>";
+                        }
+                    }
+
+                    echo "</tr></tr></thead><tbody><tr>";
+
+                    for ($x = 0; $x < count($schedule); $x++) {
+                        for ($y = 0; $y < count($schedule[$x]); $y++) {
+                            $attendance = $schedule[$x][$y]->attendance;
+
+                            if (isset($attendance)) {
+                                if ($attendance->attended == "1" || $attendance->attended == 1) {
+                                    echo "<td><p>" . "Y" . "</p></td>";
+                                }
+                                else {
+                                    echo "<td><p>" . "N" . "</p></td>";
+                                }
+                            }
+                            else {
+                                echo "<td><p>" . "N" . "</p></td>";
+                            }
+                        }
+                    }
+
+                    echo "</tr></tr></tbody></table></div>";
                 }
 
-                echo "</tr></tbody></table></div>";
+                echo "</div>";
             }
         ?>
     </div>

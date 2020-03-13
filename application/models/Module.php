@@ -9,7 +9,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         public $dateCreated;
         public $lastEdited;
 
-        public $lessons = array();
-        public $students = array();
+        public $lessons;
     }
 ?>

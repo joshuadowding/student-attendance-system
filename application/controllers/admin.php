@@ -25,42 +25,88 @@ class Admin extends CI_Controller {
         include_once('application/models/Enrolment.php');
         include_once('application/models/Lesson.php');
         include_once('application/models/Attendance.php');
+        include_once('application/models/Timetable.php');
 
         include_once('application/models/view_models/AdminViewModel.php'); // NOTE: View Model
 
         session_start(); // DEBUG: Start/Resume session.
 
+        $viewModel = new AdminViewModel();
+
+        // NOTE: Catch unauthorised users before processing the request:
         if (!empty($_SESSION["currentUser"])) {
-            if ($_SESSION["currentUser"]->userType == "Administrator") {
-                $this->load->database();
-
-                $viewModel = new AdminViewModel();
-
-                $viewModel->modules = $this->fetch_modules();
-                $this->fetch_lessons($viewModel->modules);
-
-                $viewModel->students = $this->fetch_students();
-                $this->fetch_enrolments($viewModel->modules, $viewModel->students);
-
-                $viewModel->attendance = $this->fetch_attendance();
-
-                $this->load->view('admin', $viewModel);
-            } else {
+            if ($_SESSION["currentUser"]->userType != "Administrator") {
                 $this->load->helper('url');
                 redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (home) page.
+            } else {
+                $this->load->database();
             }
         } else {
             $this->load->helper('url');
             redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (home) page.
         }
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $inputSearch = $_POST["input-search"];
+
+            if (!empty($inputSearch)) {
+                $_inputSearch = $this->validate($inputSearch);
+
+                // TODO: Process input and display relevant output.
+                $viewModel->students = $this->fetch_students($_inputSearch);
+
+                foreach ($viewModel->students as $student) {
+                    $modules = array();
+
+                    foreach ($student->enrolments as $enrolment) {
+                        $_modules = $this->fetch_modules($enrolment->moduleID);
+
+                        foreach ($_modules as $module) {
+                            $module->lessons = $this->fetch_lessons($module->moduleID);
+                            array_push($modules, $module);
+                        }
+                    }
+
+                    $timetable = new Timetable();
+                    $timetable->schedule = array();
+
+                    // TODO: Organize timetable.
+                    foreach ($modules as $module) {
+                        $lessons = array();
+
+                        for ($x = 1; $x <= 12; $x++) { // NOTE: Weeks.
+                            $week = array();
+                            foreach ($module->lessons as $lesson) {
+                                $lesson->attendance = $this->fetch_attendance($lesson->classID, $x);
+                                array_push($week, $lesson);
+                            }
+                            array_push($lessons, $week);
+                        }
+
+                        array_push($timetable->schedule, $lessons);
+                    }
+
+                    $student->timetable = $timetable;
+                    $viewModel->modules = $modules;
+                }
+
+                $this->load->view('admin', $viewModel);
+            } else {
+                $_SESSION["loginError"] = "Please specify a student to search for.";
+                $this->load->view('admin', $viewModel);
+            }
+        } else if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            $this->load->view('admin', $viewModel);
+        }
     }
 
-    public function fetch_students() {
+    public function fetch_students($inputSearch) {
         $students = array();
 
         try {
-            $queryString = "SELECT * FROM `students`;";
-            $queryResult = $this->db->query($queryString);
+            $queryString = "SELECT * FROM `students` WHERE CONCAT(`FirstName`, `LastName`) LIKE ?;";
+            $_inputSearch = "%" . $inputSearch . "%";
+            $queryResult = $this->db->query($queryString, array($_inputSearch));
 
             if ($queryResult->num_rows() != 0) {
                 foreach ($queryResult->result() as $row) {
@@ -73,6 +119,8 @@ class Admin extends CI_Controller {
                     $studentModel->concern = $row->Concern;
                     $studentModel->type = $row->Type;
                     $studentModel->userID = $row->UserID;
+
+                    $studentModel->enrolments = $this->fetch_enrolments($studentModel->studentID);
 
                     array_push($students, $studentModel);
                 }
@@ -88,55 +136,42 @@ class Admin extends CI_Controller {
         return $students;
     }
 
-    public function fetch_enrolments($modules, $students) {
-        $success = false;
+    public function fetch_enrolments($studentID) {
+        $enrolments = array();
 
         try {
-            $queryString = "SELECT * FROM `modules.students`;";
-            $queryResult = $this->db->query($queryString);
+            $queryString = "SELECT * FROM `modules.students` WHERE `StudentID` = ?;";
+            $queryResult = $this->db->query($queryString, array($studentID));
 
             if ($queryResult->num_rows() != 0) {
                 foreach ($queryResult->result() as $row) {
-                    $enrolmentModel = new Enrolment();
+                    $enrolment = new Enrolment();
 
-                    $enrolmentModel->moduleID = $row->ModuleID;
-                    $enrolmentModel->studentID = $row->StudentID;
-                    $enrolmentModel->startDate = $row->StartDate;
-                    $enrolmentModel->endDate = $row->EndDate;
+                    $enrolment->moduleID = $row->ModuleID;
+                    //$enrolment->studentID = $row->StudentID; // NOTE: Not needed in this context.
+                    $enrolment->startDate = $row->StartDate;
+                    $enrolment->endDate = $row->EndDate;
 
-                    $moduleModel = null;
-                    foreach ($modules as $module) {
-                        if ($module->moduleID == $enrolmentModel->moduleID) {
-                            $moduleModel = $module;
-                        }
-                    }
-
-                    foreach ($students as $student) {
-                        if ($student->studentID == $enrolmentModel->studentID) {
-                            array_push($moduleModel->students, $student);
-                        }
-                    }
+                    array_push($enrolments, $enrolment);
                 }
-
-                $success = true;
             } else {
                 $_SESSION["loginError"] = "Unable to fetch enrolments: no enrolments present.";
-                return $success;
+                return null;
             }
         } catch (PDOException $exception) {
             $_SESSION["loginError"] = "Internal Server Error";
-            return $success;
+            return null;
         }
 
-        return $success;
+        return $enrolments;
     }
 
-    public function fetch_modules() {
+    public function fetch_modules($moduleID) {
         $modules = array();
 
         try {
-            $queryString = "SELECT * FROM `modules`;";
-            $queryResult = $this->db->query($queryString);
+            $queryString = "SELECT * FROM `modules` WHERE `ModuleID` = ?;";
+            $queryResult = $this->db->query($queryString, array($moduleID));
 
             if ($queryResult->num_rows() != 0) {
                 foreach ($queryResult->result() as $row) {
@@ -162,12 +197,12 @@ class Admin extends CI_Controller {
         return $modules;
     }
 
-    public function fetch_lessons($modules) {
-        $success = false;
+    public function fetch_lessons($moduleID) {
+        $lessons = array();
 
         try {
-            $queryString = "SELECT * FROM `modules.classes`;";
-            $queryResult = $this->db->query($queryString);
+            $queryString = "SELECT * FROM `modules.classes` WHERE `ModuleID` = ?;";
+            $queryResult = $this->db->query($queryString, array($moduleID));
 
             if ($queryResult->num_rows() != 0) {
                 foreach ($queryResult->result() as $row) {
@@ -183,48 +218,10 @@ class Admin extends CI_Controller {
                     $lessonModel->endTime = $row->EndTime;
                     $lessonModel->classType = $row->ClassType;
 
-                    foreach ($modules as $module) {
-                        if ($module->moduleID == $lessonModel->moduleID) {
-                            array_push($module->lessons, $lessonModel);
-                        }
-                    }
+                    array_push($lessons, $lessonModel);
                 }
-
-                $success = true;
             } else {
                 $_SESSION["loginError"] = "Unable to fetch lessons: no lessons present.";
-                return $success;
-            }
-        } catch (PDOException $exception) {
-            $_SESSION["loginError"] = "Internal Server Error";
-            return $success;
-        }
-
-        return $success;
-    }
-
-    public function fetch_attendance() {
-        $attendance = array();
-
-        try {
-            $queryString = "SELECT * FROM `attendance`;";
-            $queryResult = $this->db->query($queryString);
-
-            if ($queryResult->num_rows() != 0) {
-                foreach ($queryResult->result() as $row) {
-                    $attendanceModel = new Attendance();
-
-                    $attendanceModel->attendanceID = $row->AttendanceID;
-                    $attendanceModel->classID = $row->ClassID;
-                    $attendanceModel->studentID = $row->StudentID;
-                    $attendanceModel->attended = $row->Attended;
-                    $attendanceModel->late = $row->Late;
-                    $attendanceModel->week = $row->Week;
-
-                    array_push($attendance, $attendanceModel);
-                }
-            } else {
-                $_SESSION["loginError"] = "Unable to fetch attendance: no attendance records present.";
                 return null;
             }
         } catch (PDOException $exception) {
@@ -232,6 +229,43 @@ class Admin extends CI_Controller {
             return null;
         }
 
-        return $attendance;
+        return $lessons;
+    }
+
+    public function fetch_attendance($classID, $week) {
+        $attendanceModel = new Attendance();
+
+        try {
+            $queryString = "SELECT * FROM `attendance` WHERE `ClassID` = ? AND `Week` = ?;";
+            $queryResult = $this->db->query($queryString, array($classID, $week));
+
+            if ($queryResult->num_rows() != 0) {
+                $row = $queryResult->row();
+
+                if (isset($row)) {
+                    $attendanceModel->attendanceID = $row->AttendanceID;
+                    // $attendanceModel->classID = $row->ClassID; // NOTE: Not needed in this context.
+                    // $attendanceModel->studentID = $row->StudentID; // NOTE: Not needed in this context.
+                    $attendanceModel->attended = $row->Attended;
+                    $attendanceModel->late = $row->Late;
+                    $attendanceModel->week = $row->Week;
+                }
+            } else {
+                $_SESSION["loginError"] = "Unable to fetch attendance record: no attendance record present.";
+                return null;
+            }
+        } catch (PDOException $exception) {
+            $_SESSION["loginError"] = "Internal Server Error";
+            return null;
+        }
+
+        return $attendanceModel;
+    }
+
+    private function validate($input) {
+        $input = trim($input);
+        $input = stripslashes($input);
+        $input = htmlspecialchars($input);
+        return $input;
     }
 }

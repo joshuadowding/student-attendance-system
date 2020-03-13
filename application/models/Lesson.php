@@ -12,5 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         public $startTime;
         public $endTime;
         public $classType;
+
+        public $attendance;
     }
 ?>
