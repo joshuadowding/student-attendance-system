@@ -92,12 +92,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
                                     if (isset($attendance)) {
                                         if ($attendance->attended == "1" || $attendance->attended == 1) {
-                                            echo "<td><p>" . "Y" . "</p></td>";
+                                            echo "<td><input type='checkbox' checked></input></td>";
                                         } else {
-                                            echo "<td><p>" . "N" . "</p></td>";
+                                            echo "<td><input type='checkbox'></input></td>";
                                         }
                                     } else {
-                                        echo "<td><p>" . "N" . "</p></td>";
+                                        echo "<td><input type='checkbox' disabled></input></td>";
                                     }
                                 }
                             }
