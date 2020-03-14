@@ -32,6 +32,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- ADMIN -->
     <div class="user-admin-wrapper">
+        <?php
+            if (isset($_SESSION["loginError"])) {
+                echo "<div class='alert alert-primary' role='alert'>";
+                echo $_SESSION["loginError"];
+                echo "</div>";
+            }
+        ?>
+
         <form id="user-admin-search" method="POST" action="/student-attendance-system/index.php/admin">
             <label for="input-search">Search:</label>
             <input type="text" id="input-username" name="input-search" required="required" placeholder="Student's Name" value="">
@@ -41,68 +49,72 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
         <?php
             // TODO: Build a table of students, modules and classes. Fill table with attendance marks.
-            foreach ($students as $student) {
-                echo "<div class='timetable-wrapper'>";
-                echo "<p>" . $student->firstName . " " . $student->lastName . "</p>";
+            if (isset($students)) {
+                foreach ($students as $student) {
+                    echo "<div class='timetable-wrapper'>";
+                    echo "<p>" . $student->firstName . " " . $student->lastName . "</p>";
 
-                foreach ($student->timetable->schedule as $schedule) {
-                    echo "<div class='timetable-module'>";
-                    echo "<table><caption>";
+                    if (isset($student->timetable->schedule)) {
+                        foreach ($student->timetable->schedule as $schedule) {
+                            echo "<div class='timetable-module'>";
+                            echo "<table><caption>";
 
-                    foreach ($modules as $module) { // TODO: I hate this solution.
-                        for ($x = 0; $x < count($schedule); $x++) {
-                            for ($y = 0; $y < count($schedule[$x]); $y++) {
-                                if ($module->moduleID == $schedule[$x][$y]->moduleID) {
-                                    echo $module->title;
-                                    break 2;
+                            foreach ($modules as $module) { // TODO: I hate this solution.
+                                for ($x = 0; $x < count($schedule); $x++) {
+                                    for ($y = 0; $y < count($schedule[$x]); $y++) {
+                                        if ($module->moduleID == $schedule[$x][$y]->moduleID) {
+                                            echo $module->title;
+                                            break 2;
+                                        }
+                                    }
                                 }
                             }
-                        }
-                    }
 
-                    echo "</caption><thead><tr>";
+                            echo "</caption><thead><tr>";
 
-                    for ($x = 0; $x < count($schedule); $x++) {
-                        echo "<th colspan='2'>Week" . ($x + 1) . "</th>";
-                    }
+                            for ($x = 0; $x < count($schedule); $x++) {
+                                echo "<th colspan='2'>Week" . ($x + 1) . "</th>";
+                            }
 
-                    echo "</tr><tr>";
+                            echo "</tr><tr>";
 
-                    for ($x = 0; $x < count($schedule); $x++) {
-                        for ($y = 0; $y < count($schedule[$x]); $y++) {
-                            echo "<th colspan='1'>" . $schedule[$x][$y]->classType[0] . "</th>";
-                        }
-                    }
-
-                    echo "</tr></tr></thead><tbody><tr>";
-
-                    for ($x = 0; $x < count($schedule); $x++) {
-                        for ($y = 0; $y < count($schedule[$x]); $y++) {
-                            $attendance = $schedule[$x][$y]->attendance;
-
-                            if (isset($attendance)) {
-                                if ($attendance->attended == "1" || $attendance->attended == 1) {
-                                    echo "<td><p>" . "Y" . "</p></td>";
-                                }
-                                else {
-                                    echo "<td><p>" . "N" . "</p></td>";
+                            for ($x = 0; $x < count($schedule); $x++) {
+                                for ($y = 0; $y < count($schedule[$x]); $y++) {
+                                    echo "<th colspan='1'>" . $schedule[$x][$y]->classType[0] . "</th>";
                                 }
                             }
-                            else {
-                                echo "<td><p>" . "N" . "</p></td>";
-                            }
-                        }
-                    }
 
-                    echo "</tr></tr></tbody></table></div>";
+                            echo "</tr></tr></thead><tbody><tr>";
+
+                            for ($x = 0; $x < count($schedule); $x++) {
+                                for ($y = 0; $y < count($schedule[$x]); $y++) {
+                                    $attendance = $schedule[$x][$y]->attendance;
+
+                                    if (isset($attendance)) {
+                                        if ($attendance->attended == "1" || $attendance->attended == 1) {
+                                            echo "<td><p>" . "Y" . "</p></td>";
+                                        }
+                                        else {
+                                            echo "<td><p>" . "N" . "</p></td>";
+                                        }
+                                    }
+                                    else {
+                                        echo "<td><p>" . "N" . "</p></td>";
+                                    }
+                                }
+                            }
+
+                            echo "</tr></tr></tbody></table></div>";
+                        }
+
+                        echo "</div>";
+                    }
                 }
-
-                echo "</div>";
             }
         ?>
     </div>
 
-    <?php include("includes/body-footer-contents.php"); ?>
+    <!--<?php include("includes/body-footer-contents.php"); ?>-->
 
     <script src="../js/jquery.js"></script>
     <script src="../js/bootstrap.min.js"></script>

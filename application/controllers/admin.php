@@ -55,42 +55,71 @@ class Admin extends CI_Controller {
                 // TODO: Process input and display relevant output.
                 $viewModel->students = $this->fetch_students($_inputSearch);
 
-                foreach ($viewModel->students as $student) {
-                    $modules = array();
+                if (isset($viewModel->students)) {
+                    foreach ($viewModel->students as $student) {
+                        $modules = array();
 
-                    foreach ($student->enrolments as $enrolment) {
-                        $_modules = $this->fetch_modules($enrolment->moduleID);
+                        if (isset($student->enrolments)) {
+                            foreach ($student->enrolments as $enrolment) {
+                                $_modules = $this->fetch_modules($enrolment->moduleID);
 
-                        foreach ($_modules as $module) {
-                            $module->lessons = $this->fetch_lessons($module->moduleID);
-                            array_push($modules, $module);
-                        }
-                    }
+                                if (isset($_modules)) {
+                                    foreach ($_modules as $module) {
+                                        $module->lessons = $this->fetch_lessons($module->moduleID);
 
-                    $timetable = new Timetable();
-                    $timetable->schedule = array();
-
-                    // TODO: Organize timetable.
-                    foreach ($modules as $module) {
-                        $lessons = array();
-
-                        for ($x = 1; $x <= 12; $x++) { // NOTE: Weeks.
-                            $week = array();
-                            foreach ($module->lessons as $lesson) {
-                                $lesson->attendance = $this->fetch_attendance($lesson->classID, $x);
-                                array_push($week, $lesson);
+                                        if (isset($module->lessons)) {
+                                            array_push($modules, $module);
+                                        } else {
+                                            $_SESSION["loginError"] = "Unable to fetch lessons: no lessons present.";
+                                        }
+                                    }
+                                } else {
+                                    $_SESSION["loginError"] = "Unable to fetch modules: no modules present.";
+                                }
                             }
-                            array_push($lessons, $week);
+                        } else {
+                            $_SESSION["loginError"] = "Unable to fetch enrolments: no enrolments present.";
                         }
 
-                        array_push($timetable->schedule, $lessons);
+                        $timetable = new Timetable();
+                        $timetable->schedule = array();
+
+                        // TODO: Organize timetable.
+                        foreach ($modules as $module) {
+                            $lessons = array();
+
+                            for ($x = 1; $x <= 12; $x++) { // NOTE: Weeks.
+                                $week = array();
+
+                                foreach ($module->lessons as $lesson) {
+                                    $lesson->attendance = $this->fetch_attendance($lesson->classID, $x);
+
+                                    if (isset($lesson->attendance)) { 
+                                        array_push($week, $lesson);
+                                    } else {
+                                        $_SESSION["loginError"] = "Unable to fetch attendance records: no attendance records present.";
+                                    }
+                                }
+
+                                array_push($lessons, $week);
+                            }
+
+                            array_push($timetable->schedule, $lessons);
+                        }
+
+                        $student->timetable = $timetable;
+                        $viewModel->modules = $modules;
+
+                        if (!isset($student->timetable->schedule)) {
+                            $_SESSION["loginError"] = "Unable to fetch timetable schedule: no timetable schedule present.";
+                        }
                     }
 
-                    $student->timetable = $timetable;
-                    $viewModel->modules = $modules;
+                    $this->load->view('admin', $viewModel);
+                } else {
+                    $_SESSION["loginError"] = "Unable to fetch students: no students present.";
+                    $this->load->view('admin', $viewModel);
                 }
-
-                $this->load->view('admin', $viewModel);
             } else {
                 $_SESSION["loginError"] = "Please specify a student to search for.";
                 $this->load->view('admin', $viewModel);
@@ -125,11 +154,9 @@ class Admin extends CI_Controller {
                     array_push($students, $studentModel);
                 }
             } else {
-                $_SESSION["loginError"] = "Unable to fetch students: no students present.";
                 return null;
             }
         } catch (PDOException $exception) {
-            $_SESSION["loginError"] = "Internal Server Error";
             return null;
         }
 
@@ -155,11 +182,9 @@ class Admin extends CI_Controller {
                     array_push($enrolments, $enrolment);
                 }
             } else {
-                $_SESSION["loginError"] = "Unable to fetch enrolments: no enrolments present.";
                 return null;
             }
         } catch (PDOException $exception) {
-            $_SESSION["loginError"] = "Internal Server Error";
             return null;
         }
 
@@ -186,11 +211,9 @@ class Admin extends CI_Controller {
                     array_push($modules, $moduleModel);
                 }
             } else {
-                $_SESSION["loginError"] = "Unable to fetch modules: no modules present.";
                 return null;
             }
         } catch (PDOException $exception) {
-            $_SESSION["loginError"] = "Internal Server Error";
             return null;
         }
 
@@ -221,11 +244,9 @@ class Admin extends CI_Controller {
                     array_push($lessons, $lessonModel);
                 }
             } else {
-                $_SESSION["loginError"] = "Unable to fetch lessons: no lessons present.";
                 return null;
             }
         } catch (PDOException $exception) {
-            $_SESSION["loginError"] = "Internal Server Error";
             return null;
         }
 
@@ -251,11 +272,9 @@ class Admin extends CI_Controller {
                     $attendanceModel->week = $row->Week;
                 }
             } else {
-                $_SESSION["loginError"] = "Unable to fetch attendance record: no attendance record present.";
                 return null;
             }
         } catch (PDOException $exception) {
-            $_SESSION["loginError"] = "Internal Server Error";
             return null;
         }
 
