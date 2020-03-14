@@ -39,7 +39,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
             echo "</b></p></div>";
         }?>
 
-        <form id="user-login" action="/student-attendance-system/index.php/login" method="post">
+        <form id="user-login" action="/student-attendance-system/index.php/login" method="POST">
             <label for="input-username">Username:</label>
             <input type="text" id="input-username" name="input-username" required="required" value="">
 

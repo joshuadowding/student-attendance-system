@@ -51,8 +51,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
             // TODO: Build a table of students, modules and classes. Fill table with attendance marks.
             if (isset($students)) {
                 foreach ($students as $student) {
-                    echo "<div class='timetable-wrapper'>";
+                    echo "<form class='timetable-wrapper' method='POST' action='/student-attendance-system/index.php/admin/save'>";
                     echo "<p>" . $student->firstName . " " . $student->lastName . "</p>";
+                    echo "<input type='submit' name='submit' id='save-submit' value='Save'>";
 
                     if (isset($student->timetable->schedule)) {
                         foreach ($student->timetable->schedule as $schedule) {
@@ -92,12 +93,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
                                     if (isset($attendance)) {
                                         if ($attendance->attended == "1" || $attendance->attended == 1) {
-                                            echo "<td><input type='checkbox' checked></input></td>";
+                                            echo "<td><input type='hidden' class='schedule_input' data-id=" . $attendance->attendanceID . " name='attendance[]' value='1'></input>";
+                                            echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . " checked></input></td>";
                                         } else {
-                                            echo "<td><input type='checkbox'></input></td>";
+                                            echo "<td><input type='hidden' class='schedule_input' data-id=" . $attendance->attendanceID . " name='attendance[]' value='0'></input>";
+                                            echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . "></input></td>";
                                         }
                                     } else {
-                                        echo "<td><input type='checkbox' disabled></input></td>";
+                                        echo "<td><input type='hidden' class='schedule_input' name='attendance[]' data-id='-1' value='-1'></input>";
+                                        echo "<input type='checkbox' class='schedule_checkbox' data-id='-1' disabled></input></td>";
                                     }
                                 }
                             }
@@ -105,7 +109,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             echo "</tr></tr></tbody></table></div>";
                         }
 
-                        echo "</div>";
+                        echo "</form>";
                     }
                 }
             }
@@ -122,6 +126,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <script src="../js/jquery.magnific-popup.min.js"></script>
     <script src="../js/smoothscroll.js"></script>
     <script src="../js/custom.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $(".schedule_checkbox").click(function() {
+                if($(this).prop("checked") == true) {
+                    var dataID = $(this).data("id");
+                    $(".schedule_input[data-id=" + dataID + "]").val("1");
+                }
+                else if($(this).prop("checked") == false) {
+                    var dataID = $(this).data("id");
+                    $(".schedule_input[data-id=" + dataID + "]").val("0");
+                }
+            });
+        });
+    </script>
 
 </body>
 

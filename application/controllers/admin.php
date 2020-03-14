@@ -89,15 +89,15 @@ class Admin extends CI_Controller {
                         foreach ($modules as $module) {
                             $lessons = array();
 
-                            for ($x = 1; $x <= 12; $x++) { // NOTE: Weeks.
-                                $week = array();
+                            for ($x = 0; $x < 12; $x++) { // NOTE: Weeks.
+                                $group = array();
 
                                 foreach ($module->lessons as $lesson) {
                                     $lesson->attendance = $this->fetch_attendance($lesson->classID, $x);
-                                    array_push($week, $lesson);
+                                    array_push($group, $lesson);
                                 }
 
-                                array_push($lessons, $week);
+                                array_push($lessons, $group);
                             }
 
                             array_push($timetable->schedule, $lessons);
@@ -122,6 +122,24 @@ class Admin extends CI_Controller {
             }
         } else if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $this->load->view('admin', $viewModel);
+        }
+    }
+
+    public function save() {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if (!empty($_POST["attendance"])) {
+                $checkList = $_POST["attendance"];
+
+                foreach ($_POST["attendance"] as $selected) {
+                    $_selected = $selected;
+                }
+            }
+
+            $this->load->helper('url');
+            redirect(base_url() . 'index.php/admin', 'location'); // DEBUG: Redirect back to the 'admin' page.
+        } else if ($_SERVER["REQUEST_METHOD"] == "GET") {
+            $this->load->helper('url');
+            redirect(base_url() . 'index.php/admin', 'location'); // DEBUG: Redirect back to the 'admin' page.
         }
     }
 
@@ -261,8 +279,8 @@ class Admin extends CI_Controller {
 
                 if (isset($row)) {
                     $attendanceModel->attendanceID = $row->AttendanceID;
-                    // $attendanceModel->classID = $row->ClassID; // NOTE: Not needed in this context.
-                    // $attendanceModel->studentID = $row->StudentID; // NOTE: Not needed in this context.
+                    $attendanceModel->classID = $row->ClassID; // NOTE: Not needed in this context.
+                    $attendanceModel->studentID = $row->StudentID; // NOTE: Not needed in this context.
                     $attendanceModel->attended = $row->Attended;
                     $attendanceModel->late = $row->Late;
                     $attendanceModel->week = $row->Week;
