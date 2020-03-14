@@ -32,6 +32,7 @@ class Admin extends CI_Controller {
         session_start(); // DEBUG: Start/Resume session.
 
         $viewModel = new AdminViewModel();
+        $_SESSION["sessionError"] = null;
 
         // NOTE: Catch unauthorised users before processing the request:
         if (!empty($_SESSION["currentUser"])) {
@@ -70,15 +71,15 @@ class Admin extends CI_Controller {
                                         if (isset($module->lessons)) {
                                             array_push($modules, $module);
                                         } else {
-                                            $_SESSION["loginError"] = "Unable to fetch lessons: no lessons present.";
+                                            $_SESSION["sessionError"] = "Unable to fetch lessons: no lessons present.";
                                         }
                                     }
                                 } else {
-                                    $_SESSION["loginError"] = "Unable to fetch modules: no modules present.";
+                                    $_SESSION["sessionError"] = "Unable to fetch modules: no modules present.";
                                 }
                             }
                         } else {
-                            $_SESSION["loginError"] = "Unable to fetch enrolments: no enrolments present.";
+                            $_SESSION["sessionError"] = "Unable to fetch enrolments: no enrolments present.";
                         }
 
                         $timetable = new Timetable();
@@ -93,12 +94,7 @@ class Admin extends CI_Controller {
 
                                 foreach ($module->lessons as $lesson) {
                                     $lesson->attendance = $this->fetch_attendance($lesson->classID, $x);
-
-                                    if (isset($lesson->attendance)) { 
-                                        array_push($week, $lesson);
-                                    } else {
-                                        $_SESSION["loginError"] = "Unable to fetch attendance records: no attendance records present.";
-                                    }
+                                    array_push($week, $lesson);
                                 }
 
                                 array_push($lessons, $week);
@@ -111,17 +107,17 @@ class Admin extends CI_Controller {
                         $viewModel->modules = $modules;
 
                         if (!isset($student->timetable->schedule)) {
-                            $_SESSION["loginError"] = "Unable to fetch timetable schedule: no timetable schedule present.";
+                            $_SESSION["sessionError"] = "Unable to fetch timetable schedule: no timetable schedule present.";
                         }
                     }
 
                     $this->load->view('admin', $viewModel);
                 } else {
-                    $_SESSION["loginError"] = "Unable to fetch students: no students present.";
+                    $_SESSION["sessionError"] = "Unable to fetch students: no students present.";
                     $this->load->view('admin', $viewModel);
                 }
             } else {
-                $_SESSION["loginError"] = "Please specify a student to search for.";
+                $_SESSION["sessionError"] = "Please specify a student to search for.";
                 $this->load->view('admin', $viewModel);
             }
         } else if ($_SERVER["REQUEST_METHOD"] == "GET") {
