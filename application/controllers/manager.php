@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Home extends CI_Controller {
+class manager extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -20,6 +20,11 @@ class Home extends CI_Controller {
 	 */
 	public function index() {
 		include_once('application/models/User.php');
+		include_once('application/models/Student.php');
+        include_once('application/models/Module.php');
+        include_once('application/models/Enrolment.php');
+        include_once('application/models/Lesson.php');
+        include_once('application/models/Attendance.php');
 		session_start(); // DEBUG: Start/Resume session.
 
 		$this->load->database();
