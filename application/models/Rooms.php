@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-    // db->modules.classes
+    // db->rooms
     class Rooms {
     	public $RoomID;
     	public $Name;
