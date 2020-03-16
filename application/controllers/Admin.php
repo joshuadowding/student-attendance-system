@@ -69,7 +69,7 @@ class Admin extends CI_Controller {
                                         $module->lessons = $this->fetch_lessons($module->moduleID);
 
                                         if (isset($module->lessons)) {
-                                            array_push($modules, $module);
+                                            array_push($modules, clone $module);
                                         } else {
                                             $_SESSION["sessionError"] = "Unable to fetch lessons: no lessons present.";
                                         }
@@ -93,8 +93,8 @@ class Admin extends CI_Controller {
                                 $group = array();
 
                                 foreach ($module->lessons as $lesson) {
-                                    $lesson->attendance = $this->fetch_attendance($lesson->classID, $x);
-                                    array_push($group, $lesson);
+                                    $lesson->attendance = $this->fetch_attendance($lesson->classID, ($x + 1));
+                                    array_push($group, clone $lesson);
                                 }
 
                                 array_push($lessons, $group);
