@@ -58,6 +58,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     echo "<p>" . $student->firstName . " " . $student->lastName . "</p>";
                     echo "<input type='submit' class='btn btn-primary' name='submit' id='save-submit' value='Save'></div>";
 
+                    echo "<div class='timetable-header' id='timetable-key'>";
+                    echo "<p><b>L</b> - Lecture, <b>P</b> - Practical, <b>S</b> - Seminar</p>";
+                    echo "</div>";
+
                     if (isset($student->timetable->schedule)) {
                         foreach ($student->timetable->schedule as $schedule) {
                             echo "<div class='timetable-module'>";
