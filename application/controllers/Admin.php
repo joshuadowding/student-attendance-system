@@ -128,6 +128,8 @@ class Admin extends CI_Controller {
     public function save() {
         include_once('application/models/Attendance.php');
 
+        $this->load->database();
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (!empty($_POST["attendance"])) {
                 $_records = $_POST["attendance"];
@@ -153,9 +155,8 @@ class Admin extends CI_Controller {
                     array_push($records, clone $_attendance);
                 }
 
-                // TODO: Commit attendance data to database.
-
-                exit;
+                // TODO: Support 'late' state.
+                $this->commit_attendance($records);
             }
 
             $this->load->helper('url');
@@ -164,6 +165,23 @@ class Admin extends CI_Controller {
             $this->load->helper('url');
             redirect(base_url() . 'index.php/admin', 'location'); // DEBUG: Redirect back to the 'admin' page.
         }
+    }
+
+    public function commit_attendance($records) {
+        $success = false;
+
+        try {
+            foreach($records as $record) {
+                $queryString = "UPDATE `attendance` SET `Attended` = ? WHERE `AttendanceID` = ? AND `StudentID` = ?;";
+                $queryResult = $this->db->query($queryString, array($record->attended, $record->attendanceID, $record->studentID));
+
+                $success = $queryResult;
+            }
+        } catch (PDOException $exception) {
+            return $success;
+        }
+
+        return $success;
     }
 
     public function fetch_students($inputSearch) {

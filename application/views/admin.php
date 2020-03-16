@@ -62,7 +62,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     echo "<p><b>L</b> - Lecture, <b>P</b> - Practical, <b>S</b> - Seminar</p>";
                     echo "</div>";
 
-                    echo "<input type='hidden' class='student' value='" . $student->studentID . "'></input>";
+                    echo "<input type='hidden' class='student' name='student' value='" . $student->studentID . "'></input>";
 
                     if (isset($student->timetable->schedule)) {
                         foreach ($student->timetable->schedule as $schedule) {
