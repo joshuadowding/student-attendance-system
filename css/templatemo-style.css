@@ -376,11 +376,43 @@ http://www.templatemo.com/tm-515-eatery
 
 
   /*---------------------------------------
-      LOGIN
+      ADMIN
   -----------------------------------------*/
 
+    .user-admin-search {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        padding: 8px;
+    }
+
+    .user-admin-search .form-control {
+        margin: 0 16px;
+    }
+
     .user-admin-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
         padding-top: 128px;
+    }
+
+    .user-admin-wrapper .timetable-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        padding: 8px;
+    }
+
+    .user-admin-wrapper .timetable-header p {
+        margin: 0;
+        margin-right: 16px;
     }
 
     .user-admin-wrapper .timetable-module {

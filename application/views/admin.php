@@ -41,11 +41,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
             }
         ?>
 
-        <form id="user-admin-search" method="POST" action="/student-attendance-system/index.php/admin">
+        <form class="user-admin-search" method="POST" action="/student-attendance-system/index.php/admin">
             <label for="input-search">Search:</label>
-            <input type="text" id="input-username" name="input-search" required="required" placeholder="Student's Name" value="">
+            <input type="text" class="form-control" id="input-username" name="input-search" required="required" placeholder="Student's Name" value="">
 
-            <input type="submit" name="submit" id="login-submit" value="Login">
+            <input type="submit" name="submit" class="btn btn-primary" id="login-submit" value="Search">
         </form>
 
         <?php
@@ -53,8 +53,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
             if (isset($students)) {
                 foreach ($students as $student) {
                     echo "<form class='timetable-wrapper' method='POST' action='/student-attendance-system/index.php/admin/save'>";
+
+                    echo "<div class='timetable-header'>";
                     echo "<p>" . $student->firstName . " " . $student->lastName . "</p>";
-                    echo "<input type='submit' name='submit' id='save-submit' value='Save'>";
+                    echo "<input type='submit' class='btn btn-primary' name='submit' id='save-submit' value='Save'></div>";
 
                     if (isset($student->timetable->schedule)) {
                         foreach ($student->timetable->schedule as $schedule) {
