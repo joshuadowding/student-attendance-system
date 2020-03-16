@@ -62,6 +62,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     echo "<p><b>L</b> - Lecture, <b>P</b> - Practical, <b>S</b> - Seminar</p>";
                     echo "</div>";
 
+                    echo "<input type='hidden' class='student' value='" . $student->studentID . "'></input>";
+
                     if (isset($student->timetable->schedule)) {
                         foreach ($student->timetable->schedule as $schedule) {
                             echo "<div class='timetable-module'>";
@@ -100,10 +102,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
                                     if (isset($attendance)) {
                                         if ($attendance->attended == "1" || $attendance->attended == 1) {
-                                            echo "<td><input type='hidden' class='schedule_input' name='attendance[]' value='[" . $attendance->attendanceID . ", 1]'></input>";
+                                            echo "<td><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " value='[" . $attendance->attendanceID . ", 1]'></input>";
                                             echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . " checked></input></td>";
                                         } else {
-                                            echo "<td><input type='hidden' class='schedule_input' name='attendance[]' value='[" . $attendance->attendanceID . ", 0]'></input>";
+                                            echo "<td><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " value='[" . $attendance->attendanceID . ", 0]'></input>";
                                             echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . "></input></td>";
                                         }
                                     } else {

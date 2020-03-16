@@ -126,27 +126,36 @@ class Admin extends CI_Controller {
     }
 
     public function save() {
+        include_once('application/models/Attendance.php');
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (!empty($_POST["attendance"])) {
                 $_records = $_POST["attendance"];
+                $_student = $_POST["student"];
+                $records = array();
 
                 foreach ($_records as $_record) {
                     $_record = str_replace('[', '', $_record);
                     $_record = str_replace(']', '', $_record);
 
                     $_split = explode(', ', $_record);
-                    
-                    foreach ($_split as $_string) {
-                        // TODO: Grab attendanceID and attendance value, and set them in the database.
-                        print_r($_string);
+                    $_attendance = new Attendance();
+
+                    for ($x = 0; $x < count($_split); $x++) {
+                        if ($x == 0) {
+                            $_attendance->attendanceID = $_split[$x];
+                        } else {
+                            $_attendance->attended = $_split[$x];
+                        }
                     }
+
+                    $_attendance->studentID = $_student;
+                    array_push($records, clone $_attendance);
                 }
 
-                //exit;
+                // TODO: Commit attendance data to database.
 
-                foreach ($_POST["attendance"] as $selected) {
-                    $_selected = $selected;
-                }
+                exit;
             }
 
             $this->load->helper('url');
