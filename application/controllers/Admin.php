@@ -128,7 +128,21 @@ class Admin extends CI_Controller {
     public function save() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (!empty($_POST["attendance"])) {
-                $checkList = $_POST["attendance"];
+                $_records = $_POST["attendance"];
+
+                foreach ($_records as $_record) {
+                    $_record = str_replace('[', '', $_record);
+                    $_record = str_replace(']', '', $_record);
+
+                    $_split = explode(', ', $_record);
+                    
+                    foreach ($_split as $_string) {
+                        // TODO: Grab attendanceID and attendance value, and set them in the database.
+                        print_r($_string);
+                    }
+                }
+
+                //exit;
 
                 foreach ($_POST["attendance"] as $selected) {
                     $_selected = $selected;

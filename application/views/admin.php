@@ -100,15 +100,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
                                     if (isset($attendance)) {
                                         if ($attendance->attended == "1" || $attendance->attended == 1) {
-                                            echo "<td><input type='hidden' class='schedule_input' data-id=" . $attendance->attendanceID . " name='attendance[]' value='1'></input>";
+                                            echo "<td><input type='hidden' class='schedule_input' name='attendance[]' value='[" . $attendance->attendanceID . ", 1]'></input>";
                                             echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . " checked></input></td>";
                                         } else {
-                                            echo "<td><input type='hidden' class='schedule_input' data-id=" . $attendance->attendanceID . " name='attendance[]' value='0'></input>";
+                                            echo "<td><input type='hidden' class='schedule_input' name='attendance[]' value='[" . $attendance->attendanceID . ", 0]'></input>";
                                             echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . "></input></td>";
                                         }
                                     } else {
-                                        echo "<td><input type='hidden' class='schedule_input' name='attendance[]' data-id='-1' value='-1'></input>";
-                                        echo "<input type='checkbox' class='schedule_checkbox' data-id='-1' disabled></input></td>";
+                                        echo "<td><input type='hidden' class='schedule_input' name='attendance[]' data-id='-1' value='[-1]'></input>";
+                                        echo "<input type='checkbox' class='schedule_checkbox' data-id='[-1]' disabled></input></td>";
                                     }
                                 }
                             }
@@ -139,11 +139,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
             $(".schedule_checkbox").click(function() {
                 if($(this).prop("checked") == true) {
                     var dataID = $(this).data("id");
-                    $(".schedule_input[data-id=" + dataID + "]").val("1");
+                    $(".schedule_input[data-id=" + dataID + "]").val("[" + dataID + ", 1]");
                 }
                 else if($(this).prop("checked") == false) {
                     var dataID = $(this).data("id");
-                    $(".schedule_input[data-id=" + dataID + "]").val("0");
+                    $(".schedule_input[data-id=" + dataID + "]").val("[" + dataID + ", 0]");
                 }
             });
         });
