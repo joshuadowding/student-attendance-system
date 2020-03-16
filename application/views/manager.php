@@ -31,15 +31,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <?php include("includes/body-preloader-contents.php"); ?>
     <?php include("includes/body-menu-contents.php"); ?>
 
+    
+
     <!-- MANAGER -->
     <div class="user-manager-wrapper">
         <?php
+
+              //Start the session
+              session_start();
+
            if (isset($_SESSION["sessionError"])) {
                 echo "<div class='alert alert-primary' role='alert'>";
                 echo $_SESSION["sessionError"];
                 echo "</div>";
             }
+
         ?>
+
+   
 
         <form id="user-manager-search" method="POST" action="/student-attendance-system/index.php/admin">
             <label for="input-roomid">RoomID:</label>
@@ -57,13 +66,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
      // 1st method of empty() and isset() function.       
 
-            //Evaluates to true because $var is empty. 
+            //Evaluates to true because $student is empty. 
             // TODO: notify me when students have less attendance in any module.
 
             if (empty($student)) {
             	foreach ($students as $student) {
-            		echo "<form class='timetable-wrapper' method='POST' action='/student-attendance-system/index.php/admin/save'>";
+            		echo "<form class='user-manager-wrapper' method='POST' action='/student-attendance-system/index.php/admin/save'>";
                     echo "<'$student is either 20, empty, or not set at all'>";
+                    echo"<$student alert alert when it has 20% attendance>";
                 }
 
             //Evaluates as true because $student is set.
