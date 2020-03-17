@@ -147,7 +147,12 @@ class Admin extends CI_Controller {
                         if ($x == 0) {
                             $_attendance->attendanceID = $_split[$x];
                         } else {
-                            $_attendance->attended = $_split[$x];
+                            if ($_split[$x] == "0.5") {
+                                $_attendance->attended = "1";
+                                $_attendance->late = "1";
+                            } else if ($_split[$x] == "1" || $_split[$x] == "0") {
+                                $_attendance->attended = $_split[$x];
+                            }
                         }
                     }
 
@@ -155,7 +160,6 @@ class Admin extends CI_Controller {
                     array_push($records, clone $_attendance);
                 }
 
-                // TODO: Support 'late' state.
                 $this->commit_attendance($records);
             }
 
@@ -172,8 +176,13 @@ class Admin extends CI_Controller {
 
         try {
             foreach($records as $record) {
-                $queryString = "UPDATE `attendance` SET `Attended` = ? WHERE `AttendanceID` = ? AND `StudentID` = ?;";
-                $queryResult = $this->db->query($queryString, array($record->attended, $record->attendanceID, $record->studentID));
+                if (isset($record->late)) {
+                    $queryString = "UPDATE `attendance` SET `Attended` = ?, `Late` = ? WHERE `AttendanceID` = ? AND `StudentID` = ?;";
+                    $queryResult = $this->db->query($queryString, array($record->attended, $record->late, $record->attendanceID, $record->studentID));
+                } else {
+                    $queryString = "UPDATE `attendance` SET `Attended` = ?, `Late` = ? WHERE `AttendanceID` = ? AND `StudentID` = ?;";
+                    $queryResult = $this->db->query($queryString, array($record->attended, 0, $record->attendanceID, $record->studentID));
+                }
 
                 $success = $queryResult;
             }

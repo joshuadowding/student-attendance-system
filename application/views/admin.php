@@ -102,10 +102,18 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
                                     if (isset($attendance)) {
                                         if ($attendance->attended == "1" || $attendance->attended == 1) {
-                                            echo "<td><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " value='[" . $attendance->attendanceID . ", 1]'></input>";
-                                            echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . " checked></input></td>";
+                                            if ($attendance->late == "1" || $attendance->late == 1) {
+                                                echo "<td><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " value='[" . $attendance->attendanceID . ", .5]'></input>";
+                                                echo "<input type='hidden' class='schedule_toggle' data-id=" . $attendance->attendanceID . " value='1'></input>";
+                                                echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . "></input></td>";
+                                            } else {
+                                                echo "<td><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " value='[" . $attendance->attendanceID . ", 1]'></input>";
+                                                echo "<input type='hidden' class='schedule_toggle' data-id=" . $attendance->attendanceID . " value='2'></input>";
+                                                echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . " checked></input></td>";
+                                            }
                                         } else {
                                             echo "<td><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " value='[" . $attendance->attendanceID . ", 0]'></input>";
+                                            echo "<input type='hidden' class='schedule_toggle' data-id=" . $attendance->attendanceID . " value='0'></input>";
                                             echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . "></input></td>";
                                         }
                                     } else {
@@ -138,14 +146,44 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <script type="text/javascript">
         $(document).ready(function() {
+            $(".schedule_input").each(function(index) {
+                var value = $(this).val().replace("[", "").replace("]", "").split(",");
+
+                for (i = 0; i < value.length; i++) {
+                    var _value = value[i].trim();
+                    if (_value == ".5") {
+                        var dataID = $(this).data("id");
+                        $(".schedule_checkbox[data-id=" + dataID + "]").prop("indeterminate", true);
+                    }
+                }
+            });
+
             $(".schedule_checkbox").click(function() {
-                if($(this).prop("checked") == true) {
+                var dataID = $(this).data("id");
+                var toggleVal = $(".schedule_toggle[data-id=" + dataID + "]").val();
+
+                if (toggleVal == 1) {
+                    $(this).prop("indeterminate", false);
+                    $(this).prop("checked", false);
+                    $(".schedule_toggle[data-id=" + dataID + "]").val(0);
+                    $(".schedule_input[data-id=" + dataID + "]").val("[" + dataID + ", 0]");
+                }
+                else if ($(this).prop("checked") == false) {
+                    if (toggleVal == 2) {
+                        $(this).prop("indeterminate", true);
+                        $(".schedule_toggle[data-id=" + dataID + "]").val(1);
+                        $(".schedule_input[data-id=" + dataID + "]").val("[" + dataID + ", .5]");
+                    }
+                    else if (toggleVal == 1) {
+                        $(this).prop("indeterminate", false);
+                        $(".schedule_toggle[data-id=" + dataID + "]").val(0);
+                        $(".schedule_input[data-id=" + dataID + "]").val("[" + dataID + ", 0]");
+                    }
+                }
+                else if ($(this).prop("checked") == true) {
                     var dataID = $(this).data("id");
                     $(".schedule_input[data-id=" + dataID + "]").val("[" + dataID + ", 1]");
-                }
-                else if($(this).prop("checked") == false) {
-                    var dataID = $(this).data("id");
-                    $(".schedule_input[data-id=" + dataID + "]").val("[" + dataID + ", 0]");
+                    $(".schedule_toggle[data-id=" + dataID + "]").val(2);
                 }
             });
         });
