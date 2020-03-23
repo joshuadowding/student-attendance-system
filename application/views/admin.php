@@ -67,7 +67,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     if (isset($student->timetable->schedule)) {
                         foreach ($student->timetable->schedule as $schedule) {
                             echo "<div class='timetable-module'>";
-                            echo "<table><caption>";
+                            echo "<table class='table'><caption>";
 
                             foreach ($modules as $module) { // TODO: I hate this solution.
                                 for ($x = 0; $x < count($schedule); $x++) {
@@ -83,14 +83,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             echo "</caption><thead><tr>";
 
                             for ($x = 0; $x < count($schedule); $x++) {
-                                echo "<th colspan='2'>Week" . ($x + 1) . "</th>";
+                                echo "<th scope='col' colspan='2'>Week" . ($x + 1) . "</th>";
                             }
 
                             echo "</tr><tr>";
 
                             for ($x = 0; $x < count($schedule); $x++) {
                                 for ($y = 0; $y < count($schedule[$x]); $y++) {
-                                    echo "<th colspan='1'>" . $schedule[$x][$y]->classType[0] . "</th>";
+                                    echo "<th scope='col' colspan='1'>" . $schedule[$x][$y]->classType[0] . "</th>";
                                 }
                             }
 
