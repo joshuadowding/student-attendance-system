@@ -83,14 +83,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             echo "</caption><thead><tr>";
 
                             for ($x = 0; $x < count($schedule); $x++) {
-                                echo "<th scope='col' colspan='2'>Week" . ($x + 1) . "</th>";
+                                echo "<th scope='col' colspan='2'>Week " . ($x + 1) . "</th>";
                             }
 
                             echo "</tr><tr>";
 
                             for ($x = 0; $x < count($schedule); $x++) {
                                 for ($y = 0; $y < count($schedule[$x]); $y++) {
-                                    echo "<th scope='col' colspan='1'>" . $schedule[$x][$y]->classType[0] . "</th>";
+                                    $colspan = null; // NOTE: Assumes that there'll only ever be a maximum of two lessons per week.
+                                    if (count($schedule[$x]) > 1) {
+                                        $colspan = 1;
+                                    } else if (count($schedule[$x]) <= 1) {
+                                        $colspan = 2;
+                                    }
+
+                                    echo "<th scope='col' colspan='" . $colspan . "'>" . $schedule[$x][$y]->classType[0] . "</th>";
                                 }
                             }
 
@@ -99,25 +106,32 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             for ($x = 0; $x < count($schedule); $x++) {
                                 for ($y = 0; $y < count($schedule[$x]); $y++) {
                                     $attendance = $schedule[$x][$y]->attendance;
+                                    $colspan = null; // NOTE: Assumes that there'll only ever be a maximum of two lessons per week.
+
+                                    if (count($schedule[$x]) > 1) {
+                                        $colspan = 1;
+                                    } else if (count($schedule[$x]) <= 1) {
+                                        $colspan = 2;
+                                    }
 
                                     if (isset($attendance)) {
                                         if ($attendance->attended == "1" || $attendance->attended == 1) {
                                             if ($attendance->late == "1" || $attendance->late == 1) {
-                                                echo "<td><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " value='[" . $attendance->attendanceID . ", .5]'></input>";
+                                                echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " value='[" . $attendance->attendanceID . ", .5]'></input>";
                                                 echo "<input type='hidden' class='schedule_toggle' data-id=" . $attendance->attendanceID . " value='1'></input>";
                                                 echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . "></input></td>";
                                             } else {
-                                                echo "<td><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " value='[" . $attendance->attendanceID . ", 1]'></input>";
+                                                echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " value='[" . $attendance->attendanceID . ", 1]'></input>";
                                                 echo "<input type='hidden' class='schedule_toggle' data-id=" . $attendance->attendanceID . " value='2'></input>";
                                                 echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . " checked></input></td>";
                                             }
                                         } else {
-                                            echo "<td><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " value='[" . $attendance->attendanceID . ", 0]'></input>";
+                                            echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " value='[" . $attendance->attendanceID . ", 0]'></input>";
                                             echo "<input type='hidden' class='schedule_toggle' data-id=" . $attendance->attendanceID . " value='0'></input>";
                                             echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . "></input></td>";
                                         }
                                     } else {
-                                        echo "<td><input type='hidden' class='schedule_input' name='attendance[]' data-id='-1' value='[-1]'></input>";
+                                        echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id='-1' value='[-1]'></input>";
                                         echo "<input type='checkbox' class='schedule_checkbox' data-id='[-1]' disabled></input></td>";
                                     }
                                 }
