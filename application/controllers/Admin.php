@@ -92,7 +92,7 @@ class Admin extends CI_Controller {
                                 $group = array();
 
                                 foreach ($module->lessons as $lesson) {
-                                    $lesson->attendance = $this->fetch_attendance($lesson->classID, ($x + 1));
+                                    $lesson->attendance = $this->fetch_attendance($lesson->classID, $student->studentID, ($x + 1));
 
                                     if (isset($lesson->attendance)) {
                                         array_push($group, clone $lesson);
@@ -108,7 +108,7 @@ class Admin extends CI_Controller {
                                         $this->commit_attendance($attendance);
 
                                         // NOTE: Try again:
-                                        $lesson->attendance = $this->fetch_attendance($lesson->classID, ($x + 1));
+                                        $lesson->attendance = $this->fetch_attendance($lesson->classID, $student->studentID, ($x + 1));
                                         array_push($group, clone $lesson);
                                     }
                                 }
@@ -272,6 +272,7 @@ class Admin extends CI_Controller {
                 foreach ($queryResult->result() as $row) {
                     $enrolment = new Enrolment();
 
+                    $enrolment->enrolmentID = $row->EnrolmentID;
                     $enrolment->moduleID = $row->ModuleID;
                     //$enrolment->studentID = $row->StudentID; // NOTE: Not needed in this context.
                     $enrolment->startDate = $row->StartDate;
@@ -351,12 +352,12 @@ class Admin extends CI_Controller {
         return $lessons;
     }
 
-    public function fetch_attendance($classID, $week) {
+    public function fetch_attendance($classID, $studentID, $week) {
         $attendanceModel = new Attendance();
 
         try {
-            $queryString = "SELECT * FROM `attendance` WHERE `ClassID` = ? AND `Week` = ?;";
-            $queryResult = $this->db->query($queryString, array($classID, $week));
+            $queryString = "SELECT * FROM `attendance` WHERE `ClassID` = ? AND `StudentID` = ? AND `Week` = ?;";
+            $queryResult = $this->db->query($queryString, array($classID, $studentID, $week));
 
             if ($queryResult->num_rows() != 0) {
                 $row = $queryResult->row();
