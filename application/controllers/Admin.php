@@ -85,7 +85,6 @@ class Admin extends CI_Controller {
                         $timetable = new Timetable();
                         $timetable->schedule = array();
 
-                        // TODO: Organize timetable.
                         foreach ($modules as $module) {
                             $lessons = array();
 
@@ -94,7 +93,24 @@ class Admin extends CI_Controller {
 
                                 foreach ($module->lessons as $lesson) {
                                     $lesson->attendance = $this->fetch_attendance($lesson->classID, ($x + 1));
-                                    array_push($group, clone $lesson);
+
+                                    if (isset($lesson->attendance)) {
+                                        array_push($group, clone $lesson);
+                                    } else {
+                                        // NOTE: Create a record entry:
+                                        $attendance = new Attendance();
+                                        $attendance->classID = $lesson->classID;
+                                        $attendance->studentID = $student->studentID;
+                                        $attendance->attended = 0;
+                                        $attendance->late = 0;
+                                        $attendance->week = ($x + 1);
+
+                                        $this->commit_attendance($attendance);
+
+                                        // NOTE: Try again:
+                                        $lesson->attendance = $this->fetch_attendance($lesson->classID, ($x + 1));
+                                        array_push($group, clone $lesson);
+                                    }
                                 }
 
                                 array_push($lessons, $group);
@@ -146,6 +162,8 @@ class Admin extends CI_Controller {
                     for ($x = 0; $x < count($_split); $x++) {
                         if ($x == 0) {
                             $_attendance->attendanceID = $_split[$x];
+                        } else if ($x == 1) {
+                            $_attendance->classID = $_split[$x];
                         } else {
                             if ($_split[$x] == "0.5") {
                                 $_attendance->attended = "1";
@@ -160,7 +178,7 @@ class Admin extends CI_Controller {
                     array_push($records, clone $_attendance);
                 }
 
-                $this->commit_attendance($records);
+                $this->update_attendance($records);
             }
 
             $this->load->helper('url');
@@ -171,20 +189,36 @@ class Admin extends CI_Controller {
         }
     }
 
-    public function commit_attendance($records) {
+    public function commit_attendance($record) {
+      $success = false;
+
+      try {
+        $queryString = "INSERT INTO `attendance` (`ClassID`, `StudentID`, `Attended`, `Late`, `Week`) VALUES ";
+        $queryString = $queryString . "(?, ?, ?, ?, ?);";
+
+        $queryResult = $this->db->query($queryString, array($record->classID, $record->studentID, $record->attended, $record->late, $record->week));
+        $success = $queryResult;
+      } catch (PDOException $exception) {
+        return $success;
+      }
+
+      return $success;
+    }
+
+    public function update_attendance($records) {
         $success = false;
 
         try {
             foreach($records as $record) {
-                if (isset($record->late)) {
-                    $queryString = "UPDATE `attendance` SET `Attended` = ?, `Late` = ? WHERE `AttendanceID` = ? AND `StudentID` = ?;";
-                    $queryResult = $this->db->query($queryString, array($record->attended, $record->late, $record->attendanceID, $record->studentID));
-                } else {
-                    $queryString = "UPDATE `attendance` SET `Attended` = ?, `Late` = ? WHERE `AttendanceID` = ? AND `StudentID` = ?;";
-                    $queryResult = $this->db->query($queryString, array($record->attended, 0, $record->attendanceID, $record->studentID));
-                }
+              if (isset($record->late)) {
+                $queryString = "UPDATE `attendance` SET `Attended` = ?, `Late` = ? WHERE `AttendanceID` = ? AND `StudentID` = ?;";
+                $queryResult = $this->db->query($queryString, array($record->attended, $record->late, $record->attendanceID, $record->studentID));
+              } else {
+                  $queryString = "UPDATE `attendance` SET `Attended` = ?, `Late` = ? WHERE `AttendanceID` = ? AND `StudentID` = ?;";
+                  $queryResult = $this->db->query($queryString, array($record->attended, 0, $record->attendanceID, $record->studentID));
+              }
 
-                $success = $queryResult;
+              $success = $queryResult;
             }
         } catch (PDOException $exception) {
             return $success;

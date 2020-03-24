@@ -49,7 +49,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
         </form>
 
         <?php
-            // TODO: Build a table of students, modules and classes. Fill table with attendance marks.
             if (isset($students)) {
                 foreach ($students as $student) {
                     echo "<form class='timetable-wrapper' method='POST' action='/student-attendance-system/index.php/admin/save'>";
@@ -65,6 +64,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     echo "<input type='hidden' class='student' name='student' value='" . $student->studentID . "'></input>";
 
                     if (isset($student->timetable->schedule)) {
+                        $nullID = 1; // NOTE: If an attendance record doesn't exist for a given class, assign a "dummy" ID.
+
                         foreach ($student->timetable->schedule as $schedule) {
                             echo "<div class='timetable-module'>";
                             echo "<table class='table'><caption>";
@@ -114,25 +115,28 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                         $colspan = 2;
                                     }
 
-                                    if (isset($attendance)) {
+                                    if (isset($attendance->attendanceID)) {
                                         if ($attendance->attended == "1" || $attendance->attended == 1) {
                                             if ($attendance->late == "1" || $attendance->late == 1) {
-                                                echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " value='[" . $attendance->attendanceID . ", .5]'></input>";
+                                                echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " data-class=" . $attendance->classID . " value='[" . $attendance->attendanceID . ", " . $attendance->classID . ", .5]'></input>";
                                                 echo "<input type='hidden' class='schedule_toggle' data-id=" . $attendance->attendanceID . " value='1'></input>";
                                                 echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . "></input></td>";
                                             } else {
-                                                echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " value='[" . $attendance->attendanceID . ", 1]'></input>";
+                                                echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " data-class=" . $attendance->classID . " value='[" . $attendance->attendanceID . ", " . $attendance->classID . ", 1]'></input>";
                                                 echo "<input type='hidden' class='schedule_toggle' data-id=" . $attendance->attendanceID . " value='2'></input>";
                                                 echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . " checked></input></td>";
                                             }
                                         } else {
-                                            echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " value='[" . $attendance->attendanceID . ", 0]'></input>";
+                                            echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " data-class=" . $attendance->classID . " value='[" . $attendance->attendanceID . ", " . $attendance->classID . ", 0]'></input>";
                                             echo "<input type='hidden' class='schedule_toggle' data-id=" . $attendance->attendanceID . " value='0'></input>";
                                             echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . "></input></td>";
                                         }
                                     } else {
-                                        echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id='-1' value='[-1]'></input>";
-                                        echo "<input type='checkbox' class='schedule_checkbox' data-id='[-1]' disabled></input></td>";
+                                        echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id='-" . $nullID . "' value='[-" . $nullID . ", -" . $nullID . ", 0]'></input>";
+                                        echo "<input type='hidden' class='schedule_toggle' data-id='-" . $nullID . "' value='0'></input>";
+                                        echo "<input type='checkbox' class='schedule_checkbox' data-id='-" . $nullID . "' disabled></input></td>";
+
+                                        $nullID = $nullID + 1;
                                     }
                                 }
                             }
@@ -174,29 +178,30 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
             $(".schedule_checkbox").click(function() {
                 var dataID = $(this).data("id");
+                var classID = $(this).data("class");
                 var toggleVal = $(".schedule_toggle[data-id=" + dataID + "]").val();
 
                 if (toggleVal == 1) {
                     $(this).prop("indeterminate", false);
                     $(this).prop("checked", false);
                     $(".schedule_toggle[data-id=" + dataID + "]").val(0);
-                    $(".schedule_input[data-id=" + dataID + "]").val("[" + dataID + ", 0]");
+                    $(".schedule_input[data-id=" + dataID + "]").val("[" + dataID + ", " + classID + ", 0]");
                 }
                 else if ($(this).prop("checked") == false) {
                     if (toggleVal == 2) {
                         $(this).prop("indeterminate", true);
                         $(".schedule_toggle[data-id=" + dataID + "]").val(1);
-                        $(".schedule_input[data-id=" + dataID + "]").val("[" + dataID + ", .5]");
+                        $(".schedule_input[data-id=" + dataID + "]").val("[" + dataID + ", " + classID + ", .5]");
                     }
                     else if (toggleVal == 1) {
                         $(this).prop("indeterminate", false);
                         $(".schedule_toggle[data-id=" + dataID + "]").val(0);
-                        $(".schedule_input[data-id=" + dataID + "]").val("[" + dataID + ", 0]");
+                        $(".schedule_input[data-id=" + dataID + "]").val("[" + dataID + ", " + classID + ", 0]");
                     }
                 }
                 else if ($(this).prop("checked") == true) {
                     var dataID = $(this).data("id");
-                    $(".schedule_input[data-id=" + dataID + "]").val("[" + dataID + ", 1]");
+                    $(".schedule_input[data-id=" + dataID + "]").val("[" + dataID + ", " + classID + ", 1]");
                     $(".schedule_toggle[data-id=" + dataID + "]").val(2);
                 }
             });
