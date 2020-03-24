@@ -190,35 +190,35 @@ class Admin extends CI_Controller {
     }
 
     public function commit_attendance($record) {
-      $success = false;
+        $success = false;
 
-      try {
-        $queryString = "INSERT INTO `attendance` (`ClassID`, `StudentID`, `Attended`, `Late`, `Week`) VALUES ";
-        $queryString = $queryString . "(?, ?, ?, ?, ?);";
+        try {
+            $queryString = "INSERT INTO `attendance` (`ClassID`, `StudentID`, `Attended`, `Late`, `Week`) VALUES ";
+            $queryString = $queryString . "(?, ?, ?, ?, ?);";
 
-        $queryResult = $this->db->query($queryString, array($record->classID, $record->studentID, $record->attended, $record->late, $record->week));
-        $success = $queryResult;
-      } catch (PDOException $exception) {
+            $queryResult = $this->db->query($queryString, array($record->classID, $record->studentID, $record->attended, $record->late, $record->week));
+            $success = $queryResult;
+        } catch (PDOException $exception) {
+            return $success;
+        }
+
         return $success;
-      }
-
-      return $success;
     }
 
     public function update_attendance($records) {
         $success = false;
 
         try {
-            foreach($records as $record) {
-              if (isset($record->late)) {
-                $queryString = "UPDATE `attendance` SET `Attended` = ?, `Late` = ? WHERE `AttendanceID` = ? AND `StudentID` = ?;";
-                $queryResult = $this->db->query($queryString, array($record->attended, $record->late, $record->attendanceID, $record->studentID));
-              } else {
-                  $queryString = "UPDATE `attendance` SET `Attended` = ?, `Late` = ? WHERE `AttendanceID` = ? AND `StudentID` = ?;";
-                  $queryResult = $this->db->query($queryString, array($record->attended, 0, $record->attendanceID, $record->studentID));
-              }
+            foreach ($records as $record) {
+                if (isset($record->late)) {
+                    $queryString = "UPDATE `attendance` SET `Attended` = ?, `Late` = ? WHERE `AttendanceID` = ? AND `StudentID` = ?;";
+                    $queryResult = $this->db->query($queryString, array($record->attended, $record->late, $record->attendanceID, $record->studentID));
+                } else {
+                    $queryString = "UPDATE `attendance` SET `Attended` = ?, `Late` = ? WHERE `AttendanceID` = ? AND `StudentID` = ?;";
+                    $queryResult = $this->db->query($queryString, array($record->attended, 0, $record->attendanceID, $record->studentID));
+                }
 
-              $success = $queryResult;
+                $success = $queryResult;
             }
         } catch (PDOException $exception) {
             return $success;
