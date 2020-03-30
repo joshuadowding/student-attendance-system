@@ -203,7 +203,7 @@ class Manage extends CI_Controller {
                     $enrolment = new Enrolment();
 
                     $enrolment->enrolmentID = $row->EnrolmentID;
-                    $enrolment->moduelID = $row->ModuleID;
+                    $enrolment->moduleID = $row->ModuleID;
                     $enrolment->studentID = $row->StudentID;
                     $enrolment->startDate = $row->StartDate;
                     $enrolment->endDate = $row->EndDate;
