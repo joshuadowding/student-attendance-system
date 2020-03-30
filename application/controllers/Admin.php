@@ -53,7 +53,6 @@ class Admin extends CI_Controller {
             if (!empty($inputSearch)) {
                 $_inputSearch = $this->validate($inputSearch);
 
-                // TODO: Process input and display relevant output.
                 $viewModel->students = $this->fetch_students($_inputSearch);
 
                 if (isset($viewModel->students)) {
