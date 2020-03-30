@@ -31,7 +31,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <?php include("includes/body-menu-contents.php"); ?>
 
     <!-- ADMIN -->
-    <div class="user-admin-wrapper">
+    <div class="user-manager-wrapper">
         <?php
         if (isset($_SESSION["sessionError"])) {
             echo "<div class='alert alert-primary' role='alert'>";
@@ -84,6 +84,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 for ($x = 0; $x < count($schedule); $x++) {
                     for ($y = 0; $y < count($schedule[$x]); $y++) {
                         $attendance = $schedule[$x][$y]->attendance;
+                        $enrolments = $schedule[$x][$y]->enrolments;
+
                         $colspan = null; // NOTE: Assumes that there'll only ever be a maximum of two lessons per week.
 
                         if (count($schedule[$x]) > 1) {
@@ -92,7 +94,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             $colspan = 2;
                         }
 
-                        if (isset($attendance->attendanceID)) {
+                        if (isset($attendance)) {
+                            // TODO: Iterate through attendance array, check attendance and late flags...
+                            echo "<td colspan='" . $colspan . "'>" . count($attendance) . "";
+
+                            /*
                             if ($attendance->attended == "1" || $attendance->attended == 1) {
                                 if ($attendance->late == "1" || $attendance->late == 1) {
                                     //echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " data-class=" . $attendance->classID . " value='[" . $attendance->attendanceID . ", " . $attendance->classID . ", .5]'></input>";
@@ -104,16 +110,23 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     //echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . " checked></input></td>";
                                 }
                             } else {
+                                
+
                                 //echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " data-class=" . $attendance->classID . " value='[" . $attendance->attendanceID . ", " . $attendance->classID . ", 0]'></input>";
                                 //echo "<input type='hidden' class='schedule_toggle' data-id=" . $attendance->attendanceID . " value='0'></input>";
                                 //echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . "></input></td>";
                             }
+                            */
                         } else {
                             //echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id='-" . $nullID . "' value='[-" . $nullID . ", -" . $nullID . ", 0]'></input>";
                             //echo "<input type='hidden' class='schedule_toggle' data-id='-" . $nullID . "' value='0'></input>";
                             //echo "<input type='checkbox' class='schedule_checkbox' data-id='-" . $nullID . "' disabled></input></td>";
 
                             //$nullID = $nullID + 1;
+                        }
+
+                        if (isset($enrolments)) {
+                            echo " / " . count($enrolments) . "</td>";
                         }
                     }
                 }

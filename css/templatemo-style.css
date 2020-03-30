@@ -425,7 +425,32 @@ http://www.templatemo.com/tm-515-eatery
       MANAGE
   -----------------------------------------*/
 
+    .user-manager-wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        padding-top: 128px;
+    }
 
+    .user-manager-wrapper .timetable-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        padding: 8px;
+    }
+
+    .user-manager-wrapper .timetable-header p {
+        margin: 0;
+        margin-right: 16px;
+    }
+
+    .user-manager-wrapper .timetable-module {
+        margin-bottom: 32px;
+    }
 
 
 
