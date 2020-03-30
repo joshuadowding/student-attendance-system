@@ -67,7 +67,6 @@ class Manage extends CI_Controller {
 
                     foreach ($module->lessons as $lesson) {
                         $lesson->attendance = $this->fetch_attendance($lesson->classID, ($x + 1));
-                        //$lesson->enrolments = $this->fetch_enrolments($module->moduleID);
 
                         if (isset($lesson->attendance)) {
                             array_push($lessons, clone $lesson);
@@ -76,7 +75,7 @@ class Manage extends CI_Controller {
 
                             $attendance = new Attendance();
                             $attendance->classID = $lesson->classID;
-                            //$attendance->studentID =
+                            //$attendance->studentID = ;
                             $attendance->attended = 0;
                             $attendance->late = 0;
                             $attendance->week = ($x + 1);
@@ -91,6 +90,9 @@ class Manage extends CI_Controller {
 
                 array_push($timetable->schedule, $schedule);
             }
+
+            $viewModel->timetable = $timetable;
+            $viewModel->modules = $modules;
 
             $this->load->view('manage', $viewModel);
         }
