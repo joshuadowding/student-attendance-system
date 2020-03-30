@@ -66,7 +66,8 @@ class Manage extends CI_Controller {
                     $lessons = array();
 
                     foreach ($module->lessons as $lesson) {
-                        $lesson->attendance = $this->fetch_attendance($lesson->classID, ($x + 1));
+                        $lesson->attendance = $this->fetch_attendance($lesson->classID, ($x + 1)); // Students who DID/DID NOT attend.
+                        $lesson->enrolments = $this->fetch_enrolments($module->moduleID); // Students who SHOULD attend.
 
                         if (isset($lesson->attendance)) {
                             array_push($lessons, clone $lesson);

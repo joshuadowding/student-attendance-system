@@ -14,5 +14,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         public $classType;
 
         public $attendance;
+        public $enrolments;
     }
 ?>
