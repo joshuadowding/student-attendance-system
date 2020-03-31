@@ -94,39 +94,29 @@ defined('BASEPATH') or exit('No direct script access allowed');
                             $colspan = 2;
                         }
 
+
                         if (isset($attendance)) {
+                            $attended = 0;
+                            $late = 0;
+
                             // TODO: Iterate through attendance array, check attendance and late flags...
-                            echo "<td colspan='" . $colspan . "'>" . count($attendance) . "";
+                            foreach ($attendance as $record) {
+                                if ($record->attended == "1" || $record->attended == 1) {
+                                    if ($record->late == "1" || $record->late == 1) {
+                                        $late = $late + 1;
+                                    }
 
-                            /*
-                            if ($attendance->attended == "1" || $attendance->attended == 1) {
-                                if ($attendance->late == "1" || $attendance->late == 1) {
-                                    //echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " data-class=" . $attendance->classID . " value='[" . $attendance->attendanceID . ", " . $attendance->classID . ", .5]'></input>";
-                                    //echo "<input type='hidden' class='schedule_toggle' data-id=" . $attendance->attendanceID . " value='1'></input>";
-                                    //echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . "></input></td>";
-                                } else {
-                                    //echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " data-class=" . $attendance->classID . " value='[" . $attendance->attendanceID . ", " . $attendance->classID . ", 1]'></input>";
-                                    //echo "<input type='hidden' class='schedule_toggle' data-id=" . $attendance->attendanceID . " value='2'></input>";
-                                    //echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . " checked></input></td>";
+                                    $attended = $attended + 1;
                                 }
-                            } else {
-                                
-
-                                //echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " data-class=" . $attendance->classID . " value='[" . $attendance->attendanceID . ", " . $attendance->classID . ", 0]'></input>";
-                                //echo "<input type='hidden' class='schedule_toggle' data-id=" . $attendance->attendanceID . " value='0'></input>";
-                                //echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . "></input></td>";
                             }
-                            */
-                        } else {
-                            //echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id='-" . $nullID . "' value='[-" . $nullID . ", -" . $nullID . ", 0]'></input>";
-                            //echo "<input type='hidden' class='schedule_toggle' data-id='-" . $nullID . "' value='0'></input>";
-                            //echo "<input type='checkbox' class='schedule_checkbox' data-id='-" . $nullID . "' disabled></input></td>";
 
-                            //$nullID = $nullID + 1;
+                            echo "<td colspan='" . $colspan . "'>" . $attended . " (" . $late . ")";
+                        } else {
+                            echo "<td colspan='" . $colspan . "'> No Data";
                         }
 
                         if (isset($enrolments)) {
-                            echo " / " . count($enrolments) . "</td>";
+                            echo "/" . count($enrolments) . "</td>";
                         }
                     }
                 }
