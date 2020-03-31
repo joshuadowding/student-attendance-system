@@ -30,7 +30,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <?php include("includes/body-preloader-contents.php"); ?>
     <?php include("includes/body-menu-contents.php"); ?>
 
-    <!-- ADMIN -->
+    <!-- MANAGER -->
     <div class="container user-manager-wrapper">
         <?php
         if (isset($_SESSION["sessionError"])) {
@@ -68,57 +68,39 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
             echo "</div><div class='tab-content' id='nav-tab-content'>";
 
-            $iterate = 0;
-            foreach ($timetable->schedule as $schedule) {
-                if ($iterate == 0) {
-                    echo "<div class='tab-pane active' id='list-" . $iterate . "' role='tabpanel'>";
+            for ($z = 0; $z < count($timetable->schedule); $z++) {
+                $schedule = $timetable->schedule[$z];
+
+                if ($z == 0) {
+                    echo "<div class='tab-pane active' id='list-" . $z . "' role='tabpanel'>";
                 } else {
-                    echo "<div class='tab-pane' id='list-" . $iterate . "' role='tabpanel'>";
+                    echo "<div class='tab-pane' id='list-" . $z . "' role='tabpanel'>";
                 }
 
-                echo "<div class='timetable-module'>";
-                echo "<table class='table'><thead><tr>";
-
+                echo "<div class='tab-list'>";
                 for ($x = 0; $x < count($schedule); $x++) {
-                    echo "<th scope='col' colspan='2'>Week " . ($x + 1) . "</th>";
-                }
+                    echo "<div class='timetable-item'>";
+                    echo "<div class='item-header'><span class='header'>Week " . ($x + 1) . "</span></div>";
 
-                echo "</tr><tr>";
+                    echo "<div class='item-content'>";
 
-                for ($x = 0; $x < count($schedule); $x++) {
                     for ($y = 0; $y < count($schedule[$x]); $y++) {
-                        $colspan = null; // NOTE: Assumes that there'll only ever be a maximum of two lessons per week.
-                        if (count($schedule[$x]) > 1) {
-                            $colspan = 1;
-                        } else if (count($schedule[$x]) <= 1) {
-                            $colspan = 2;
+                        echo "<div class='content'>";
+                        echo "<table class='lesson'>";
+
+                        if ($y == 0) {
+                            echo "<tr><th></th><th>P</th><th>L</th><th>T</th></tr>";
                         }
 
-                        echo "<th scope='col' colspan='" . $colspan . "'>" . $schedule[$x][$y]->classType[0] . "</th>";
-                    }
-                }
+                        echo "<tr><td class='type'>" . $schedule[$x][$y]->classType . "</td>";
 
-                echo "</tr></thead><tbody><tr>";
-
-                for ($x = 0; $x < count($schedule); $x++) {
-                    for ($y = 0; $y < count($schedule[$x]); $y++) {
                         $attendance = $schedule[$x][$y]->attendance;
                         $enrolments = $schedule[$x][$y]->enrolments;
-
-                        $colspan = null; // NOTE: Assumes that there'll only ever be a maximum of two lessons per week.
-
-                        if (count($schedule[$x]) > 1) {
-                            $colspan = 1;
-                        } else if (count($schedule[$x]) <= 1) {
-                            $colspan = 2;
-                        }
-
 
                         if (isset($attendance)) {
                             $attended = 0;
                             $late = 0;
 
-                            // TODO: Iterate through attendance array, check attendance and late flags...
                             foreach ($attendance as $record) {
                                 if ($record->attended == "1" || $record->attended == 1) {
                                     if ($record->late == "1" || $record->late == 1) {
@@ -129,19 +111,26 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 }
                             }
 
-                            echo "<td colspan='" . $colspan . "'>" . $attended . " (" . $late . ")";
+                            echo "<td>" . $attended . "</td>";
+                            echo "<td>" . $late . "</td>";
                         } else {
-                            echo "<td colspan='" . $colspan . "'> No Data";
+                            echo "<td>X</td>";
+                            echo "<td>X</td>";
                         }
 
                         if (isset($enrolments)) {
-                            echo "/" . count($enrolments) . "</td>";
+                            echo "<td>" . count($enrolments) . "</td>";
+                        } else {
+                            echo "<td>X</td>";
                         }
+
+                        echo "</table></div>";
                     }
+
+                    echo "</div></div>";
                 }
 
-                $iterate = $iterate + 1;
-                echo "</tr></tbody></table></div></div>";
+                echo "</div></div>";
             }
 
             echo "</div></div>";
@@ -160,7 +149,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <script src="../js/smoothscroll.js"></script>
     <script src="../js/custom.js"></script>
 
-    <script>
+    <script type="text/javascript">
         $(document).ready(function() {
             $(".list-group .list-group-item").click(function() {
                 var target = $(this).data("target");
