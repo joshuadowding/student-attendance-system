@@ -31,7 +31,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <?php include("includes/body-menu-contents.php"); ?>
 
     <!-- ADMIN -->
-    <div class="user-manager-wrapper">
+    <div class="container user-manager-wrapper">
         <?php
         if (isset($_SESSION["sessionError"])) {
             echo "<div class='alert alert-primary' role='alert'>";
@@ -43,22 +43,41 @@ defined('BASEPATH') or exit('No direct script access allowed');
             echo "<div class='timetable-wrapper'>";
             echo "<div class='timetable-header'></div>";
 
+            echo "<div class='list-group' id='list-tab' role='tablist'>";
+
             foreach ($timetable->schedule as $schedule) {
-                echo "<div class='timetable-module'>";
-                echo "<table class='table'><caption>";
+                $iterate = 0;
 
                 foreach ($modules as $module) { // TODO: I hate this solution.
                     for ($x = 0; $x < count($schedule); $x++) {
                         for ($y = 0; $y < count($schedule[$x]); $y++) {
                             if ($module->moduleID == $schedule[$x][$y]->moduleID) {
-                                echo $module->title;
+                                if ($iterate == 0) {
+                                    echo "<a class='list-group-item active' id='list-" . $iterate . "-list' data-target='#list-" . $iterate ."' role='tab'>" . $module->title ."</a>";
+                                } else {
+                                    echo "<a class='list-group-item' id='list-" . $iterate . "-list' data-target='#list-" . $iterate . "' role='tab'>" . $module->title ."</a>";
+                                }
                                 break 2;
                             }
                         }
                     }
+
+                    $iterate = $iterate + 1;
+                }
+            }
+
+            echo "</div><div class='tab-content' id='nav-tab-content'>";
+
+            $iterate = 0;
+            foreach ($timetable->schedule as $schedule) {
+                if ($iterate == 0) {
+                    echo "<div class='tab-pane active' id='list-" . $iterate . "' role='tabpanel'>";
+                } else {
+                    echo "<div class='tab-pane' id='list-" . $iterate . "' role='tabpanel'>";
                 }
 
-                echo "</caption><thead><tr>";
+                echo "<div class='timetable-module'>";
+                echo "<table class='table'><thead><tr>";
 
                 for ($x = 0; $x < count($schedule); $x++) {
                     echo "<th scope='col' colspan='2'>Week " . ($x + 1) . "</th>";
@@ -79,7 +98,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     }
                 }
 
-                echo "</tr></tr></thead><tbody><tr>";
+                echo "</tr></thead><tbody><tr>";
 
                 for ($x = 0; $x < count($schedule); $x++) {
                     for ($y = 0; $y < count($schedule[$x]); $y++) {
@@ -121,10 +140,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     }
                 }
 
-                echo "</tr></tr></tbody></table></div>";
+                $iterate = $iterate + 1;
+                echo "</tr></tbody></table></div></div>";
             }
 
-            echo "</div>";
+            echo "</div></div>";
         }
         ?>
     </div>
@@ -140,9 +160,22 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <script src="../js/smoothscroll.js"></script>
     <script src="../js/custom.js"></script>
 
-    <script type="text/javascript">
+    <script>
         $(document).ready(function() {
-            
+            $(".list-group .list-group-item").click(function() {
+                var target = $(this).data("target");
+
+                $(".tab-content .tab-pane").each(function() {
+                    $(this).removeClass("active");
+                });
+
+                $(".list-group .list-group-item").each(function() {
+                    $(this).removeClass("active");
+                });
+
+                $(target).addClass("active");
+                $(this).addClass("active");
+            });
         });
     </script>
 

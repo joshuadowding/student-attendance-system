@@ -443,6 +443,11 @@ http://www.templatemo.com/tm-515-eatery
         padding: 8px;
     }
 
+    .user-manager-wrapper .timetable-module {
+        max-width: 1200px;
+        overflow-x: scroll;
+    }
+
     .user-manager-wrapper .timetable-header p {
         margin: 0;
         margin-right: 16px;
@@ -452,6 +457,38 @@ http://www.templatemo.com/tm-515-eatery
         margin-bottom: 32px;
     }
 
+
+
+  /*---------------------------------------
+      LIST GROUP
+  -----------------------------------------*/
+
+    .list-group {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .list-group .list-group-item {
+        border-radius: 0;
+        cursor: pointer;
+    }
+
+    .list-group .list-group-item:first-child {
+        border-top-left-radius: .25rem;
+        border-bottom-left-radius: .25rem;
+        border-left: 1px solid #DDD;
+    }
+
+    .list-group .list-group-item:not(:last-child) {
+        border-left: 1px solid #DDD;
+        border-right: 0;
+    }
+
+    .list-group .list-group-item:last-child {
+        border-top-right-radius: .25rem;
+        border-bottom-right-radius: .25rem;
+        border-right: 1px solid #DDD;
+    }
 
 
   /*---------------------------------------
