@@ -27,11 +27,15 @@ class Admin extends CI_Controller {
         include_once('application/models/Attendance.php');
         include_once('application/models/Timetable.php');
 
+        include_once('application/helpers/InputHelper.php');
+
         include_once('application/models/view_models/AdminViewModel.php'); // NOTE: View Model
 
         session_start(); // DEBUG: Start/Resume session.
 
         $viewModel = new AdminViewModel();
+        $inputHelper = new InputHelper();
+
         $_SESSION["sessionError"] = null;
 
         // NOTE: Catch unauthorised users before processing the request:
@@ -51,7 +55,7 @@ class Admin extends CI_Controller {
             $inputSearch = $_POST["input-search"];
 
             if (!empty($inputSearch)) {
-                $_inputSearch = $this->validate($inputSearch);
+                $_inputSearch = $inputHelper->validate($inputSearch);
 
                 $viewModel->students = $this->fetch_students($_inputSearch);
 
@@ -377,12 +381,5 @@ class Admin extends CI_Controller {
         }
 
         return $attendanceModel;
-    }
-
-    private function validate($input) {
-        $input = trim($input);
-        $input = stripslashes($input);
-        $input = htmlspecialchars($input);
-        return $input;
     }
 }

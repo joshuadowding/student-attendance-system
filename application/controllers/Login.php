@@ -21,6 +21,8 @@ class Login extends CI_Controller {
      */
     public function index() {
         include_once('application/models/User.php');
+        include_once('application/helpers/InputHelper.php');
+
         session_start(); // DEBUG: Start/Resume session.
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -50,15 +52,17 @@ class Login extends CI_Controller {
         $inputUsername = null;
         $inputPassword = null;
 
+        $inputHelper = new InputHelper();
+
         if (!empty($_POST["input-username"])) {
-            $inputUsername = $this->validate($_POST["input-username"]);
+            $inputUsername = $inputHelper->validate($_POST["input-username"]);
         } else {
             $_SESSION["loginError"] = "Invalid Username";
             return $validationSuccess;
         }
 
         if (!empty($_POST["input-password"])) {
-            $inputPassword = $this->validate($_POST["input-password"]);
+            $inputPassword = $inputHelper->validate($_POST["input-password"]);
         } else {
             $_SESSION["loginError"] = "Invalid Password";
             return $validationSuccess;
@@ -128,12 +132,5 @@ class Login extends CI_Controller {
         }
 
         return $retrievalSuccess;
-    }
-
-    private function validate($input) {
-        $input = trim($input);
-        $input = stripslashes($input);
-        $input = htmlspecialchars($input);
-        return $input;
     }
 }

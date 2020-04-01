@@ -28,11 +28,14 @@ class Manager extends CI_Controller {
         include_once('application/models/Attendance.php');
         include_once('application/models/Timetable.php');
 
+        include_once('application/helpers/InputHelper.php');
+
         include_once('application/models/view_models/ManagerViewModel.php'); // NOTE: View Model
 
         session_start(); // DEBUG: Start/Resume session.
 
         $viewModel = new ManagerViewModel();
+
         $_SESSION["sessionError"] = null;
 
         // NOTE: Catch unauthorised users before processing the request:
@@ -113,9 +116,10 @@ class Manager extends CI_Controller {
     // 'As a manager I want to know room usage vs capacity' Task #4 (Janvi)
     private function populate_room_usage($viewModel) {
         $inputSearch = $_POST["input-search"];
+        $inputHelper = new InputHelper();
 
         if (!empty($inputSearch)) {
-            $_inputSearch = $this->validate($inputSearch);
+            $_inputSearch = $inputHelper->validate($inputSearch);
 
             // TODO: Process input and display relevant output.
             $viewModel->rooms = $this->fetch_rooms($_inputSearch);
@@ -303,3 +307,4 @@ class Manager extends CI_Controller {
         return $enrolments;
     }
 }
+?>
