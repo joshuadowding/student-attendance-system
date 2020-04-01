@@ -24,7 +24,6 @@ class Home extends CI_Controller {
 
         $this->load->database();
         $this->load->view('home');
-
-        //print_r($_SESSION);
     }
 }
+?>

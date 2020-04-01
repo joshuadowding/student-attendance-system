@@ -26,3 +26,4 @@ class Staff extends CI_Controller {
 		$this->load->view('staff');
 	}
 }
+?>

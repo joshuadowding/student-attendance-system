@@ -26,7 +26,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </head>
 
 <body>
-
     <?php include("includes/body-preloader-contents.php"); ?>
     <?php //include("includes/body-menu-contents.php"); ?>
 
@@ -60,7 +59,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <script src="../js/jquery.magnific-popup.min.js"></script>
     <script src="../js/smoothscroll.js"></script>
     <script src="../js/custom.js"></script>
-
 </body>
 
 </html>

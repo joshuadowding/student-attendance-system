@@ -202,10 +202,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
             </div>
      </section>
 
-   
-
-                        
-
     <!-- CONTACT -->
     <section id="contact" data-stellar-background-ratio="0.5">
         <div class="container">
