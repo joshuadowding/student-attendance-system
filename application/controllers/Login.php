@@ -31,7 +31,29 @@ class Login extends CI_Controller {
             if ($this->process()) {
                 if ($this->retrieve()) {
                     $this->load->helper('url');
-                    redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (home) page.
+
+                    switch ($_SESSION["currentUser"]->userType) {
+                        case "Student":
+                            redirect(base_url() . "index.php/student", 'location');
+                            break;
+
+                        case "Lecturer":
+                            redirect(base_url() . "index.php/staff", 'location');
+                            break;
+
+                        case "Manager":
+                            redirect(base_url() . "index.php/manager", 'location');
+                            break;
+
+                        case "Administrator":
+                            redirect(base_url() . "index.php/admin", 'location');
+                            break;
+
+                        default:
+                            $_SESSION["loginError"] = "Unknown account type";
+                            $this->load->view('login'); // DEBUG: Go back to login screen on login failure.
+                            break;
+                    }
                 } else {
                     // NOTE: Unable to retrieve user information. Display error(?).
                     $_SESSION["loginError"] = "Unable to retrieve user information";

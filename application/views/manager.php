@@ -175,6 +175,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
         <?php
             // another example of isset function method.
+            /*
             class student {
                 protected $_students = array();
 
@@ -200,6 +201,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     }
                 }
             }
+            */
         ?>
     </div>
 
