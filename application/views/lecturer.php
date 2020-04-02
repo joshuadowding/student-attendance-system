@@ -22,7 +22,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <link rel="stylesheet" href="../css/owl.theme.default.min.css">
     <link rel="stylesheet" href="../css/magnific-popup.css">
 
-    <link rel="stylesheet" href="../css/templatemo-style.css">
+    <link rel="stylesheet" href="../css/templatemo-style.css"> <!-- Custom CSS -->
+
+    <script type="text/javascript" src="../js/jquery.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.stellar.min.js"></script>
+    <script type="text/javascript" src="../js/wow.min.js"></script>
+    <script type="text/javascript" src="../js/owl.carousel.min.js"></script>
+    <script type="text/javascript" src="../js/jquery.magnific-popup.min.js"></script>
+    <script type="text/javascript" src="../js/smoothscroll.js"></script>
+
+    <script type="text/javascript" src="../js/custom.js"></script> <!-- Custom JavaScript -->
 </head>
 
 <body>
@@ -31,29 +41,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- 'As a lecturer I want to know attendance by module' Task #8 (Trinath) -->
     <div class="container">
-
+        <!-- TODO -->
     </div>
 
     <!-- 'As a lecturer I want to know an individual student’s attendance' Task #6 (Trinath) -->
     <div class="container">
-
+        <!-- TODO -->
     </div>
 
     <!-- 'As a lecturer I want to know attendance by class' Task #7 (Mani) -->
     <div class="container">
-
+        <!-- TODO -->
     </div>
 
     <?php //include("includes/body-footer-contents.php"); ?>
-
-    <script src="../js/jquery.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
-    <script src="../js/jquery.stellar.min.js"></script>
-    <script src="../js/wow.min.js"></script>
-    <script src="../js/owl.carousel.min.js"></script>
-    <script src="../js/jquery.magnific-popup.min.js"></script>
-    <script src="../js/smoothscroll.js"></script>
-    <script src="../js/custom.js"></script>
 </body>
 
 </html>
