@@ -135,7 +135,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
             echo "</div></div>";
 
-            
+
         }
         ?>
     </div>
@@ -188,8 +188,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 }
             }
 
-            //another example of isset function method.
-            class student {
+            // NOTE: A class called Student already exists, so this was breaking the application - rename it to something else.
+            class student_new {
                 public $_students = array();
 
                 function __set($attendance,$student_attendance) {
