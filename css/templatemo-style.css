@@ -488,6 +488,11 @@ http://www.templatemo.com/tm-515-eatery
         width: 10%;
     }
 
+    .container#user-manager-wrapper .timetable-item .item-content .content .lesson td.concern {
+        background-color: red;
+        color: white;
+    }
+
     .container#user-manager-wrapper .timetable-item .item-content .content .lesson td.type {
         text-align: left;
         width: 70%;

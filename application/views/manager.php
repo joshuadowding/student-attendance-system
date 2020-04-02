@@ -111,7 +111,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 }
                             }
 
-                            echo "<td>" . $attended . "</td>";
+                            $percent = (70 / 100);
+                            $total = count($enrolments);
+                            $threshold = ($total * $percent);
+
+                            if ($attended >= $threshold) {
+                                echo "<td>" . $attended . "</td>";
+                            } else {
+                                echo "<td class='concern'>" . $attended . "</td>";
+                            }
+                            
                             echo "<td>" . $late . "</td>";
                         } else {
                             echo "<td>X</td>";
@@ -134,12 +143,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
             }
 
             echo "</div></div>";
-
-
         }
         ?>
     </div>
 
+    <!-- 'As a manager I want to be alerted when a student has attendance below certain thresholds' Task #3 (Janvi) -->
+    <!-- 'As a manager I want to know room usage vs capacity' Task #4 (Janvi) -->
     <div class="container">
         <form id="user-manager-search" method="POST" action="/student-attendance-system/index.php/manager">
             <label for="input-room">Room</label>
