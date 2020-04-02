@@ -50,51 +50,83 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
    
 
-        <form id="user-manager-search" method="POST" action="/student-attendance-system/index.php/admin">
-            <label for="input-roomid">RoomID:</label>
-            <input type="text" id="input-roomid" name="input-roomid" required="required" value="">
+        <form id="user-manager-search" method="POST" action="/student-attendance-system/index.php/manager">
+            <label for="input-room">Room</label>
+            <input type="text" class="form-control" id="input-username" name="input-search" required="required" placeholder="Room's Capacity" value="">
 
-            <label for="input-student_attendance">Student_attendance:</label>
-            <input type="password" id="input-student_attendance" name="input-student-attendance" required="required" value="">
-
-            <input type="search" name="search" id="data_search" value="data_search">
+            <input type="submit" name="submit" class="btn btn-primary" id="login-submit" value="Search">
         </form>
     </div>
 
+     
+    <?php
+         
+
+        if (isset($rooms)) {
+            foreach ($rooms as $room) {
+                echo "<form class='manager_room-wrapper' method='POST' action='/student-attendance-system/index.php/manager/save'>";
+
+                echo "<div class='manager_room-header'>";
+                echo "<p>" . $room->RoomID . " " . $room->Name . "</p>";
+                echo "<input type='submit' class='btn btn-primary' name='submit' id='save-submit' value='Save'></div>";
+
+                 echo "<div class='manager_room-header' id='manager_room-key'>";
+                echo "<p><b>L</b> - Lecture, <b>P</b> - Practical, <b>S</b> - Seminar</p>";
+                echo "</div>";
+
+                echo "<input type='hidden' class='room' name='room' value='" . $room->roomID . "'></input>";
+            }
+          }
+        
+        ?>
+    </div>
+    <div id ="dp"></div>
+
+    <script type = "text/javascript">
+
+      
+
+   
+   
+
+
      <?php
             $student = 20;
+            if (isset($students)) {
+            foreach ($students as $student) {
+                echo "<form class='manager-wrapper' method='POST' action='/student-attendance-system/index.php/manager/save'>";
 
-     // 1st method of empty() and isset() function.       
+                echo "<div class='manager-header'>";
+                echo "<p>" . $student->firstName . " " . $student->lastName . "</p>";
+                echo "<input type='submit' class='btn btn-primary' name='submit' id='save-submit' value='Save'></div>";
+
+                echo "<div class='manager-header' id='manager-key'>";
+                echo "<p><b>L</b> - Lecture, <b>P</b> - Practical, <b>S</b> - Seminar</p>";
+                echo "</div>";
+
+                echo "<input type='hidden' class='student' name='student' value='" . $student->studentID . "'></input>";
+   
 
             //Evaluates to true because $student is empty. 
             // TODO: notify me when students have less attendance in any module.
 
-            if (empty($student)) {
-            	foreach ($students as $student) {
-            		echo "<form class='user-manager-wrapper' method='POST' action='/student-attendance-system/index.php/admin/save'>";
-                    echo "<'$student is either 20, empty, or not set at all'>";
-                    echo"<$student alert alert when it has 20% attendance>";
-                }
 
-            //Evaluates as true because $student is set.
+
+              
             
-            if (isset($student)){
-            	echo ("$student is set even though it is empty");
-            } 
-     ?>
-
 <?php
        //another example of isset function method.
        class student
        {
 
-       	  protected $_students = array();
-       	  public function __set($attendance,$student_attendance)
+       	 $_students = array();
+
+       	 function __set($attendance,$student_attendance)
        	  {
        	  	$this->_students[$attendance] = $student_attendance;
        	  }
            
-           public function __get($attendance)
+              function __get($attendance)
            {
            	  if (isset($this->_students[$attendance]))
            	  	echo("student has less than 20 percent attendance in particular module");
@@ -107,7 +139,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
            	  	  }
            	  }
 
-           	  public function __isset($attendance)
+           	       function __isset($attendance)
            	  {
            	  	if (isset($this->_students[$attendance])) {
            	  		   return(false === empty($this->_students[$attendance]));

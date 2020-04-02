@@ -21,10 +21,15 @@ class Home extends CI_Controller {
     public function index() {
         include_once('application/models/User.php');
         session_start(); // DEBUG: Start/Resume session.
+         $this->load->helper("url");
+        //print_r($_SESSION["currentUser"]->userType);
+        //exit;
+        if(isset( $_SESSION["currentUser"]->userType) && $_SESSION["currentUser"]->userType == "Manager"){
+            redirect(base_url()."index.php/manager/", 'location');
 
+        }
         $this->load->database();
         $this->load->view('home');
-		print_r($_SESSION);
-		//exit;
+		
     }
 }
