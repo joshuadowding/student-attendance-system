@@ -26,12 +26,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 </head>
 
 <body>
-
     <?php include("includes/body-preloader-contents.php"); ?>
     <?php include("includes/body-menu-contents.php"); ?>
 
-    <!-- ADMIN -->
-    <div class="user-admin-wrapper">
+    <!-- 'As an administrator, I want to manage students and their attendance records' Task #2 (Josh) -->
+    <div class="container user-admin-wrapper">
         <?php
         if (isset($_SESSION["sessionError"])) {
             echo "<div class='alert alert-primary' role='alert'>";
@@ -150,7 +149,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         ?>
     </div>
 
-    <!--<?php include("includes/body-footer-contents.php"); ?>-->
+    <?php //include("includes/body-footer-contents.php"); ?>
 
     <script src="../js/jquery.js"></script>
     <script src="../js/bootstrap.min.js"></script>
@@ -203,7 +202,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
             });
         });
     </script>
-
 </body>
 
 </html>

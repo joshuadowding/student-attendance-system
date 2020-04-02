@@ -21,6 +21,8 @@ class Login extends CI_Controller {
      */
     public function index() {
         include_once('application/models/User.php');
+        include_once('application/helpers/InputHelper.php');
+
         session_start(); // DEBUG: Start/Resume session.
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -29,7 +31,29 @@ class Login extends CI_Controller {
             if ($this->process()) {
                 if ($this->retrieve()) {
                     $this->load->helper('url');
-                    redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (home) page.
+
+                    switch ($_SESSION["currentUser"]->userType) {
+                        case "Student":
+                            redirect(base_url() . "index.php/student", 'location');
+                            break;
+
+                        case "Lecturer":
+                            redirect(base_url() . "index.php/staff", 'location');
+                            break;
+
+                        case "Manager":
+                            redirect(base_url() . "index.php/manager", 'location');
+                            break;
+
+                        case "Administrator":
+                            redirect(base_url() . "index.php/admin", 'location');
+                            break;
+
+                        default:
+                            $_SESSION["loginError"] = "Unknown account type";
+                            $this->load->view('login'); // DEBUG: Go back to login screen on login failure.
+                            break;
+                    }
                 } else {
                     // NOTE: Unable to retrieve user information. Display error(?).
                     $_SESSION["loginError"] = "Unable to retrieve user information";
@@ -50,15 +74,17 @@ class Login extends CI_Controller {
         $inputUsername = null;
         $inputPassword = null;
 
+        $inputHelper = new InputHelper();
+
         if (!empty($_POST["input-username"])) {
-            $inputUsername = $this->validate($_POST["input-username"]);
+            $inputUsername = $inputHelper->validate($_POST["input-username"]);
         } else {
             $_SESSION["loginError"] = "Invalid Username";
             return $validationSuccess;
         }
 
         if (!empty($_POST["input-password"])) {
-            $inputPassword = $this->validate($_POST["input-password"]);
+            $inputPassword = $inputHelper->validate($_POST["input-password"]);
         } else {
             $_SESSION["loginError"] = "Invalid Password";
             return $validationSuccess;
@@ -129,11 +155,5 @@ class Login extends CI_Controller {
 
         return $retrievalSuccess;
     }
-
-    private function validate($input) {
-        $input = trim($input);
-        $input = stripslashes($input);
-        $input = htmlspecialchars($input);
-        return $input;
-    }
 }
+?>

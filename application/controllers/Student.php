@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Students extends CI_Controller {
+class Student extends CI_Controller {
 
 	/**
 	 * Index Page for this controller.
@@ -23,6 +23,7 @@ class Students extends CI_Controller {
 		session_start(); // DEBUG: Start/Resume session.
 
 		$this->load->database();
-		$this->load->view('students');
+		$this->load->view('student');
 	}
 }
+?>
