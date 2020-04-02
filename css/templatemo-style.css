@@ -300,7 +300,7 @@ section {
     ADMIN
   -----------------------------------------*/
 
-.user-admin-search {
+.container#user-admin-wrapper .user-admin-search {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
@@ -309,20 +309,19 @@ section {
 	padding: 8px;
 }
 
-.user-admin-search .form-control {
+.container#user-admin-wrapper .form-control {
 	margin: 0 16px;
 }
 
-.user-admin-wrapper {
+.container#user-admin-wrapper {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-content: center;
 	align-items: center;
-	padding-top: 128px;
 }
 
-.user-admin-wrapper .timetable-header {
+.container#user-admin-wrapper .timetable-header {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -331,12 +330,12 @@ section {
 	padding: 8px;
 }
 
-.user-admin-wrapper .timetable-header p {
+.container#user-admin-wrapper .timetable-header p {
 	margin: 0;
 	margin-right: 16px;
 }
 
-.user-admin-wrapper .timetable-module {
+.container#user-admin-wrapper .timetable-module {
 	margin-bottom: 32px;
 }
 

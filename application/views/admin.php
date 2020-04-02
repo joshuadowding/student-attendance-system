@@ -40,7 +40,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <?php include("includes/body-menu-contents.php"); ?>
 
     <!-- 'As an administrator, I want to manage students and their attendance records' Task #2 (Josh) -->
-    <div class="container user-admin-wrapper">
+    <div class="container" id="user-admin-wrapper">
         <?php
         if (isset($_SESSION["sessionError"])) {
             echo "<div class='alert alert-primary' role='alert'>";
@@ -48,6 +48,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
             echo "</div>";
         }
         ?>
+
+        <h1 class="header">Modify Student Attendance Record</h1>
 
         <form class="user-admin-search" method="POST" action="/student-attendance-system/index.php/admin">
             <label for="input-search">Search:</label>
