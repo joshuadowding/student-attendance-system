@@ -29,19 +29,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <?php include("includes/body-preloader-contents.php"); ?>
     <?php include("includes/body-menu-contents.php"); ?>
 
-    <!-- 'As a manager I want to know which lectures have been poorly attended' Task #5 (Josh) -->
-    <div class="container user-manager-wrapper">
-        <?php
-        if (isset($_SESSION["sessionError"])) {
-            echo "<div class='alert alert-primary' role='alert'>";
-            echo $_SESSION["sessionError"];
-            echo "</div>";
-        }
+    <?php
+    if (isset($_SESSION["sessionError"])) {
+        echo "<div class='alert alert-primary' role='alert'>";
+        echo $_SESSION["sessionError"];
+        echo "</div>";
+    }
+    ?>
 
+    <!-- 'As a manager I want to know which lectures have been poorly attended' Task #5 (Josh) -->
+    <div class="container" id="user-manager-wrapper">
+        <?php
         if (isset($timetable)) {
             echo "<div class='timetable-wrapper'>";
-            echo "<div class='timetable-header'></div>";
-
+            echo "<div class='timetable-header'><h1 class='header'>Overall Module Attendance</h1></div>";
             echo "<div class='list-group' id='list-tab' role='tablist'>";
 
             foreach ($timetable->schedule as $schedule) {
@@ -133,6 +134,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
             }
 
             echo "</div></div>";
+
+
         }
         ?>
     </div>

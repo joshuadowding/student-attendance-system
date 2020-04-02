@@ -425,69 +425,84 @@ http://www.templatemo.com/tm-515-eatery
       MANAGER
   -----------------------------------------*/
 
-    .user-manager-wrapper {
+    .container#user-manager-wrapper {
         padding-top: 128px;
+        margin-bottom: 32px;
     }
 
-    .user-manager-wrapper .timetable-header {
+    .container#user-manager-wrapper .timetable-header {
         display: flex;
         flex-direction: row;
-        align-items: center;
-        align-content: center;
-        justify-content: center;
-        padding: 8px;
     }
 
-    .user-manager-wrapper .tab-list {
+    .container#user-manager-wrapper .timetable-header .header {
+        font-size: 2.4rem;
+        font-weight: 700;
+        text-align: left;
+    }
+
+    .container#user-manager-wrapper .tab-list {
         height: 100%;
         display: flex;
         flex-direction: row;
     }
 
-    .user-manager-wrapper .timetable-item {
+    .container#user-manager-wrapper .timetable-item {
         width: 192px;
         padding: 12px;
         margin: 0 16px 0 0;
         border-radius: .35rem;
-        -webkit-box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.25);
-        -moz-box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.25);
-        box-shadow: 0px 5px 15px 0px rgba(0,0,0,0.25);
+        -webkit-box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+        -moz-box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
+        box-shadow: 0px 5px 15px 0px rgba(0, 0, 0, 0.25);
     }
 
-    .user-manager-wrapper .timetable-item .item-header {
+    .container#user-manager-wrapper .timetable-item .item-header {
         margin: 0 0 8px 0;
     }
 
-    .user-manager-wrapper .timetable-item .item-header .header {
+    .container#user-manager-wrapper .timetable-item .item-header .header {
         font-weight: 600;
     }
 
-    .user-manager-wrapper .timetable-item .item-content {
+    .container#user-manager-wrapper .timetable-item .item-content {
         display: flex;
         flex-direction: column;
     }
 
-    .user-manager-wrapper .timetable-item .item-content .content {
+    .container#user-manager-wrapper .timetable-item .item-content .content {
         display: flex;
         flex-direction: row;
     }
 
-    .user-manager-wrapper .timetable-item .item-content .content .lesson {
+    .container#user-manager-wrapper .timetable-item .item-content .content .lesson {
         width: 100%;
     }
 
-    .user-manager-wrapper .timetable-item .item-content .content .lesson th {
+    .container#user-manager-wrapper .timetable-item .item-content .content .lesson th {
         text-align: center;
     }
 
-    .user-manager-wrapper .timetable-item .item-content .content .lesson td {
+    .container#user-manager-wrapper .timetable-item .item-content .content .lesson td {
         text-align: center;
         width: 10%;
     }
 
-    .user-manager-wrapper .timetable-item .item-content .content .lesson td.type {
+    .container#user-manager-wrapper .timetable-item .item-content .content .lesson td.type {
         text-align: left;
         width: 70%;
+    }
+
+    .container#user-manager-wrapper .tab-content {
+        position: relative;
+        height: 100%;
+        width: 100%;
+        overflow-x: scroll;
+        padding: 16px;
+    }
+
+    .container#user-manager-wrapper .tab-content .tab-pane.active {
+        display: table-row;
     }
 
 
@@ -521,18 +536,6 @@ http://www.templatemo.com/tm-515-eatery
         border-top-right-radius: .25rem;
         border-bottom-right-radius: .25rem;
         border-right: 1px solid #DDD;
-    }
-
-    .user-manager-wrapper .tab-content {
-        position: relative;
-        height: 100%;
-        width: 100%;
-        overflow-x: scroll;
-        padding: 16px;
-    }
-
-    .user-manager-wrapper .tab-content .tab-pane.active {
-        display: table-row;
     }
 
 
