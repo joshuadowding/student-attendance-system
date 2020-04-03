@@ -6,6 +6,6 @@ class ManagerViewModel {
     public $students;
     public $modules;
 
-    public $timetable;
+    public $record;
 }
 ?>
