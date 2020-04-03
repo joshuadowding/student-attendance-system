@@ -27,6 +27,9 @@ class Manager extends CI_Controller {
         include_once('application/models/Lesson.php');
         include_once('application/models/Attendance.php');
         include_once('application/models/Timetable.php');
+        include_once('application/models/Record.php');
+        include_once('application/models/Register.php');
+        include_once('application/models/Students.php');
 
         include_once('application/helpers/InputHelper.php');
 
@@ -52,71 +55,73 @@ class Manager extends CI_Controller {
         }
 
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            $this->populate_lecture_attendance($viewModel);
+            //$this->populate_lecture_attendance($viewModel);
 
             $this->load->view('manager', $viewModel);
         } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $this->populate_lecture_attendance($viewModel);
-            $this->populate_room_usage($viewModel);
-
+            //$this->populate_lecture_attendance($viewModel);
+           // $this->populate_room_usage($viewModel);
+            $this->populate_student_attendance($viewModel);
             $this->load->view('manager', $viewModel);
         }
     }
 
     // 'As a manager I want to know which lectures have been poorly attended' Task #5 (Josh)
-    private function populate_lecture_attendance($viewModel) {
-        $modules = $this->fetch_modules();
+    //private function populate_lecture_attendance($viewModel) {
+       // $modules = $this->fetch_modules();
 
-        if (isset($modules)) {
-            foreach ($modules as $module) {
-                $module->lessons = $this->fetch_lessons($module->moduleID);
-            }
-        }
+       // if (isset($modules)) {
+         //   foreach ($modules as $module) {
+           //     $module->lessons = $this->fetch_lessons($module->moduleID);
+            //}
+        //}
 
-        $timetable = new Timetable();
-        $timetable->schedule = array();
+        //$timetable = new Timetable();
+        //$timetable->schedule = array();
 
-        foreach ($modules as $module) {
-            $schedule = array();
+        //foreach ($modules as $module) {
+            //$schedule = array();
 
-            for ($x = 0; $x < 12; $x++) { // NOTE: Weeks.
-                $lessons = array();
+            //for ($x = 0; $x < 12; $x++) { // NOTE: Weeks.
+                //$lessons = array();
 
-                foreach ($module->lessons as $lesson) {
-                    $lesson->attendance = $this->fetch_attendance($lesson->classID, ($x + 1)); // Students who DID/DID NOT attend.
-                    $lesson->enrolments = $this->fetch_enrolments($module->moduleID); // Students who SHOULD attend.
+                //foreach ($module->lessons as $lesson) {
+                   // $lesson->attendance = $this->fetch_attendance($lesson->classID, ($x + 1)); // Students who DID/DID NOT attend.
+                   // $lesson->enrolments = $this->fetch_enrolments($module->moduleID); // Students who SHOULD attend.
 
-                    if (isset($lesson->attendance)) {
-                        array_push($lessons, clone $lesson);
-                    } else {
-                        $lesson->attendance = array();
+                    //if (isset($lesson->attendance)) {
+                        //array_push($lessons, clone $lesson);
+                   // } else {
+                        //$lesson->attendance = array();
 
-                        $attendance = new Attendance();
-                        $attendance->classID = $lesson->classID;
+                        //$attendance = new Attendance();
+                        //$attendance->classID = $lesson->classID;
                         //$attendance->studentID = ;
-                        $attendance->attended = 0;
-                        $attendance->late = 0;
-                        $attendance->week = ($x + 1);
+                        //$attendance->attended = 0;
+                        //$attendance->late = 0;
+                        //$attendance->week = ($x + 1);
 
-                        array_push($lesson->attendance, $attendance);
-                        array_push($lessons, clone $lesson);
-                    }
-                }
+                        //array_push($lesson->attendance, $attendance);
+                        //array_push($lessons, clone $lesson);
+                    //}
+                //}
 
-                array_push($schedule, $lessons);
-            }
+                //array_push($schedule, $lessons);
+            //}
 
-            array_push($timetable->schedule, $schedule);
-        }
+           // array_push($timetable->schedule, $schedule);
+       // }
 
-        $viewModel->timetable = $timetable;
-        $viewModel->modules = $modules;
-    }
+        //$viewModel->timetable = $timetable;
+        //$viewModel->modules = $modules;
+    //}
 
     // 'As a manager I want to know room usage vs capacity' Task #4 (Janvi)
     private function populate_room_usage($viewModel) {
         $inputSearch = $_POST["input-search"];
         $inputHelper = new InputHelper();
+               
+            // session_start(); //DEBUG:-start the session.
 
         if (!empty($inputSearch)) {
             $_inputSearch = $inputHelper->validate($inputSearch);
@@ -126,67 +131,139 @@ class Manager extends CI_Controller {
 
             if (isset($viewModel->rooms)) {
                 foreach ($viewModel->rooms as $room) {
-                    $students = array();
+                    $capacity = array();
 
                     if (isset($room->capacity)) {
                         foreach ($room->capacity as $capacity) {
-                            $_students = $this->fetch_students($capacity->studentID);
+                            $_rooms = $this->fetch_rooms($capacity->roomID);
 
-                            if (isset($_students)) {
-                                foreach ($_students as $student) {
-                                    $students->attendance = $this->fetch_attendances($student->studentID);
+                          } if($rooms->capacity)
 
-                                    if (isset($student->attendances)) {
-                                        array_push($students, $student);
-                                    } else {
-                                        $_SESSION["sessionError"] = "Unable to fetch attendances: no attendances present.";
-                                    }
-                                }
-                            } else {
-                                $_SESSION["sessionError"] = "Unable to fetch students: no students present.";
-                            }
+                           {
+
+                            $_SESSION["sessionError"] = "Unable to fetch rooms : no rooms present.";
+                          
+                          } else{
+                             
+                             $_SESSION["sessionError"] = "Unable to fetch capacity : no capacity present.";
+                          }
                         }
-                    } else {
-                        $_SESSION["sessionError"] = "Unable to fetch capacity: no capacity present.";
+                      } 
                     }
 
                     $capacity = new Capacity();
                     $capacity->usage = array();
 
                     // TODO: Organize rooms capacity.
-                    foreach ($students as $student) {
-                        $attendances = array();
+                    foreach ($rooms as $room) {
+                        $usage = array();
 
-                        for ($x = 0; $x < 10; $x++) { // NOTE: weeks.
+                        for ($a = 0; $a < 10; $a++) { // NOTE: bases on weeks.
                             $group = array();
 
-                            foreach ($student->attendances as $attendance) {
-                                $attendance->lesson = $this->fetch_lesson($attendance->classID, $x);
-                                array_push($group, $attendance);
-                            }
+                            foreach ($room->usage as $usage) {
+                                $usage->capacity = $this->fetch_capacity($usage->roomID, ($a + 1 )); // Rooms capacity 
 
-                            array_push($attendances, $group);
-                        }
+                        // fetch room data in following room-table.//
+                                 
 
-                        array_push($room->usage, $attendances);
-                    }
+                        $room = new Room();
+                        $room->roomID = $group->roomID;
+                        $room->name = 0;
+                        $room->location = 0;
+                        $room->capacity = 0;
+                        $room->week = ($a + 1);
 
-                    $room->capacity = $capacity;
-                    $viewModel->students = $students;
-
-                    if (!isset($room->capacity->usage)) {
-                        $_SESSION["sessionError"] = "Unable to fetch capacity usage: no capacity usage present.";
+                        array_push($group->capacity, $capacity);
+                        array_push($groups, clone $usage);
                     }
                 }
-            } else {
-                $_SESSION["sessionError"] = "Unable to fetch rooms: no rooms present.";
+                 array_push($usage, $group);
             }
-        } else {
-            $_SESSION["sessionError"] = "Please specify a room to search for.";
-        }
-    }
+            array_push($capacity->usage, $usage);
+          }
+             $room->capacity = $capacity;
+             $viewModel->rooms = $rooms;
 
-    private function fetch_modules() {
+               if (isset($room->capacity->usage))
+                $_SESSION["sessionError"] ="Unable to fetch capacity usage : no capacity usage present.";
+       }
+   }
+          
+
+                      
+ 
+   // 'As a Manager I want to be alerted when a student has attendance below certain thresholds.' Task #3 (Janvi)
+
+        function populate_student_attendance($viewModel){
+                $inputSearch = $_POST["input_search"];
+                $inputHelper = new InputHelper();
+
+                   session_start();  // DEBUG:- start the session.//
+
+                   if($empty($inputSearch)){
+                    $_inputSearch = $inputHelper->validate($inputSearch);
+                   }
+                
+                   //TODO:- Process Input and Display relevant output.// notify manager when students have been attended less modules.//
+                $viewModel->students = $this->fetch_students($_inputSearch);
+                 
+                  if (isset($viewModel->students)){
+                    foreach($viewModel->students as $student){
+                        $records = array();
+                  
+
+                        if (isset($student->record)){
+                            foreach($student->record as $record) {
+                                $students = $this->fetch_students($record->studentID);
+                          
+                           } if ($students->record)
+                            {
+                           
+                            $_SESSION["sessonError"] = "Unable to fetch students : no students present.";
+                           
+                           } else {
+
+                            $_SESSION["sessionError"] = "Unable to fetch record : no record present";
+                         
+                    }
+                }
+             }
+         }
+                $record = new Record();
+                $record->attendance = array();
+                        // trying to oragnize students_attendance who have less.//
+                foreach($students as $student){
+                    $attendance = array();
+
+                    for($b = 0; $b < 12; $b++){ //Note:- want to notify on weekly basis lecture.
+                        $schedules = array();
+
+                        foreach($student->attendance as $attendance){
+                            $attendance->record = $this->fetch_record($attendance->attendanceID,($b + 1)); //Students who have attended 50 percent of lectures.
+                            $attendance->students = $this->fetch_students($student->studentID); //Students who have attended 30 percent of lectures.
+
+                              
+                                $attendance = new Attendance();
+                                $attendance->attendanceID = 0;
+                                $attendance->classID = $attendance->classID;
+                                $attendance->studentID = 0;
+                                $attendance->attended = 0;
+                                $attendance->late = 0;
+                                $attendance->week = ($b + 1);
+
+                                array_push($schedule->attendance , $attendance);
+                                array_push($schedules, clone $attendance);
+                            }
+                        }
+                        array_push($attendance, $schedules);
+                    }
+                    array_push($record->attendance, $attendance);
+                }
+                
+             
+
+     function fetch_modules() {
         $modules = array();
 
         try {
@@ -215,7 +292,7 @@ class Manager extends CI_Controller {
         return $modules;
     }
 
-    private function fetch_lessons($moduleID) {
+     function fetch_lessons($moduleID) {
         $lessons = array();
 
         try {
@@ -248,7 +325,7 @@ class Manager extends CI_Controller {
         return $lessons;
     }
 
-    private function fetch_attendance($classID, $weekNum) {
+     function fetch_attendance($classID, $weekNum) {
         $records = array();
 
         try {
@@ -278,7 +355,7 @@ class Manager extends CI_Controller {
         return $records;
     }
 
-    private function fetch_enrolments($moduleID) {
+     function fetch_enrolments($moduleID) {
         $enrolments = array();
 
         try {
@@ -306,5 +383,118 @@ class Manager extends CI_Controller {
 
         return $enrolments;
     }
-}
+
+ 
+ // Janvi's work.//
+          function fetch_rooms($roomID){
+            $rooms = array();
+      
+      try
+       {
+        $queryString = "SELECT * FROM 'Rooms';";
+        $queryResult = $this->db->query($queryString);
+
+        if ($queryResult->num_rows() != 0) {
+            foreach($queryResult->result() as $row){
+
+                $room = new Room();
+                $room->roomID = $row->RoomID;
+                $room->name = $row->Name;
+                $room->location = $row->Location;
+                $room->capacity = $row->Capacity;
+         
+            array_push($rooms, clone $room);
+            }
+        } else {
+           
+            return null;
+        }
+       
+       } catch(PDOException $exception){
+           
+           return null;
+      
+       } finally
+            
+        {    return $rooms;
+    }
+}   
+            
+
+     function fetch_attendances($studentID,$weekNOM)
+            {
+                $attendance = array();
+
+            try
+            {
+                $queryString = "SELECT * FROM 'attendance' WHERE 'StudentID' = ? AND 'week' = ? ;";
+                $queryResult = $this->db->query($queryString, array($StudentID,$WeekNOM));
+
+                if ($queryResult->num_rows() != 0){
+                    foreach($queryResult->result() as $row){
+
+                        $attendance = new Attendance();
+                        $attendance->attendanceID = $row->AttendanceID;
+                        $attendance->classID = $row->ClassID;
+                        $attendance->studentID = $row->StudentID;
+                        $attendance->attended = $row->Attended;
+                        $attendance->late = $row->Late;
+                        $attendance->week = $row->Week;
+                       
+                            array_push( $attendance, clone $attendance);
+                    }
+                }else {
+
+                    return null;
+                }
+            }catch(PDOException $exception){
+
+                return null;
+
+            } finally
+                {
+               return $attendance; 
+        }
+    }
+        
+
+    function fetch_students($studentID)
+    {
+          $students = array();
+
+          try
+          {
+            $queryString = "SELECT * FROM 'Students';";
+            $queryResult = $this->db->query($queryString);
+
+            if ($queryResult->num_rows() != 0){
+                foreach($queryResult->result() as $row){
+
+                    $student = new Student();  //  db->students table 
+                    $student->studentID = $row->StudentID;
+                    $student->firstname = $row->FirstName;
+                    $student->lastname = $row->LastName;
+                    $student->email = $row->Email;
+                    $student->concern = $row->Concern;
+                    $student->type = $row->Type;
+                    $student->userID = $row->UserID;
+                     
+                     array_push($students, clone $student);
+                }
+                } else {
+
+                  return null;
+            }
+          
+          } catch(PDOException $exception) {
+
+                  return null;
+         
+          } finally
+            {
+          return $students;
+      }
+  }
+
 ?>
+
