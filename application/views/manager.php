@@ -143,7 +143,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
         ?>
     </div>
 
-    <div class="container">
+
+   
+    <!-- 'As a manager I want to know room usage vs capacity' Task #4 (Janvi) -->
+    <div class="container" id = "user-manager-wrapper">
+
+    	<?php 
+    	if (isset($capacity)){
+    		echo "<div class = 'capacity-wrapper'>";
+    		echo "<div class = 'capacity-header'> <h1 class = 'header'> Room Capacity </h1></div>";
+    		echo "<div class = 'list-group' id = 'list-tab' role = 'tablist'>";
+    	}
         <form id="user-manager-search" method="POST" action="/student-attendance-system/index.php/manager">
             <label for="input-room">Room</label>
             <input type="text" class="form-control" id="input-username" name="input-search" required="required" placeholder="Room's Capacity" value="">
