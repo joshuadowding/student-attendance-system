@@ -45,6 +45,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
             echo "<div class='timetable-header'><h1 class='header'>Overall Module Attendance</h1></div>";
             echo "<div class='list-group' id='list-tab' role='tablist'>";
 
+
+
             foreach ($timetable->schedule as $schedule) {
                 $iterate = 0;
 
@@ -80,6 +82,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 echo "<div class='tab-list'>";
                 for ($x = 0; $x < count($schedule); $x++) {
                     echo "<div class='timetable-item'>";
+
                     echo "<div class='item-header'><span class='header'>Week " . ($x + 1) . "</span></div>";
 
                     echo "<div class='item-content'>";
@@ -166,7 +169,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         }
         ?>
 
-        <div id="dp">
+        
             <?php
             $student = 20;
 
