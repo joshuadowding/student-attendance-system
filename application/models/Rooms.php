@@ -7,5 +7,8 @@ class Rooms {
     public $Name;
     public $Location;
     public $Capacity;
+    public $PCs;
+    public $Printer;
+    public $Type;
 }
 ?>
