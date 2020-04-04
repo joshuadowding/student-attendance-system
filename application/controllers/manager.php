@@ -56,11 +56,13 @@ class Manager extends CI_Controller {
 
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             //$this->populate_lecture_attendance($viewModel);
+            $this->populate_room_usage($viewModel);
+            $this->populate_student_attendance($viewModel);
 
             $this->load->view('manager', $viewModel);
         } else if ($_SERVER["REQUEST_METHOD"] == "POST") {
             //$this->populate_lecture_attendance($viewModel);
-           // $this->populate_room_usage($viewModel);
+            $this->populate_room_usage($viewModel);
             $this->populate_student_attendance($viewModel);
             $this->load->view('manager', $viewModel);
         }
@@ -118,7 +120,7 @@ class Manager extends CI_Controller {
 
     // 'As a manager I want to know room usage vs capacity' Task #4 (Janvi)
     private function populate_room_usage($viewModel) {
-        $inputSearch = $_POST["input-search"];
+       // $inputSearch = $_POST["input-search"];
         $inputHelper = new InputHelper();
                
             // session_start(); //DEBUG:-start the session.
@@ -169,9 +171,12 @@ class Manager extends CI_Controller {
 
                         $room = new Room();
                         $room->roomID = $group->roomID;
-                        $room->name = 0;
-                        $room->location = 0;
+                       // $room->name = 0;
+                        //$room->location = 0;
                         $room->capacity = 0;
+                        $room->pcs = 0;
+                        $room->printer =0;
+                        $room->type=0;
                         $room->week = ($a + 1);
 
                         array_push($group->capacity, $capacity);
@@ -182,8 +187,9 @@ class Manager extends CI_Controller {
             }
             array_push($capacity->usage, $usage);
           }
-             $room->capacity = $capacity;
-             $viewModel->rooms = $rooms;
+          
+             //$viewModel->capacity = $capacity;
+             //$viewModel->room = $room;
 
                if (isset($room->capacity->usage))
                 $_SESSION["sessionError"] ="Unable to fetch capacity usage : no capacity usage present.";
@@ -193,9 +199,9 @@ class Manager extends CI_Controller {
 
                       
  
-   // 'As a Manager I want to be alerted when a student has attendance below certain thresholds.' Task #3 (Janvi)
+    //'As a Manager I want to be alerted when a student has attendance below certain thresholds.' Task #3 (Janvi)
 
-        function populate_student_attendance($viewModel){
+       function populate_student_attendance($viewModel){
                 $inputSearch = $_POST["input_search"];
                 $inputHelper = new InputHelper();
 
@@ -209,7 +215,7 @@ class Manager extends CI_Controller {
                 $viewModel->students = $this->fetch_students($_inputSearch);
                  
                   if (isset($viewModel->students)){
-                    foreach($viewModel->students as $student){
+                      foreach($viewModel->students as $student){
                         $records = array();
                   
 
@@ -229,7 +235,7 @@ class Manager extends CI_Controller {
                     }
                 }
              }
-         }
+       }
                 $record = new Record();
                 $record->attendance = array();
                         // trying to oragnize students_attendance who have less.//
@@ -237,7 +243,7 @@ class Manager extends CI_Controller {
                     $attendance = array();
 
                     for($b = 0; $b < 12; $b++){ //Note:- want to notify on weekly basis lecture.
-                        $schedules = array();
+                       $schedules = array();
 
                         foreach($student->attendance as $attendance){
                             $attendance->record = $this->fetch_record($attendance->attendanceID,($b + 1)); //Students who have attended 50 percent of lectures.
