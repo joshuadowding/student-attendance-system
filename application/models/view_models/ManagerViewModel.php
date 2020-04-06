@@ -7,5 +7,6 @@ class ManagerViewModel {
     public $modules;
 
     public $record;
+    
 }
 ?>

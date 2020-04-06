@@ -49,10 +49,10 @@ class Manager extends CI_Controller {
             } else {
                 $this->load->database();
             }
-        } else {
-            $this->load->helper('url');
-            redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (home) page.
-        }
+        } //else {
+          //  $this->load->helper('url');
+         //   redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (home) page.
+       // }
 
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
             //$this->populate_lecture_attendance($viewModel);
@@ -403,11 +403,14 @@ class Manager extends CI_Controller {
         if ($queryResult->num_rows() != 0) {
             foreach($queryResult->result() as $row){
 
-                $room = new Room();
+                $room = new Room(); //db->rooms table
                 $room->roomID = $row->RoomID;
                 $room->name = $row->Name;
                 $room->location = $row->Location;
                 $room->capacity = $row->Capacity;
+                $room->pcs = $row->PCs;
+                $room->printer = $row->Printer;
+                $room->type = $row->Type;
          
             array_push($rooms, clone $room);
             }
@@ -439,7 +442,7 @@ class Manager extends CI_Controller {
                 if ($queryResult->num_rows() != 0){
                     foreach($queryResult->result() as $row){
 
-                        $attendance = new Attendance();
+                        $attendance = new Attendance(); //db->attendance table
                         $attendance->attendanceID = $row->AttendanceID;
                         $attendance->classID = $row->ClassID;
                         $attendance->studentID = $row->StudentID;
@@ -503,4 +506,3 @@ class Manager extends CI_Controller {
   }
 
 ?>
-
