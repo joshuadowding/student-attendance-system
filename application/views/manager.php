@@ -194,7 +194,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                  <h1 class="header"> Room's Usage or Capacity View</h1>
 
                  <form id = "user-manager-search" method = "POST" action = "/student-attendance-system/index.php/manager">
-                 	<label for = "input-room">Room:</label>
+                 	<label for = "input-room">Search:</label>
                  	<input type ="text" class="form-control" id ="input-username" name ="input-search" required="required" placeholder ="Room's Capacity" value = "">
                  	<input type="submit" name="submit" class="btn btn-primary" id="login-submit" value="Search">
 
@@ -320,40 +320,50 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
            <div class = "container" id="user-manager-wrapper">
            	
-           		<h1 class= "header">Student Attendance Record</h1>
+           		<div class= "collapse navbar-collapse" id="navbarsExampleDefault">
+           			<ul class="navabr-nav mr-auto">
+           				<li class="nav-item dropdown">
+           					<a class="nav-link" href="http.//example.com"id="dropdown01"data-toggle="dropdown"ana-haspopup="True"ana-extended="false">Notifications
 
-           		<form id="user-manager-wrapper" method="POST" action ="student-attendance-system/index.php/manager">
-           			<label for="input-student">Student:</label>
-           			<input type="text" class="form-control" id="input-username" name="input-search" required="required" placeholder="Student's Attendance" value="">
-           			<input type="submit" name="submit" class="btn btn-primary" id="login-submit" value="search">
-           		</form>
+           						<?php
+           						$query = 'SELECT * from 'attendance' where 'status' = 'unread.' order by 'date' DESC';
+           						if(count(fetchAll($query))>0)(
+
+           							?>
+
+           							<span class="badge badge-light"><?php echo count(fetchAll($query); ?></span>
+
+                              </a>
+                              <div class="dropdown.menu" ana-labelledby="dropdown01">
+                              
+                              <?php
+                              if(count(fetchAll($query))>0)(
+                              	foreach(fetchAll($query) as $b)
+
+
+                              ?> 
+                              <a class="dropdown.iem" href="#">
+                              <small><i><?php echo $['date'] ?></i></small><br/>
+                              <?php 
+                              
+                              if($[type]=='Notifications'){
+                              	echo "Notifications";
+                                } 
+                              ?>
+                              
+
+                              <div class="dropdown-divider"></div>
+                              <?php
+                          }else{
+                          	echo "No Notifications Yet.";
+                              ?>          		
+                          }
+                          </a>
+                          </div>
+                          </li>
+                          </ul>
 
              <?php
-                $student = 20;
-
-                // Evaluates to true because $student is empty.
-                // TODO: notify me when students have less attendance in any module.
-
-
-                if(isset($students)){
-                	foreach($students as $student){
-
-
-                		echo "<form class= 'record-wrapper' method = 'POST' action ='student-attendance-system/index.php/manager/save'>";
-
-                		echo "<div class = 'record-header'><h1 class ='header'>Student's Attendance</h1></div>";
-                		echo "<p>". $student->attendanceID . " " . $student->studentID . "</p>";
-                		echo "<input type ='submit' class ='btn btn-primary' name='submit' id ='save-submit' value ='Save'></div>";
-
-                		echo "<div class = 'record-header' id = 'record-key'>";
-                		echo "<p><b>L</b> -Lecture, <b>P</b> -Practical </p>";
-                		echo "</div>";
-
-                		echo "<input type ='hidden' class ='student' name = 'student' value = '". $student->studentID ."'></input>";
-
-
-                   	}
-                }
               
               foreach($record->attendance as $attendance){
               	$trace = 0;
