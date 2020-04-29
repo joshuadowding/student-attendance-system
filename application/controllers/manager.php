@@ -36,13 +36,12 @@ class Manager extends CI_Controller
         include_once('application/models/view_models/ManagerViewModel.php'); // NOTE: View Model
 
         session_start(); // DEBUG: Start/Resume session.
-                 
-       // function authorise_manager($groups=NULL){
 
-         //   if(isset($_SESSION['room_id'])){
-           //     header('Location:manager_PDO.php');
-            //}
-       // }
+        /*
+        if(isset($_SESSION['room_id'])){
+            header('Location:manager_PDO.php');
+        }
+        */
 
         $viewModel = new ManagerViewModel();
 
@@ -52,13 +51,18 @@ class Manager extends CI_Controller
         if (!empty($_SESSION["currentUser"])) {
             if ($_SESSION["currentUser"]->userType != "Manager") {
                 $this->load->helper('url');
-                redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (home) page.
+                redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (login) page.
+
+                // TODO: Return error 'wrong user type'.
             } else {
                 $this->load->database();
             }
         } else {
             $this->load->helper('url');
+
             redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (home) page.
+
+            redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (login) page.
         }
 
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
@@ -71,6 +75,7 @@ class Manager extends CI_Controller
             $this->populate_lecture_attendance($viewModel);
             $this->populate_room_usage($viewModel);
             $this->populate_student_attendance_alert($viewModel);
+
             $this->load->view('manager', $viewModel);
         }
     }
@@ -142,6 +147,7 @@ class Manager extends CI_Controller
             // TODO: Process input and display relevant output.
             $room = $this->fetch_room($_inputSearch);
 
+
             if ($room instanceof Room) {
                 } else {
                 $_SESSION["sessionError"] = "Unable to fetch rooms : no rooms present.";
@@ -175,8 +181,13 @@ class Manager extends CI_Controller
 
 
   
-  private function fetch_modules()
-    {
+  
+           
+              
+                    
+
+  private function fetch_modules() {
+
         $modules = array();
 
         try {
@@ -204,9 +215,11 @@ class Manager extends CI_Controller
 
         return $modules;
     }
+
   
   private function fetch_lessons($moduleID)
      {
+
         $lessons = array();
 
         try {
@@ -240,8 +253,10 @@ class Manager extends CI_Controller
     }
 
 
+
     private function fetch_attendance($classID, $weekNum)
-     {
+      {
+
         $records = array();
 
         try {
@@ -273,6 +288,7 @@ class Manager extends CI_Controller
 
     private function fetch_enrolments($moduleID)
     {
+
         $enrolments = array();
 
         try {
@@ -300,6 +316,7 @@ class Manager extends CI_Controller
 
         return $enrolments;
     }
+
 
    // Janvi's work.//
   private function fetch_room($roomID)

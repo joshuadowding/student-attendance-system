@@ -51,11 +51,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <div class="container" id="user-manager-wrapper">
          <?php
         if (isset($timetable)) {
+
+    <?php if (isset($_SESSION["sessionError"])) {
+        echo "<div class='alert alert-primary' role='alert'>";
+        echo $_SESSION["sessionError"];
+        echo "</div>";
+    }?>
+
+    <!-- 'As a manager I want to know which lectures have been poorly attended' Task #5 (Josh) -->
+    <div class="container" id="user-manager-wrapper">
+        <?php if (isset($timetable)) {
+
             echo "<div class='timetable-wrapper'>";
             echo "<div class='timetable-header'><h1 class='header'>Overall Module Attendance</h1></div>";
             echo "<div class='list-group' id='list-tab' role='tablist'>";
-
-
 
             foreach ($timetable->schedule as $schedule) {
                 $iterate = 0;
@@ -68,40 +77,35 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     echo "<a class='list-group-item active' id='list-" . $iterate . "-list' data-target='#list-" . $iterate . "' role='tab'>" . $module->title . "</a>";
                                 } else {
                                     echo "<a class='list-group-item' id='list-" . $iterate . "-list' data-target='#list-" . $iterate . "' role='tab'>" . $module->title . "</a>";
-
-    
-                                   }
-                                    break 2;
-
- 
                                 }
+                                break 2;
                             }
                         }
-
-                        $iterate = $iterate + 1;
                     }
+
+                    $iterate = $iterate + 1;
+                }
+            }
+
+            echo "</div><div class='tab-content-wrapper'><div class='scroll-overlay overlay-left'></div>";
+            echo "<div class='tab-content' id='nav-tab-content'>";
+
+            for ($z = 0; $z < count($timetable->schedule); $z++) {
+                $schedule = $timetable->schedule[$z];
+
+                if ($z == 0) {
+                    echo "<div class='tab-pane active' id='list-" . $z . "' role='tabpanel'>";
+                } else {
+                    echo "<div class='tab-pane' id='list-" . $z . "' role='tabpanel'>";
                 }
 
-                echo "</div><div class='tab-content-wrapper'><div class='scroll-overlay overlay-left'></div>";
-                echo "<div class='tab-content' id='nav-tab-content'>";
+                echo "<div class='tab-list'>";
 
-                for ($z = 0; $z < count($timetable->schedule); $z++) {
-                    $schedule = $timetable->schedule[$z];
-
-                    if ($z == 0) {
-                        echo "<div class='tab-pane active' id='list-" . $z . "' role='tabpanel'>";
-                    } else {
-                        echo "<div class='tab-pane' id='list-" . $z . "' role='tabpanel'>";
-                   }
-
-           echo "<div class='tab-list'>";
                 for ($x = 0; $x < count($schedule); $x++) {
-                   echo "<div class='timetable-item'>";
-
-                   echo "<div class='item-header'><span class='header'>Week " . ($x + 1) . "</span></div>";
+                    echo "<div class='timetable-item'>";
+                    echo "<div class='item-header'><span class='header'>Week " . ($x + 1) . "</span></div>";
 
                     echo "<div class='tab-list'>";
-
 
                     for ($x = 0; $x < count($schedule); $x++) {
                         echo "<div class='timetable-item'>";
@@ -156,7 +160,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 echo "<td>X</td>";
                             }
 
-                           if (isset($enrolments)) {
+                            if (isset($enrolments)) {
                                 echo "<td>" . count($enrolments) . "</td>";
                             } else {
                                 echo "<td>X</td>";
@@ -174,9 +178,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 echo "</div><div class='scroll-overlay overlay-right'></div></div>";
                 echo "</div>";
             }
+
             ?>
         </div>
-<<<<<<< HEAD
+
             echo "</div></div>";
                }
         ?>
@@ -247,13 +252,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
   			<?php endif; ?>	
         </table>
     </div>
-  
-
-
-   
-
-                             
-         
+    
+                        
     <?php //include("includes/body-footer-contents.php"); ?>
 
     <script type="text/javascript">
