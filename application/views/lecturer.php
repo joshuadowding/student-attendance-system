@@ -51,10 +51,36 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- 'As a lecturer I want to know attendance by class' Task #7 (Mani) -->
     <div class="container">
-        <!-- TODO -->
+        <script>
+            window.onload = function() {
+                var chart = new CanvasJS.Chart("chartContainer", {
+                    animationEnabled: true,
+                    title: {
+                        text: "Attendance By Class"
+                    },
+                    subtitles: [{
+                        text: "Specific Year"
+                    }],
+                    data: [{
+                        type: "pie",
+                        yValueFormatString: "#,##0.00",
+                        indexLabel: "{label} {y}",
+                        dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+                    }]
+                });
+
+                chart.render();
+            }
+        </script>
+
+        <?php if(isset($dataPoints)) : ?>
+            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        <?php endif; ?>
     </div>
 
     <?php //include("includes/body-footer-contents.php"); ?>
+
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>
 
 </html>
