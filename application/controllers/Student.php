@@ -46,16 +46,16 @@ class Student extends CI_Controller {
         try {
             $userID = $_SESSION["currentUser"]->userID;
 
-            $queryString = "SELECT concat(m.Title, '-', c.ClassType) as Title,count(*) as count FROM `attendance` a inner join `modules.classes` c on a.ClassID=c.ClassID inner join `modules` m on m.ModuleID=c.ModuleID inner join `Students` s on s.StudentID=a.StudentID where s.UserID=$userID GROUP by a.ClassID, m.ModuleID;";
+            $queryString = "SELECT concat(m.Title, '-', c.ClassType) as Title, count(*) as count FROM `attendance` a inner join `modules.classes` c on a.ClassID=c.ClassID inner join `modules` m on m.ModuleID=c.ModuleID inner join `Students` s on s.StudentID=a.StudentID where s.UserID=$userID GROUP by a.ClassID, m.ModuleID;";
             $queryResult = $this->db->query($queryString);
 
             if ($queryResult->num_rows() != 0) {
                 $dataPoints = array();
 
-                while ($row = $queryResult->fetch_assoc()) {
+                foreach ($queryResult->result() as $row) {
                     $data = array();
-                    $data['label'] = $row['Title'];
-                    $data['y'] = $row['count'];
+                    $data['label'] = $row->Title;
+                    $data['y'] = $row->count;
                     array_push($dataPoints, $data);
                 }
 
