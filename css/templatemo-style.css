@@ -245,7 +245,8 @@ section {
 	border: 0;
 	color: #f9f9f9;
 	padding: 10px 24px;
-	transition: all ease-in-out .25;
+	transition: all .25s ease-in-out !important;
+	border-radius: .25rem;
 }
 
 .custom-navbar .navbar-inner .navbar-content .navbar-nav .section-btn:hover {
@@ -324,14 +325,51 @@ section {
 .container#user-admin-wrapper .user-admin-search {
 	display: flex;
 	flex-direction: row;
+	padding: 16px;
+	width: 75%;
+	background-color: #eee;
+	border-radius: .25rem;
+	margin-bottom: 32px;
+}
+
+.container#user-admin-wrapper .user-admin-search #admin-search {
+	display: flex;
+	flex-direction: row;
 	justify-content: center;
 	align-content: center;
 	align-items: center;
-	padding: 8px;
+	flex-grow: 1;
+	margin: 0 16px 0 0;
+}
+
+.container#user-admin-wrapper .user-admin-search .btn#save-submit {
+	background-color: #009e0f;
+	border: 0;
+	border-radius: .25rem;
+	transition: all .25s ease-in-out !important;
+}
+
+.container#user-admin-wrapper .user-admin-search .btn#save-submit:hover {
+	background-color: #f9f9f9;
+	color: #009e0f;
+	transition: all .25s ease-in-out !important;
+}
+
+.container#user-admin-wrapper .user-admin-search .btn#login-submit {
+	background-color: #2b78e4;
+	border: 0;
+	border-radius: .25rem;
+	transition: all .25s ease-in-out !important;
+}
+
+.container#user-admin-wrapper .user-admin-search .btn#login-submit:hover {
+	background-color: #f9f9f9;
+	color: #2b78e4;
+	transition: all .25s ease-in-out !important;
 }
 
 .container#user-admin-wrapper .form-control {
-	margin: 0 16px;
+	margin: 0 16px 0 0;
 }
 
 .container#user-admin-wrapper {

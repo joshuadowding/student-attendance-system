@@ -41,36 +41,34 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- 'As an administrator, I want to manage students and their attendance records' Task #2 (Josh) -->
     <div class="container" id="user-admin-wrapper">
-        <?php
-        if (isset($_SESSION["sessionError"])) {
+        <?php if (isset($_SESSION["sessionError"])) {
             echo "<div class='alert alert-primary' role='alert'>";
             echo $_SESSION["sessionError"];
             echo "</div>";
-        }
-        ?>
+        }?>
 
-        <h1 class="header">Modify Student Attendance Record</h1>
+        <h1 class="header">Modify Attendance Record</h1>
 
-        <form class="user-admin-search" method="POST" action="/student-attendance-system/index.php/admin">
-            <label for="input-search">Search:</label>
-            <input type="text" class="form-control" id="input-username" name="input-search" required="required" placeholder="Student's Name" value="">
+        <div class="user-admin-search">
+            <form id="admin-search" method="POST" action="/student-attendance-system/index.php/admin">
+                <?php if (isset($students)) {
+                    echo "<input type='text' class='form-control' id='input-username' name='input-search' required='required' placeholder='" . $students[0]->firstName . " " . $students[0]->lastName . "' value=''>";
+                } else {
+                    echo "<input type='text' class='form-control' id='input-username' name='input-search' required='required' placeholder='Please enter a student&#39;s name...' value=''>";
+                }?>
 
-            <input type="submit" name="submit" class="btn btn-primary" id="login-submit" value="Search">
-        </form>
+                <input type="submit" name="submit" class="btn btn-primary" id="login-submit" value="Search">
+            </form>
+
+            <?php if (isset($students)) {
+                echo "<input type='submit' class='btn btn-primary' name='submit' id='save-submit' value='Save'>";
+            }?>
+        </div>
 
         <?php
         if (isset($students)) {
             foreach ($students as $student) {
-                echo "<form class='timetable-wrapper' method='POST' action='/student-attendance-system/index.php/admin/save'>";
-
-                echo "<div class='timetable-header'>";
-                echo "<p>" . $student->firstName . " " . $student->lastName . "</p>";
-                echo "<input type='submit' class='btn btn-primary' name='submit' id='save-submit' value='Save'></div>";
-
-                echo "<div class='timetable-header' id='timetable-key'>";
-                echo "<p><b>L</b> - Lecture, <b>P</b> - Practical, <b>S</b> - Seminar</p>";
-                echo "</div>";
-
+                echo "<form class='timetable-wrapper' id='timetable' method='POST' action='/student-attendance-system/index.php/admin/save'>";
                 echo "<input type='hidden' class='student' name='student' value='" . $student->studentID . "'></input>";
 
                 if (isset($student->timetable->schedule)) {
@@ -165,6 +163,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <script type="text/javascript">
         $(document).ready(function() {
+            $("#save-submit").click(function() {
+                $("#timetable").submit();
+            });
+
             $(".schedule_input").each(function(index) {
                 var value = $(this).val().replace("[", "").replace("]", "").split(",");
 
