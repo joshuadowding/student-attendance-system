@@ -309,7 +309,7 @@ class Manager extends CI_Controller {
         }
     }
 
-    // Fetch each (Janvi)
+    // Fetch each student from the db.student_class_total_attendance view, based on TotalAttendance and ExpectedAttendance threshold. (Janvi)
     private function fetch_bad_attandances($threshold = 20) {
         // ! = NOT logical operand
         if (!is_numeric($threshold)) {
