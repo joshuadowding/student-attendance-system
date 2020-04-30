@@ -198,24 +198,24 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
         <table style="width:100%">
             <tr>
-                <th>RoomID</th>
-                <th>Name</th>
-                <th>Location</th>
-                <th>Capacity</th>
-                <th>PCs</th>
-                <th>Printer</th>
-                <th>Type</th>
+                <th class="text-center">RoomID</th>
+                <th class="text-center">Name</th>
+                <th class="text-center">Location</th>
+                <th class="text-center">Capacity</th>
+                <th class="text-center">PCs</th>
+                <th class="text-center">Printer</th>
+                <th class="text-center">Type</th>
             </tr>
 
             <?php if (isset($room)) : ?>
                 <tr>
-                    <td><?php echo $room->roomID; ?></td>
-                    <td><?php echo $room->name; ?></td>
-                    <td><?php echo $room->location; ?></td>
-                    <td><?php echo $room->capacity; ?></td>
-                    <td><?php echo $room->pcs; ?></td>
-                    <td><?php echo $room->printer; ?></td>
-                    <td><?php echo $room->type; ?></td>
+                    <td class="text-center"><?php echo $room->roomID; ?></td>
+                    <td class="text-center"><?php echo $room->name; ?></td>
+                    <td class="text-center"><?php echo $room->location; ?></td>
+                    <td class="text-center"><?php echo $room->capacity; ?></td>
+                    <td class="text-center"><?php echo $room->pcs; ?></td>
+                    <td class="text-center"><?php echo $room->printer; ?></td>
+                    <td class="text-center"><?php echo $room->type; ?></td>
                 </tr>
             <?php endif; ?>
         </table>
