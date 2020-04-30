@@ -41,12 +41,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- 'As a lecturer I want to know attendance by module' Task #8 (Trinath, Mani) -->
     <div class="container">
-        <script>
+        <script type="text/javascript">
             window.onload = function() {
                 var moduleChart = new CanvasJS.Chart("moduleChartContainer", {
                     animationEnabled: true,
                     title: {
-                        text: "Attendance By Module"
+                        text: "Attendance by Module"
                     },
                     subtitles: [{
                         text: "Specific Year"
@@ -75,12 +75,12 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- 'As a lecturer I want to know attendance by class' Task #7 (Mani) -->
     <div class="container">
-        <script>
+        <script type="text/javascript">
             window.onload = function() {
                 var classChart = new CanvasJS.Chart("classChartContainer", {
                     animationEnabled: true,
                     title: {
-                        text: "Attendance By Class"
+                        text: "Attendance by Class"
                     },
                     subtitles: [{
                         text: "Specific Year"
