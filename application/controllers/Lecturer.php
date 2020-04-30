@@ -43,6 +43,15 @@ class Lecturer extends CI_Controller {
             // TODO: Return error 'wrong user type'.
         }
 
+        $this->populate_class_attendance($viewModel);
+        $this->populate_module_attendance($viewModel);
+
+        $this->load->database();
+        $this->load->view('lecturer', $viewModel);
+    }
+
+    // attendance by class
+    private function populate_class_attendance($viewModel) {
         try {
             $userID = $_SESSION["currentUser"]->userID;
 
@@ -59,15 +68,39 @@ class Lecturer extends CI_Controller {
                     array_push($dataPoints, $data);
                 }
 
-                $viewModel->dataPoints = $dataPoints;
+                $viewModel->classAttendance = $dataPoints;
             } else {
                 $_SESSION["loginError"] = "Unable to retrieve user data: not found.";
             }
-        } catch(PDOException $exception) {
+        } catch (PDOException $exception) {
             $_SESSION["loginError"] = "Internal Server Error";
         }
+    }
 
-        $this->load->database();
-        $this->load->view('lecturer', $viewModel);
+    // attendance by module
+    private function populate_module_attendance($viewModel) {
+        try {
+            $userID = $_SESSION["currentUser"]->userID;
+
+            $queryString = "SELECT m.Title, count(*) as count FROM `attendance` a inner join `modules.classes` c on a.ClassID=c.ClassID inner join `modules` m on m.ModuleID=c.ModuleID inner join `Staff` s on s.StaffID=c.StaffID where s.UserID=$userID GROUP by m.ModuleID;";
+            $queryResult = $this->db->query($queryString);
+
+            if ($queryResult->num_rows() != 0) {
+                $dataPoints = array();
+
+                foreach ($queryResult->result() as $row) {
+                    $data = array();
+                    $data['label'] = $row->Title;
+                    $data['y'] = $row->count;
+                    array_push($dataPoints, $data);
+                }
+
+                $viewModel->moduleAttendance = $dataPoints;
+            } else {
+                $_SESSION["loginError"] = "Unable to retrieve user data: not found.";
+            }
+        } catch (PDOException $exception) {
+            $_SESSION["loginError"] = "Internal Server Error";
+        }
     }
 }

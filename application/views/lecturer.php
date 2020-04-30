@@ -41,7 +41,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- 'As a lecturer I want to know attendance by module' Task #8 (Trinath) -->
     <div class="container">
-        <!-- TODO -->
+        
     </div>
 
     <!-- 'As a lecturer I want to know an individual student’s attendance' Task #6 (Trinath) -->
@@ -53,7 +53,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <div class="container">
         <script>
             window.onload = function() {
-                var chart = new CanvasJS.Chart("chartContainer", {
+                var classChart = new CanvasJS.Chart("classChartContainer", {
                     animationEnabled: true,
                     title: {
                         text: "Attendance By Class"
@@ -65,16 +65,37 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         type: "pie",
                         yValueFormatString: "#,##0.00",
                         indexLabel: "{label} {y}",
-                        dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+                        dataPoints: <?php echo json_encode($classAttendance, JSON_NUMERIC_CHECK); ?>
                     }]
                 });
 
-                chart.render();
+                var moduleChart = new CanvasJS.Chart("moduleChartContainer", {
+                    animationEnabled: true,
+                    title: {
+                        text: "Attendance By Module"
+                    },
+                    subtitles: [{
+                        text: "Specific Year"
+                    }],
+                    data: [{
+                        type: "pie",
+                        yValueFormatString: "#,##0.00",
+                        indexLabel: "{label} {y}",
+                        dataPoints: <?php echo json_encode($moduleAttendance, JSON_NUMERIC_CHECK); ?>
+                    }]
+                });
+
+                classChart.render();
+                moduleChart.render();
             }
         </script>
 
-        <?php if(isset($dataPoints)) : ?>
-            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        <?php if(isset($classAttendance)) : ?>
+            <div id="classChartContainer" style="height: 370px; width: 100%;"></div>
+        <?php endif; ?>
+
+        <?php if(isset($moduleAttendance)) : ?>
+            <div id="moduleChartContainer" style="height: 370px; width: 100%;"></div>
         <?php endif; ?>
     </div>
 

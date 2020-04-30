@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class LecturerViewModel {
-    public $dataPoints;
+    public $moduleAttendance;
+    public $classAttendance;
 }
 ?>
