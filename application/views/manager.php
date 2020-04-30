@@ -46,82 +46,71 @@ defined('BASEPATH') or exit('No direct script access allowed');
             echo "</div>";
         }
     ?>
-
+        
     <!-- 'As a manager I want to know which lectures have been poorly attended' Task #5 (Josh) -->
-    <div class="container" id="user-manager-wrapper">
-         <?php
-        if (isset($timetable)) {
-
-    <?php if (isset($_SESSION["sessionError"])) {
-        echo "<div class='alert alert-primary' role='alert'>";
-        echo $_SESSION["sessionError"];
-        echo "</div>";
-    }?>
-
-    <!-- 'As a manager I want to know which lectures have been poorly attended' Task #5 (Josh) -->
-    <div class="container" id="user-manager-wrapper">
+     <div class="container" id="user-manager-wrapper">
         <?php if (isset($timetable)) {
 
             echo "<div class='timetable-wrapper'>";
             echo "<div class='timetable-header'><h1 class='header'>Overall Module Attendance</h1></div>";
             echo "<div class='list-group' id='list-tab' role='tablist'>";
 
-            foreach ($timetable->schedule as $schedule) {
+             foreach ($timetable->schedule as $schedule) {
                 $iterate = 0;
 
                 foreach ($modules as $module) { // TODO: I hate this solution.
                     for ($x = 0; $x < count($schedule); $x++) {
-                        for ($y = 0; $y < count($schedule[$x]); $y++) {
-                            if ($module->moduleID == $schedule[$x][$y]->moduleID) {
+                      for ($y = 0; $y < count($schedule[$x]); $y++) {
+                           if ($module->moduleID == $schedule[$x][$y]->moduleID) {
                                 if ($iterate == 0) {
-                                    echo "<a class='list-group-item active' id='list-" . $iterate . "-list' data-target='#list-" . $iterate . "' role='tab'>" . $module->title . "</a>";
-                                } else {
-                                    echo "<a class='list-group-item' id='list-" . $iterate . "-list' data-target='#list-" . $iterate . "' role='tab'>" . $module->title . "</a>";
-                                }
-                                break 2;
-                            }
+                                   echo "<a class='list-group-item active' id='list-" . $iterate . "-list' data-target='#list-" . $iterate . "' role='tab'>" . $module->title . "</a>";
+                            } else {
+                            echo "<a class='list-group-item' id='list-" . $iterate . "-list' data-target='#list-" . $iterate . "' role='tab'>" . $module->title . "</a>";
+                               }
+                            break 2;
+                           }
                         }
                     }
 
-                    $iterate = $iterate + 1;
-                }
+                $iterate = $iterate + 1;
             }
+       }
 
-            echo "</div><div class='tab-content-wrapper'><div class='scroll-overlay overlay-left'></div>";
-            echo "<div class='tab-content' id='nav-tab-content'>";
+        echo "</div><div class='tab-content-wrapper'><div class='scroll-overlay overlay-left'></div>";
+        echo "<div class='tab-content' id='nav-tab-content'>";
 
-            for ($z = 0; $z < count($timetable->schedule); $z++) {
-                $schedule = $timetable->schedule[$z];
+        for ($z = 0; $z < count($timetable->schedule); $z++) {
+        $schedule = $timetable->schedule[$z];
 
-                if ($z == 0) {
-                    echo "<div class='tab-pane active' id='list-" . $z . "' role='tabpanel'>";
-                } else {
-                    echo "<div class='tab-pane' id='list-" . $z . "' role='tabpanel'>";
-                }
+        if ($z == 0) {
+        echo "<div class='tab-pane active' id='list-" . $z . "' role='tabpanel'>";
+        } else {
+              echo "<div class='tab-pane' id='list-" . $z . "' role='tabpanel'>";
+              }
 
-                echo "<div class='tab-list'>";
+               echo "<div class='tab-list'>";
 
-                for ($x = 0; $x < count($schedule); $x++) {
-                    echo "<div class='timetable-item'>";
-                    echo "<div class='item-header'><span class='header'>Week " . ($x + 1) . "</span></div>";
+               for ($x = 0; $x < count($schedule); $x++) {
+                   echo "<div class='timetable-item'>";
+                   echo "<div class='item-header'><span class='header'>Week " . ($x + 1) . "</span></div>";
 
-                    echo "<div class='tab-list'>";
+                   echo "<div class='tab-list'>";
 
-                    for ($x = 0; $x < count($schedule); $x++) {
-                        echo "<div class='timetable-item'>";
-                        echo "<div class='item-header'><span class='header'>Week " . ($x + 1) . "</span></div>";
+                   for ($x = 0; $x < count($schedule); $x++) {
+                       echo "<div class='timetable-item'>";
+                       echo "<div class='item-header'><span class='header'>Week " . ($x + 1) . "</span></div>";
 
-                        echo "<div class='item-content'>";
+                       echo "<div class='item-content'>";
 
-                        for ($y = 0; $y < count($schedule[$x]); $y++) {
+                      for ($y = 0; $y < count($schedule[$x]); $y++) {
                             echo "<div class='content'>";
                             echo "<table class='lesson'>";
 
-                            if ($y == 0) {
-                                echo "<tr><th></th><th>A</th><th>L</th><th>T</th></tr>";
-                            }
+                           if ($y == 0) {
+                            echo "<tr><th></th><th>A</th><th>L</th><th>T</th></tr>";
+                           }
 
-                            echo "<tr><td class='type'>" . $schedule[$x][$y]->classType . "</td>";
+                           echo "<tr><td class='type'>" . $schedule[$x][$y]->classType . "</td>";
 
                             $attendance = $schedule[$x][$y]->attendance;
                             $enrolments = $schedule[$x][$y]->enrolments;
@@ -130,43 +119,43 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 $attended = 0;
                                 $late = 0;
 
-                                foreach ($attendance as $record) {
-                                    if ($record->attended == "1" || $record->attended == 1) {
-                                        if ($record->late == "1" || $record->late == 1) {
+                               foreach ($attendance as $record) {
+                                if ($record->attended == "1" || $record->attended == 1) {
+                                       if ($record->late == "1" || $record->late == 1) {
                                             $late = $late + 1;
-                                        }
+                                       }
 
                                         $attended = $attended + 1;
                                     }
                                 }
 
-                                $percent = (70 / 100);
-                                $total = count($enrolments);
+                               $percent = (70 / 100);
+                               $total = count($enrolments);
                                 $threshold = ($total * $percent);
 
-                                if ($attended >= $threshold) {
-                                    echo "<td>" . $attended . "</td>";
+                               if ($attended >= $threshold) {
+                                echo "<td>" . $attended . "</td>";
                                 } else {
                                     echo "<td class='concern'>" . $attended . "</td>";
                                 }
 
                                 if ($late > 0) {
-                                    echo "<td class='late'>" . $late . "</td>";
-                                } else {
-                                    echo "<td>" . $late . "</td>";
-                                }
-                            } else {
+                                 echo "<td class='late'>" . $late . "</td>";
+                               } else {
+                                   echo "<td>" . $late . "</td>";
+                               }
+                          } else {
                                 echo "<td>X</td>";
                                 echo "<td>X</td>";
                             }
 
                             if (isset($enrolments)) {
-                                echo "<td>" . count($enrolments) . "</td>";
+                               echo "<td>" . count($enrolments) . "</td>";
                             } else {
                                 echo "<td>X</td>";
                                 }
 
-                            echo "</table></div>";
+                           echo "</table></div>";
                         }
 
                         echo "</div></div>";
@@ -179,13 +168,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 echo "</div>";
             }
 
-            ?>
-        </div>
-
-            echo "</div></div>";
-               }
-        ?>
-    </div>
+            ?> 
+       
 
 
 
@@ -231,23 +215,23 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
         <table style="width:100%">
         	<tr>
-        		<th>RoomID</th>
-        		<th>Name</th>
-        		<th>Location</th>
-        		<th>Capacity</th>
-        		<th>PCs</th>
-        		<th>Printer</th>
-        		<th>Type</th>
+        		<th class="text-center">RoomID</th>
+        		<th class="text-center">Name</th>
+        		<th class="text-center">Location</th>
+        		<th class="text-center">Capacity</th>
+        		<th class="text-center">PCs</th>
+        		<th class="text-center">Printer</th>
+        		<th class="text-center">Type</th>
         	</tr>
         	<?php if (isset($room)) : ?>
             <tr>
-   				<td><?php echo $room->roomID; ?></td>
-   				<td><?php echo $room->name; ?></td>
-  			    <td><?php echo $room->location; ?></td>
-  			    <td><?php echo $room->capacity; ?></td>
-  			    <td><?php echo $room->pcs; ?></td>
-  			    <td><?php echo $room->printer; ?></td>
-  			    <td><?php echo $room->type; ?></td>
+   				<td class="text-center"><?php echo $room->roomID; ?></td>
+   				<td class="text-center"><?php echo $room->name; ?></td>
+  			    <td class="text-center"><?php echo $room->location; ?></td>
+  			    <td class="text-center"><?php echo $room->capacity; ?></td>
+  			    <td class="text-center"><?php echo $room->pcs; ?></td>
+  			    <td class="text-center"><?php echo $room->printer; ?></td>
+  			    <td class="text-center"><?php echo $room->type; ?></td>
   			</tr>
   			<?php endif; ?>	
         </table>
