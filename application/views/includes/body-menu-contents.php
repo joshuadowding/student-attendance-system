@@ -10,7 +10,7 @@
 
                 <span class="navbar-brand">Student Attendance System</span>
 
-                <?php if(!empty($_SESSION["currentUser"])) {
+                <?php if (!empty($_SESSION["currentUser"])) {
                     echo "<span class='navbar-page'>" . $_SESSION["currentUser"]->userType . "</span>";
                 }?>
             </div>
@@ -19,6 +19,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <?php
                         if (!empty($_SESSION["currentUser"])) {
+                            echo "<p class='nav-user'>" . $_SESSION["currentUser"]->userFirstName . "</p>";
                             echo "<a href='/student-attendance-system/' class='section-btn'>Logout</a>";
                         } else {
                             echo "<a href='/student-attendance-system/' class='section-btn'>Login</a>";
