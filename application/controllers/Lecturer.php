@@ -29,18 +29,18 @@ class Lecturer extends CI_Controller {
         // NOTE: Catch unauthorised users before processing the request:
         if (!empty($_SESSION["currentUser"])) {
             if ($_SESSION["currentUser"]->userType != "Lecturer") {
+                $_SESSION["loginError"] = "Internal Error: Incorrect User Type";
+
                 $this->load->helper('url');
                 redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (login) page.
-
-                // TODO: Return error 'wrong user type'.
             } else {
                 $this->load->database();
             }
         } else {
+            $_SESSION["loginError"] = "Session Expired: Please Login";
+
             $this->load->helper('url');
             redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (login) page.
-
-            // TODO: Return error 'wrong user type'.
         }
 
         $this->populate_class_attendance($viewModel);
@@ -50,7 +50,7 @@ class Lecturer extends CI_Controller {
         $this->load->view('lecturer', $viewModel);
     }
 
-    // attendance by class
+    // 'As a lecturer I want to know attendance by class' Task #7 (Mani)
     private function populate_class_attendance($viewModel) {
         try {
             $userID = $_SESSION["currentUser"]->userID;
@@ -77,7 +77,7 @@ class Lecturer extends CI_Controller {
         }
     }
 
-    // attendance by module
+    // 'As a lecturer I want to know attendance by module' Task #8 (Trinath, Mani)
     private function populate_module_attendance($viewModel) {
         try {
             $userID = $_SESSION["currentUser"]->userID;
