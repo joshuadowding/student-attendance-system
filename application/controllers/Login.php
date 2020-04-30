@@ -25,13 +25,12 @@ class Login extends CI_Controller {
 
         session_start(); // DEBUG: Start/Resume session.
 
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $this->load->database();
+        $this->load->helper('url');
+        $this->load->database();
 
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($this->process()) {
                 if ($this->retrieve()) {
-                    $this->load->helper('url');
-
                     switch ($_SESSION["currentUser"]->userType) {
                         case "Student":
                             redirect(base_url() . "index.php/student", 'location');
@@ -51,17 +50,17 @@ class Login extends CI_Controller {
 
                         default:
                             $_SESSION["loginError"] = "Unknown account type";
-                            $this->load->view('login'); // DEBUG: Go back to login screen on login failure.
+                            redirect(base_url(), 'location'); // DEBUG: Go back to login screen on login failure.
                             break;
                     }
                 } else {
                     // NOTE: Unable to retrieve user information. Display error(?).
                     $_SESSION["loginError"] = "Unable to retrieve user information";
-                    $this->load->view('login'); // DEBUG: Go back to login screen on login failure.
+                    redirect(base_url(), 'location'); // DEBUG: Go back to login screen on login failure.
                 }
             } else {
                 $_SESSION["loginError"] = "Unable to retrieve user credentials";
-                $this->load->view('login'); // DEBUG: Go back to login screen on login failure.
+                redirect(base_url(), 'location'); // DEBUG: Go back to login screen on login failure.
             }
         } else if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $_SESSION["currentUser"] = null; // NOTE: Remove existing user from session.
@@ -69,6 +68,7 @@ class Login extends CI_Controller {
         }
     }
 
+    // Process the input and search for the corresponding user in the db.users database. (Josh)
     public function process() {
         $validationSuccess = false; // NOTE: Result
         $inputUsername = null;
@@ -122,6 +122,7 @@ class Login extends CI_Controller {
         return $validationSuccess;
     }
 
+    // Retrieve the user's details from either the db.students or db.staff databases. (Josh)
     private function retrieve() {
         $retrievalSuccess = false;
 
