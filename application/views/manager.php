@@ -170,11 +170,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!--'As a Manager I want to be alerted when a student has attendance below certain thresholds.' Task #3 (Janvi) -->
     <div class="container">
-        <h1 class="header"> Student's Bad Attendance</h1>
+        <h1 class="header">Student's Bad Attendance</h1>
 
         <form id="user-manager-search" class="form-inline" method="POST" action="/student-attendance-system/index.php/manager">
             <div class="form-group">
-                <label for="input-number"> Change a bad attendance threshold:</label>
+                <label for="input-number">Change a bad attendance threshold:</label>
                 <div class="input-group">
                     <?php $threshold = is_numeric($threshold) ? $threshold : 20; ?>
                     <input type="text" class="form-control" name="input-search" required="required" placeholder="<?php echo $threshold; ?>" value="<?php echo $threshold; ?>">
@@ -197,7 +197,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- 'As a manager I want to know room usage vs capacity' Task #4 (Janvi) -->
     <div class="container">
-        <h1 class="header"> Room's Usage or Capacity View</h1>
+        <h1 class="header">Room's Usage or Capacity View</h1>
 
         <form id="user-manager-search" method="POST" action="/student-attendance-system/index.php/manager">
             <label for="input-room">Search To View Room's Details:</label>

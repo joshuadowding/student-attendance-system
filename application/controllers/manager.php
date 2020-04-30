@@ -1,9 +1,7 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-class Manager extends CI_Controller
-{
-
+class Manager extends CI_Controller {
     /**
      * Index Page for this controller.
      *
@@ -19,8 +17,7 @@ class Manager extends CI_Controller
      * map to /index.php/welcome/<method_name>
      * @see https://codeigniter.com/user_guide/general/urls.html
      */
-    public function index()
-    {
+    public function index() {
         include_once('application/models/Room.php');
         include_once('application/models/User.php');
         include_once('application/models/Student.php');
@@ -37,31 +34,23 @@ class Manager extends CI_Controller
 
         session_start(); // DEBUG: Start/Resume session.
 
-        /*
-        if(isset($_SESSION['room_id'])){
-            header('Location:manager_PDO.php');
-        }
-        */
-
         $viewModel = new ManagerViewModel();
-
         $_SESSION["sessionError"] = null;
 
         // NOTE: Catch unauthorised users before processing the request:
         if (!empty($_SESSION["currentUser"])) {
             if ($_SESSION["currentUser"]->userType != "Manager") {
+                $_SESSION["loginError"] = "Internal Error: Incorrect User Type";
+
                 $this->load->helper('url');
                 redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (login) page.
-
-                // TODO: Return error 'wrong user type'.
             } else {
                 $this->load->database();
             }
         } else {
+            $_SESSION["loginError"] = "Internal Error: Please Login";
+
             $this->load->helper('url');
-
-            redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (home) page.
-
             redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (login) page.
         }
 
@@ -80,10 +69,7 @@ class Manager extends CI_Controller
         }
     }
 
-
-
-
-// 'As a manager I want to know which lectures have been poorly attended' Task #5 (Josh)
+    // 'As a manager I want to know which lectures have been poorly attended' Task #5 (Josh)
     private function populate_lecture_attendance($viewModel) {
         $modules = $this->fetch_modules();
 
@@ -109,7 +95,7 @@ class Manager extends CI_Controller
                     if (isset($lesson->attendance)) {
                         array_push($lessons, clone $lesson);
                     } else {
-                      $lesson->attendance = array();
+                        $lesson->attendance = array();
 
                         $attendance = new Attendance();
                         $attendance->classID = $lesson->classID;
@@ -127,67 +113,54 @@ class Manager extends CI_Controller
             }
 
             array_push($timetable->schedule, $schedule);
-    }
+        }
 
         $viewModel->timetable = $timetable;
         $viewModel->modules = $modules;
     }
-       
-
 
     // 'As a manager I want to know room usage vs capacity' Task #4 (Janvi)
-    private function populate_room_usage($viewModel)
-    {
-      $inputSearch = isset($_POST["input-search"]) ? $_POST["input-search"] : null; 
-      $inputHelper = new InputHelper();
+    private function populate_room_usage($viewModel) {
+        $inputSearch = isset($_POST["input-search"]) ? $_POST["input-search"] : null;
+        $inputHelper = new InputHelper();
 
         if (!empty($inputSearch)) {
-          $_inputSearch = $inputHelper->validate($inputSearch);
+            $_inputSearch = $inputHelper->validate($inputSearch);
 
             // TODO: Process input and display relevant output.
             $room = $this->fetch_room($_inputSearch);
 
 
             if ($room instanceof Room) {
-                } else {
+            } else {
                 $_SESSION["sessionError"] = "Unable to fetch rooms : no rooms present.";
+            }
+            $viewModel->room = $room;
+
+            if (isset($room->capacity->usage)) {
+                $_SESSION["sessionError"] = "Unable to fetch capacity usage : no capacity usage present.";
+            }
         }
-          $viewModel->room = $room;
-
-          if (isset($room->capacity->usage)) {
-            $_SESSION["sessionError"] ="Unable to fetch capacity usage : no capacity usage present.";
-          }
-      }
-   }
-
-
-   //'As a Manager I want to be alerted when a student has attendance below certain thresholds.' Task #3 (Janvi)
-
-  private function populate_student_attendance_alert($viewModel)
-  {
-    $inputSearch = isset($_POST["input-search"]) ? $_POST["input-search"] : null; 
-    $inputHelper = new InputHelper();
-
-    $badAttendees = array();
-    $threshold = 20;
-    if (!empty($inputSearch)) {
-      $threshold = $inputHelper->validate($inputSearch);
-      $badAttendees = $this->fetch_bad_attandances($threshold);
     }
-      
-    $viewModel->badAttendees = $badAttendees;  
-    $viewModel->threshold = $threshold;   
-  }
 
+    // 'As a Manager I want to be alerted when a student has attendance below certain thresholds.' Task #3 (Janvi)
+    private function populate_student_attendance_alert($viewModel) {
+        $inputSearch = isset($_POST["input-search"]) ? $_POST["input-search"] : null;
+        $inputHelper = new InputHelper();
 
-  
-  
-           
-              
-                    
+        $badAttendees = array();
+        $threshold = 20;
+        if (!empty($inputSearch)) {
+            $threshold = $inputHelper->validate($inputSearch);
+            $badAttendees = $this->fetch_bad_attandances($threshold);
+        }
 
-  private function fetch_modules() {
+        $viewModel->badAttendees = $badAttendees;
+        $viewModel->threshold = $threshold;
+    }
 
+    // Fetch each module from the db.modules database. (Josh)
+    private function fetch_modules() {
         $modules = array();
 
         try {
@@ -216,10 +189,8 @@ class Manager extends CI_Controller
         return $modules;
     }
 
-  
-  private function fetch_lessons($moduleID)
-     {
-
+    // Fetch each lesson from the db.modules.classes database, based on ModuleID. (Josh)
+    private function fetch_lessons($moduleID) {
         $lessons = array();
 
         try {
@@ -252,11 +223,8 @@ class Manager extends CI_Controller
         return $lessons;
     }
 
-
-
-    private function fetch_attendance($classID, $weekNum)
-      {
-
+    // Fetch each attendance record from the db.attendance database, based on ClassID and Week. (Josh)
+    private function fetch_attendance($classID, $weekNum) {
         $records = array();
 
         try {
@@ -286,9 +254,8 @@ class Manager extends CI_Controller
         return $records;
     }
 
-    private function fetch_enrolments($moduleID)
-    {
-
+    // Fetch each enrolment record from the db.modules.students database, based on ModuleID. (Josh)
+    private function fetch_enrolments($moduleID) {
         $enrolments = array();
 
         try {
@@ -317,71 +284,66 @@ class Manager extends CI_Controller
         return $enrolments;
     }
 
+    // Fetch each room from the db.rooms database, based on RoomID. (Janvi)
+    private function fetch_room($roomID) {
+        try {
+            $queryString = "SELECT * FROM `rooms` WHERE RoomID=?;";
+            $queryResult = $this->db->query($queryString, array($roomID));
 
-   // Janvi's work.//
-  private function fetch_room($roomID)
-  {
-      try {
-        $queryString = "SELECT * FROM `rooms` WHERE RoomID=?;";
-        $queryResult = $this->db->query($queryString, array($roomID));
+            if ($queryResult->num_rows() != 0) {
+                foreach ($queryResult->result() as $row) {
 
-        if ($queryResult->num_rows() != 0) {
-            foreach($queryResult->result() as $row) {
+                    $room = new Room(); //db->rooms table
+                    $room->roomID = $row->RoomID;
+                    $room->name = $row->Name;
+                    $room->location = $row->Location;
+                    $room->capacity = (int) $row->Capacity;
+                    $room->pcs = (int) $row->PCs;
+                    $room->printer = (int) $row->Printer;
+                    $room->type = $row->Type;
 
-                $room = new Room(); //db->rooms table
-                $room->roomID = $row->RoomID;
-                $room->name = $row->Name;
-                $room->location = $row->Location;
-                $room->capacity = (int)$row->Capacity;
-                $room->pcs = (int)$row->PCs;
-                $room->printer = (int)$row->Printer;
-                $room->type = $row->Type;
-         
-                return $room;
+                    return $room;
+                }
             }
+        } catch (PDOException $exception) {
         }
-      } catch(PDOException $exception) {       
-
-      }
-  }
-
-
-  private function fetch_bad_attandances($threshold = 20)
-  { 
-    // ! = NOT logical operand
-    if (!is_numeric($threshold)) {
-      $threshold = 20;
     }
 
-    if (!($threshold > 0 && $threshold <= 100)) { 
-      $threshold = 20;
-    }
-    
-    $badAttendances = array();
-      try {
-       // $queryString = "SELECT * FROM `attendance` LIMIT ?;";
-        $queryString = "SELECT `StudentID`,`StudentName`,`ClassID`,`TotalAttendance`, `ExpectedAttendance`
-                        FROM `student_class_total_attendance`
-                        WHERE `TotalAttendance` / `ExpectedAttendance` * 100 < {$threshold};";                
-                        
-       //  $queryResult = $this->db->query($queryString, array(3));
-        $queryResult = $this->db->query($queryString);
-
-        if ($queryResult->num_rows() != 0) {
-            foreach($queryResult->result() as $row) {
-                $badAttendance = new BadAttendance(); 
-                $badAttendance->studentID = (int)$row->StudentID;
-                $badAttendance->studentName = $row->StudentName;
-                $badAttendance->classID = $row->ClassID;
-                $badAttendance->attendance = $row->TotalAttendance / $row->ExpectedAttendance * 100;
-         
-                $badAttendances[] = $badAttendance;
-            }
+    // Fetch each (Janvi)
+    private function fetch_bad_attandances($threshold = 20) {
+        // ! = NOT logical operand
+        if (!is_numeric($threshold)) {
+            $threshold = 20;
         }
-      } catch(PDOException $exception) {       
 
-      }
-      return $badAttendances;
-  }
+        if (!($threshold > 0 && $threshold <= 100)) {
+            $threshold = 20;
+        }
 
+        $badAttendances = array();
+        try {
+            // $queryString = "SELECT * FROM `attendance` LIMIT ?;";
+            $queryString = "SELECT `StudentID`,`StudentName`,`ClassID`,`TotalAttendance`, `ExpectedAttendance`
+                            FROM `student_class_total_attendance`
+                            WHERE `TotalAttendance` / `ExpectedAttendance` * 100 < {$threshold};";
+
+            // $queryResult = $this->db->query($queryString, array(3));
+            $queryResult = $this->db->query($queryString);
+
+            if ($queryResult->num_rows() != 0) {
+                foreach ($queryResult->result() as $row) {
+                    $badAttendance = new BadAttendance();
+                    $badAttendance->studentID = (int) $row->StudentID;
+                    $badAttendance->studentName = $row->StudentName;
+                    $badAttendance->classID = $row->ClassID;
+                    $badAttendance->attendance = $row->TotalAttendance / $row->ExpectedAttendance * 100;
+
+                    $badAttendances[] = $badAttendance;
+                }
+            }
+        } catch (PDOException $exception) {
+        }
+
+        return $badAttendances;
+    }
 }
