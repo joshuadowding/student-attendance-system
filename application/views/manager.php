@@ -43,7 +43,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         echo "<div class='alert alert-primary' role='alert'>";
         echo $_SESSION["sessionError"];
         echo "</div>";
-    } ?>
+    }?>
 
     <!-- 'As a manager I want to know which lectures have been poorly attended' Task #5 (Josh) -->
     <div class="container" id="user-manager-wrapper">
@@ -155,8 +155,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 echo "</div><div class='scroll-overlay overlay-right'></div></div>";
             }
 
-            echo "</div></div>";
-        } ?>
+            echo "</div></div></div>";
+        }?>
     </div>
 
     <!--'As a Manager I want to be alerted when a student has attendance below certain thresholds.' Task #3 (Janvi) -->

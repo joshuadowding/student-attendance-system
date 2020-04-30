@@ -48,7 +48,7 @@ class Manager extends CI_Controller {
                 $this->load->database();
             }
         } else {
-            $_SESSION["loginError"] = "Internal Error: Please Login";
+            $_SESSION["loginError"] = "Session Expired: Please Login";
 
             $this->load->helper('url');
             redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (login) page.
