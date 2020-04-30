@@ -2,7 +2,6 @@
 defined('BASEPATH') or exit('No direct script access allowed');
 
 class Admin extends CI_Controller {
-
     /**
      * Index Page for this controller.
      *
@@ -41,12 +40,16 @@ class Admin extends CI_Controller {
         // NOTE: Catch unauthorised users before processing the request:
         if (!empty($_SESSION["currentUser"])) {
             if ($_SESSION["currentUser"]->userType != "Administrator") {
+                $_SESSION["loginError"] = "Internal Error: Incorrect User Type";
+
                 $this->load->helper('url');
                 redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (home) page.
             } else {
                 $this->load->database();
             }
         } else {
+            $_SESSION["loginError"] = "Session Expired: Please Login";
+
             $this->load->helper('url');
             redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (home) page.
         }
@@ -144,6 +147,7 @@ class Admin extends CI_Controller {
         }
     }
 
+    // HTTP Endpoint: response to timetable-wrapper submit. (Josh)
     public function save() {
         include_once('application/models/Attendance.php');
 
@@ -192,7 +196,8 @@ class Admin extends CI_Controller {
         }
     }
 
-    public function commit_attendance($record) {
+    // Insert new/missing attendance records into the db.attendance database. (Josh)
+    private function commit_attendance($record) {
         $success = false;
 
         try {
@@ -208,7 +213,8 @@ class Admin extends CI_Controller {
         return $success;
     }
 
-    public function update_attendance($records) {
+    // Update existing attencance records in the db.attendance database. (Josh)
+    private function update_attendance($records) {
         $success = false;
 
         try {
@@ -230,7 +236,8 @@ class Admin extends CI_Controller {
         return $success;
     }
 
-    public function fetch_students($inputSearch) {
+    // Fetch each student from the db.students database, based on FirstName and LastName. (Josh)
+    private function fetch_students($inputSearch) {
         $students = array();
 
         try {
@@ -264,7 +271,8 @@ class Admin extends CI_Controller {
         return $students;
     }
 
-    public function fetch_enrolments($studentID) {
+    // Fetch each enrolment record from the db.modules.students database, based on StudentID. (Josh)
+    private function fetch_enrolments($studentID) {
         $enrolments = array();
 
         try {
@@ -293,7 +301,8 @@ class Admin extends CI_Controller {
         return $enrolments;
     }
 
-    public function fetch_modules($moduleID) {
+    // Fetch each module from the db.modules database, based on ModuleID. (Josh)
+    private function fetch_modules($moduleID) {
         $modules = array();
 
         try {
@@ -322,7 +331,8 @@ class Admin extends CI_Controller {
         return $modules;
     }
 
-    public function fetch_lessons($moduleID) {
+    // Fetch each lesson from the db.modules.classes database, based on ModuleID. (Josh)
+    private function fetch_lessons($moduleID) {
         $lessons = array();
 
         try {
@@ -355,7 +365,8 @@ class Admin extends CI_Controller {
         return $lessons;
     }
 
-    public function fetch_attendance($classID, $studentID, $week) {
+    // Fetch each attendance record from the db.attendance database, based on StudentID and Week. (Josh)
+    private function fetch_attendance($classID, $studentID, $week) {
         $attendanceModel = new Attendance();
 
         try {
