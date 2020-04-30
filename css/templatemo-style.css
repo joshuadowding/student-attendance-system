@@ -252,6 +252,8 @@ section {
     LOGIN
   -----------------------------------------*/
 
+/* (Josh) */
+
 #user-login {
 	width: 392px;
 	display: flex;
@@ -281,16 +283,22 @@ section {
 	align-items: center;
 }
 
+.user-login-wrapper .user-login-header {
+	position: absolute;
+	top: 20%;
+}
+
 .user-login-wrapper .user-login-message {
 	width: 392px;
 	display: flex;
 	flex-direction: column;
 	padding: 16px;
 	border: 1px solid black;
-	margin-bottom: 16px;
+	border-bottom: 0;
 }
 
 .user-login-wrapper .user-login-message p {
+	color: #333;
 	margin-bottom: 0;
 }
 
@@ -299,6 +307,8 @@ section {
 /*---------------------------------------
     ADMIN
   -----------------------------------------*/
+
+/* (Josh) */
 
 .container#user-admin-wrapper .user-admin-search {
 	display: flex;
