@@ -39,6 +39,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <?php include("includes/body-preloader-contents.php"); ?>
     <?php include("includes/body-menu-contents.php"); ?>
 
+    <?php
+        if (isset($_SESSION["sessionError"])) {
+            echo "<div class='alert alert-primary' role='alert'>";
+            echo $_SESSION["sessionError"];
+            echo "</div>";
+        }
+    ?>
+
+    <!-- 'As a manager I want to know which lectures have been poorly attended' Task #5 (Josh) -->
+    <div class="container" id="user-manager-wrapper">
+         <?php
+        if (isset($timetable)) {
+
     <?php if (isset($_SESSION["sessionError"])) {
         echo "<div class='alert alert-primary' role='alert'>";
         echo $_SESSION["sessionError"];
@@ -48,6 +61,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <!-- 'As a manager I want to know which lectures have been poorly attended' Task #5 (Josh) -->
     <div class="container" id="user-manager-wrapper">
         <?php if (isset($timetable)) {
+
             echo "<div class='timetable-wrapper'>";
             echo "<div class='timetable-header'><h1 class='header'>Overall Module Attendance</h1></div>";
             echo "<div class='list-group' id='list-tab' role='tablist'>";
@@ -150,7 +164,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 echo "<td>" . count($enrolments) . "</td>";
                             } else {
                                 echo "<td>X</td>";
-                            }
+                                }
 
                             echo "</table></div>";
                         }
@@ -164,286 +178,82 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 echo "</div><div class='scroll-overlay overlay-right'></div></div>";
                 echo "</div>";
             }
-        }?>
-    </div>
 
-    <!-- 'As a manager I want to know room usage vs capacity' Task #4 (Janvi) -->
-    <div class="container" id="user-manager-wrapper">
-        <h1 class="header"> Room's Usage or Capacity View</h1>
+            ?>
+        </div>
 
-        <form id="user-manager-search" method="POST" action="/student-attendance-system/index.php/manager">
-            <label for="input-room">Search:</label>
-            <input type="text" class="form-control" id="input-username" name="input-search" required="required" placeholder="Room's Capacity" value="">
-            <input type="submit" name="submit" class="btn btn-primary" id="login-submit" value="Search">
-        </form>
-
-        <?php
-            if (isset($capacity)) {
-                foreach ($capacity as $capacity) {
-                    echo "<div class = 'capacity-wrapper' method ='POST' action = 'student-attendance-system/index.php/manager/save'>";
-                    echo "<div class = 'capacity-header'> <h1 class = 'header'> Room Capacity </h1></div>";
-                    echo "<div class = 'list-group' id = 'list-tab' role = 'tablist'>";
-
-                    echo "<p>" . $room->RoomID . " " . $room->Name . "</p>";
-                    echo "<input type='submit' class='btn btn-primary' name='submit' id='save-submit' value='Save'></div>";
-
-                    echo "<div class='capacity-header' id='capacity-key'>";
-                    echo "<p><b>PCs</b> - PCs, <b>P</b> - Printer, <b>T</b> - Type</p>";
-                    echo "</div>";
-
-                    echo "<input type='hidden' class='room' name='room' value='" . $room->roomID . "'></input>";
-                }
-
-                foreach ($capacity->group as $group) {
-                    $repeat = 0;
-
-                    foreach ($usage as $usage) {
-                        for ($a = 0;$a<count($group);$a++) {
-                            for ($c = 0;$c<count($group[$a]);$c++) {
-                                if ($usage->roomID == $capacity [$a][$c]->roomID) {
-                                    if ($repeat == 0) {
-                                        echo "<a class='list-group-item active' id='list-" . $repeat . "-list' data-target='#list-" . $repeat . "' role='tab'>" . $room->roomID . "</a>"; 
-                                    } else {
-                                        echo "<a class='list-group-item' id='list-" . $repeat . "-list' data-target='#list-" . $repeat . "' role='tab'>" . $room->roomID  . "</a>";
-                                    }
-                                    break 2;
-                                }
-                            }
-                        }
-
-                        $repeat = $repeat + 1;
-                    }
-                }
-
-                echo "<div class='tab-content-wrapper'><div class='scroll-overlay overlay-left'></div>";
-                echo "<div class = 'tab-content' id = 'nav-tab-content'>";
-
-                for ($d = 0;$d < count($capacity->usage);$d++) {
-                    $usage = $capacity->usage[$d];
-
-                    if ($d == 0) {
-                        echo "<div class='tab-pane active' id='list-" . $d . "' role='tabpanel'>";
-                    } else {
-                        echo "<div class='tab-pane' id='list-" . $d ."' role= 'tabpanel'>";
-                    }
-                }
-
-                echo "<div class='tab-list'>";
-
-                for ($a = 0;$a < count($usage);$a++) {
-                    echo "<div class='capacity-item'>";
-                    echo "<div class='item-header'><span class='header'>Week" .($a + 1). "</span></div>";
-                    echo "<div class='tab-list'>";
-                }
-
-                for ($a = 0;$a < count($usage);$a++) {
-                    echo "<div class='capacity-item'>";
-                    echo "<div class='item-header'><span class='header'> Week" .($a + 1). "</span></div>";
-                    echo "<div class='item-content'>";
-
-                    for ($c = 0;$c < count($usage[$a]);$c++) {
-                        echo "<div class='content'>";
-                        echo "<table class='room'>";
-
-                        if ($c == 0) {
-                            echo "<tr><th></th><th>PCs</th><th>Printer</th></tr>";
-                        }
-
-                        echo "<tr><td class='type'>" . $usage[$a][$c]->Type ."</td>";
-
-                        $capacity = $usage[$a][$c]->capacity;
-
-                        if (isset($capacity)) {
-                            //$name = 0;
-                            //$location = 0;
-                            $capacity = 0;
-                            $pcs = 0;
-                            $printer = 0;
-                            $type = 0;
-
-                            foreach ($capacity as $record) {
-                                if ($record->capacity == "1" || $record->capacity == 1) {
-                                    $capacity = $capacity + 1;
-                                }
-                            }
-
-                            echo "<td>".$capacity."</td>";
-                        }
-
-                        echo "</table></div>";
-                    }
-                }
-
-                echo "</div></div>";
-                echo "</div></div>";
-                echo "</div></div>";
-                echo "</div><div class='scroll-overlay overlay-right'></div></div>";
-                echo "</div>";
-            }
+            echo "</div></div>";
+               }
         ?>
     </div>
 
-    <div class="container" id="user-manager-wrapper">
-        <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-            <ul class="navabr-nav mr-auto">
-                <li class="nav-item dropdown">
-                    <a class="nav-link" href="http.//example.com" id="dropdown01" data-toggle="dropdown" ana-haspopup="True" ana-extended="false">Notifications
-                        <?php
-                            $query = "SELECT * from 'attendance' where 'status' = 'unread.' order by 'date' DESC";
-                            /* "fetchAll" doesn't exist.
-                            if (count(fetchAll($query))>0) {
 
-                            }
-                            */
-                        ?>
 
-                        <span class="badge badge-light">
-                            <?php //echo count(fetchAll($query); ?>
-                        </span>
-                    </a>
 
-                    <div class="dropdown.menu" ana-labelledby="dropdown01">
-                        <?php
-                            /* "fetchAll" doesn't exist.
-                            if (count(fetchAll($query)) > 0) {
-                                foreach (fetchAll($query) as $b) {
-                                    
-                                }
-                            }
-                            */
-                        ?>
+    <!--'As a Manager I want to be alerted when a student has attendance below certain thresholds.' Task #3 (Janvi) -->
+        
+        <h1 class ="header"> Student's Bad Attendance</h1>
 
-                        <a class="dropdown.iem" href="#">
-                            <small><i><?php //echo $['date'] ?></i></small><br />
+        <form id="user-manager-search" class="form-inline" method="POST" action="/student-attendance-system/index.php/manager">
+        	<div class="form-group">
+    			<label for="input-number"> Change a bad attendance threshold:</label>
+    			<div class="input-group">
+    				<?php $threshold = is_numeric($threshold) ? $threshold : 20; ?>
+    				<input type="text" class="form-control" name="input-search" required="required" placeholder="<?php echo $threshold; ?>" value="<?php echo $threshold; ?>">
+     				<div class="input-group-addon">%</div>
+    			</div>
+ 			</div>
+        	
+        	<input type="submit" name="submit" class="btn btn-primary" id="login-submit" value="Update">
+        </form>
 
-                            <?php
-                                /*
-                                if ($[type]=='Notifications') {
-                                    echo "Notifications";
-                                }
-                                */
-                            ?>
+        <?php if (is_array($badAttendees)) : ?>    
+      	  	<?php foreach($badAttendees as $badAttendance) : ?> 
+    	<div class="alert alert-danger alert-dismissible">
+       	 	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+ 	    	<strong>Attention bad attendee!</strong> Student <?php echo $badAttendance->studentName; ?> with ID= <?php echo $badAttendance->studentID; ?> has attendance of <?php echo ceil($badAttendance->attendance); ?> % for class with ID = <?php echo $badAttendance->classID; ?>
+ 	   	</div>
+	  		<?php endforeach; ?>
+	  	<?php endif; ?>
 
-                            <div class="dropdown-divider"></div>
-                            <?php
-                                /*
-                                } else {
-                                    echo "No Notifications Yet.";
-                                }
-                                */
-                            ?>
-                        </a>
-                    </div>
-                </li>
-            </ul>
 
-            <?php
-                foreach ($record->attendance as $attendance) {
-                    $trace = 0;
+    
+   
+    <!-- 'As a manager I want to know room usage vs capacity' Task #4 (Janvi) -->
+                        
+        <h1 class="header"> Room's Usage or Capacity View</h1>
 
-                    foreach ($students as $student){
-                        for ($b = 0; $b < count($attendance); $b++) {
-                            for ($e = 0; $e < count($attendance[$b]); $e++) {
-                                if ($student->studentID == $attendance[$b][$e]->studentID) {
-                                    if ($trace == 0) {
-                                        print "<a class='list-group-item active' id ='list-" . $trace ." -list' data-target='#list-" . $trace ." ' role-'tab'>". $student->StudentID. "</a>";
-                                    }
+        <form id = "user-manager-search" method = "POST" action = "/student-attendance-system/index.php/manager">
+         	<label for = "input-room">Search To View Room's Details:</label>
+         	<input type ="text" class="form-control" name="input-search" required="required" placeholder ="Room's ID">
+         	<input type="submit" name="submit" class="btn btn-primary" id="login-submit" value="Search">   
+        </form>
 
-                                    break 2;
-                                }
-                            }
-                        }
-
-                        $trace = $trace + 1;
-                    }
-                }
-
-                echo "<div class = 'tab-content-wrapper'><div class = 'scroll-overlay-left'></div></div>";
-                echo "<div class = 'tab-content' id = 'nav-tab-content'> </div>";
-
-                for ($f = 0; $f < count($record->attendance); $f++) {
-                    $attendance = $record->attendance[$f];
-
-                    if ($f == 0) {
-                        echo "<div class = 'tab-pane active 'id = 'list-" .$f." 'role='tabpanel'>";
-                    } else {
-                        echo "<div class = 'tab-pane' id = 'list-" . $f . " ' role- 'tabpanel'>";
-                    }
-
-                    echo "<div class = 'tab-list'>";
-                    for ($b = 0;$b < count($attendance); $b++) {
-                        echo "<div class = 'record-item'>";
-                        echo "<div class = 'item-header'><span class = 'header'>Week" . ($b + 1)."</span></div>";
-
-                        echo "<div class = 'tab-list'>";
-                    }
-
-                    for ($b = 0;$b<count($attendance);$b++) {
-                        echo "<div class = 'record-item'>";
-
-                        echo "<div class ='item-header'><span class = 'header'>Week" .($b + 1). "</span></div>";
-                        echo "<div class = 'item-content'>";
-
-                        echo "<table class = 'schedule'>";
-
-                        if ($b == 0) {
-                            echo "<tr><th></th><th>P</th><th>L</th></tr>";
-                        }
-
-                        echo "<tr><td class = 'type'>" .$attendance[$b][$e]->classType. "</td>";
-
-                        $record = $attendance[$b][$e]->record;
-                        $students =$attendance[$b][$e]->students;
-
-                        // Evaluates to true because $student is empty.
-
-                        // if(empty($student = "")
-                        // echo '$student is either 0, or not to set all ';
-
-                        // Evaluates as true as $student is set
-                        if (isset($student)) {
-                            $attended = 0;
-                            $late = 0;
-
-                            foreach ($student as $record) {
-                                if ($record->attended == "1" || $record->attended == 1) {
-                                    $attended = $attended + 1;
-
-                                    if ($record->late == "1" || $record->late == 1) {
-                                        $late = $late + 1;
-                                    }
-                                }
-
-                                $percent = (40/100);
-                                $total = count($students);
-                                $threshold = ($total * $percent);
-
-                                if ($attended >= $threshold) {
-                                    echo "<td>" .$attended."</td>";
-                                } else {
-                                    if ($late > 0) {
-                                        echo "<td class = 'concern'>" .$attended . "</td>";
-                                    } else {
-                                        echo "<td>" .$late ."</td>";
-                                    }
-                                }
-
-                                if (isset($students)) {
-                                    echo "<td>" . count($students) ."</td>";
-                                } else {
-                                    echo "<td></td>";
-                                }
-
-                                echo "<div class = 'scroll-overlay overlay-right'></div>";
-                                echo "</div>";
-                            }
-                        }
-                    }
-                }
-            ?>
-        </div>
+        <table style="width:100%">
+        	<tr>
+        		<th>RoomID</th>
+        		<th>Name</th>
+        		<th>Location</th>
+        		<th>Capacity</th>
+        		<th>PCs</th>
+        		<th>Printer</th>
+        		<th>Type</th>
+        	</tr>
+        	<?php if (isset($room)) : ?>
+            <tr>
+   				<td><?php echo $room->roomID; ?></td>
+   				<td><?php echo $room->name; ?></td>
+  			    <td><?php echo $room->location; ?></td>
+  			    <td><?php echo $room->capacity; ?></td>
+  			    <td><?php echo $room->pcs; ?></td>
+  			    <td><?php echo $room->printer; ?></td>
+  			    <td><?php echo $room->type; ?></td>
+  			</tr>
+  			<?php endif; ?>	
+        </table>
     </div>
-
+    
+                        
     <?php //include("includes/body-footer-contents.php"); ?>
 
     <script type="text/javascript">

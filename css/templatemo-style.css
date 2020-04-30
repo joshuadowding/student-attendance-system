@@ -661,246 +661,29 @@ section {
 .container#user-manager-wrapper{
 	margin-bottom: 32px;
 }
-
-.container#user-manager-wrapper .capacity-header{
-	dislay: flex;
-	flex-direction: row;
+.container#user-manager-wrapper .table, th, td{
+	border: 1px solid black;
+	border-collapse: collapse;
 }
 
-.container#user-manager-wrapper .capacity-header .header{
-	font-size: 2.4rem;
-	font-weight: 700;
-	text-align: left;
+.container#user-manager-wrapper .table, th, td{
+	padding: 15px;
 }
-
-.container#user-manager-wrapper .tab-list{
-	height: 100%;
-	display: flex;
-	flex-direction: row;
-}
-
-.container#user-manager-wrapper .tab-list .capacity-item{
-	width: 192px;
-	min-height: 128px;
-	padding: 12px;
-	border-radius: 0;
-	border: 1px solid #DDD;
-	border-right: 0;
-}
-
-.container#user-manager-wrapper .tab-list .capacity-item:first child{
-	border-top-left-radius: .35rem;
-	border-bottom-left-radius: .35rem;
-}
-
-.container#user-manager-wrapper .tb-list .capacity-item:last child{
-	margin: 0 24px 0 0;
-	border-right: 1px solid #DDD;
-	border-top-right-radius: .35rem;
-	border-bottom-right-radius: .35rem;
-}
-.container#user-manager-wrapper .tab-list .capacity-item .item-header{
-	margin: 0 0 8px 0;
-}
-
-.container#user-manager-wrapper .tab-list .capacity-item .item-header .header{
-	font-weight: 600;
-}
-
-.container#user-manager-wrapper .tab-list .capacity-item .item-content{
-	display: flex;
-	flex-direction: column;
-}
-
-.container#user-manager-wrapper .tab-list .capacity-item .item-content .content{
-	display: flex;
-	flex-direction: row;
-}
-
-.container#user-manager-wrapper .tab-list .capacity-item .item-content .content .room{
+.container#user-manager-wrapper .table {
 	width: 100%;
+	background-color: #f1f1c1;
 }
 
-.container#user-manager-wrapper .tab-list .capacity-item .item-content .content .room th {
-	text-align: center;
-}
 
-.container#user-manager-wrapper .tab-list .capacity-item .item-content .content .room td {
-	text-align: center;
-	width: 10%;
-}
 
-.container#user-manager-wrapper .tab-list .capacity-item .item-content .content .room td .concern {
-	background-color: #ce3232;
-	color: white;
-}
 
-.container#user-manager-wrapper .tab-list .capacity-item .item-content .content .room td .capacity{
-	background-color: #ffff66;
-	color: #333;
-}
 
-.container#user-manager-wrapper .tab-list .capacity-item .item-content .content .room td .type{
-	text-align: left;
-	width: 70%;
-}
 
-.container#user-manager-wrapper .scroll-overlay{
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	width: 16px;
-	2-index: 1000;
-}
-
-.container#user-manager-wrapper .scroll-overlay.overlay-left{
-	background: linear-gradient(to right, white 0%,rgba(255,255,255,0)100%);
-	left: 0;
-}
-
-.container#user-manager-wrapper .scroll-overlay.overlay-right{
-	background: linear-gradient(to left,white 0%,rgba(255,255,255,0)100%);
-	right: 0;
-}
-
-.container#user-manager-wrapper .tab-content-wrapper{
-	position: relative;
-}
-
-.conatiner#user-manager-wrapper .tab-content{
-	position: relative;
-	height: 100%;
-	width: 100%;
-	overflow-x: scroll;
-	padding: 16px 24px;
-}
-
-.container#user-manager-wrapper .tab-content .tab-pane .active{
-	display: table-row;
-}
-
-/******************************* Manager (Janvi's work Students)
-
-*********************************************/
-
-.container#user-manager-wrapper{
-	margin-bottom: 32px;
-}
-
-.container#user-manager-wrapper .record-header{
-	display: flex;
-	flex-direction: row;
-}
-
-.container#user-manager-wrapper .record-header .header{
-	font-size: 2.4rem;
-	font-weight: 700;
-	text-align: left;
-}
-
-.container#user-manager-wrapper .tab-list{
-	height: 100%;
-	dislpay: flex;
-	flex-direction: row;
-}
-
-.container#user-manager-wrapper .tab-list .record-item{
-	width: 192px;
-	min-height: 128px;
-	padding: 12px;
-	border-radius: 0;
-	border: 1px solid #DDD;
-	border-right: 0;
-}
-
-.container#user-manager-wrapper .tab-list .record-item: first child{
-	border-top-left-radius: .35rem;
-	border-bottom-left-radius: .35rem;
-}
-
-.container#user-manager-wrapper .tab-list .record-item: last child{
-	margin: 0 24px 0 0;
+: 0 24px 0 0;
 	border-right: 1px solid #DDD;
 	border-top-right-radius: .35rem;
 	border-bottom-right-radius: .35rem;
 }
 
-.conatiner#user-manager-wrapper .tab-list .record-item .item-header{
-	margin: 0 0 8px 0;
-}
 
-.conatiner#user-manager-wrapper .tab-list .record-item .item-header .header{
-	font-weight: 600;
-}
 
-.conatiner#user-manager-wrapper .tab-list .record-item .item-content{
-	display: flex;
-	flex-direction: column;
-}
-
-.container#user-manager-wrapper .tab-list .record-item .item-content .content{
-	display: flex;
-	flex-direction: row;
-}
-
-.container#user-manager-wrapper .tab-list .record-item .item-content .content .student{
-	width: 100%;
-}
-
-.container#user-manager-wrapper .tab-list .record-item .item-content .content .student th{
-	text-align: center;
-}
-
-.conatiner#user-manager-wrapper .tab-list .record-item .item-content .content .student td{
-	text-align: center;
-	width: 10%;
-}
-
-.container#user-manager-wrapper .tab-list .record-item .item-content .content .student td .concern{
-	background-color: #ce3232;
-	color: white;
-}
-
-.container#user-manager-wrapper .tab-list .record-item .item-content .content .student td .attended{
-	background-color: #ffff66;
-	color: #333;
-}
-
-.container#user-manager-wrapper .tab-list .record-item .item-content .content .student td .type{
-	text-align: left;
-	width: 70%;
-}
-
-.container#user-manager-wrapper .scroll-overlay{
-	position: absolute;
-	top: 0;
-	bottom: 0;
-	width: 16px;
-	2-index: 1000;
-}
-
-.container#user-manager-wrapper .scroll-overlay.overlay-left{
-	background:linear-gradient(to right,white 0%,rgba(255,255,255,0)100%);
-	left: 0;
-}
-
-.container#user-manager-wrapper .scroll-overlay.overlay-right{
-	background:linear-gradient(to left,white 0%,rgba(255,255,255,0)100%);
-	right: 0;
-}
-
-.container#user-manager-wrapper .tab-content-wrapper{
-	position: relative;
-}
-
-.conatiner#user-manager-wrapper .tab-content{
-	position: relative;
-	height: 100%;
-	width: 100%;
-	overflow-x: scroll;
-	padding: 16px 24px;
-}
-
-.container#user-manager-wrapper .tab-content .tab-pane.active{
-	display: table-row;
-}
