@@ -65,6 +65,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
             }?>
         </div>
 
+        <div class="user-admin-key">
+            <p class="key-item">L - Lecture</p>
+            <p class="key-item">P - Practical</p>
+            <p class="key-item">S - Seminar</p>
+            <p class="key-item"><input type='checkbox' checked="checked" disabled></input> - Attended</p>
+            <p class="key-item"><input type='checkbox' id="key-indeterminate" disabled></input> - Late</p>
+            <p class="key-item"><input type='checkbox' disabled></input> - Absent</p>
+        </div>
+
         <?php
         if (isset($students)) {
             foreach ($students as $student) {
@@ -92,7 +101,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                         echo "</caption><thead><tr>";
 
                         for ($x = 0; $x < count($schedule); $x++) {
-                            echo "<th scope='col' colspan='2'>Week " . ($x + 1) . "</th>";
+                            echo "<th class='week' scope='col' colspan='2'>Week " . ($x + 1) . "</th>";
                         }
 
                         echo "</tr><tr>";
@@ -106,7 +115,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                     $colspan = 2;
                                 }
 
-                                echo "<th scope='col' colspan='" . $colspan . "'>" . $schedule[$x][$y]->classType[0] . "</th>";
+                                echo "<th class='class col-" . $colspan ."' scope='col' colspan='" . $colspan . "'>" . $schedule[$x][$y]->classType[0] . "</th>";
                             }
                         }
 
@@ -126,21 +135,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 if (isset($attendance->attendanceID)) {
                                     if ($attendance->attended == "1" || $attendance->attended == 1) {
                                         if ($attendance->late == "1" || $attendance->late == 1) {
-                                            echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " data-class=" . $attendance->classID . " value='[" . $attendance->attendanceID . ", " . $attendance->classID . ", .5]'></input>";
+                                            echo "<td class='record col-" . $colspan ."' colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " data-class=" . $attendance->classID . " value='[" . $attendance->attendanceID . ", " . $attendance->classID . ", .5]'></input>";
                                             echo "<input type='hidden' class='schedule_toggle' data-id=" . $attendance->attendanceID . " value='1'></input>";
                                             echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . "></input></td>";
                                         } else {
-                                            echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " data-class=" . $attendance->classID . " value='[" . $attendance->attendanceID . ", " . $attendance->classID . ", 1]'></input>";
+                                            echo "<td class='record col-" . $colspan ."' colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " data-class=" . $attendance->classID . " value='[" . $attendance->attendanceID . ", " . $attendance->classID . ", 1]'></input>";
                                             echo "<input type='hidden' class='schedule_toggle' data-id=" . $attendance->attendanceID . " value='2'></input>";
                                             echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . " checked></input></td>";
                                         }
                                     } else {
-                                        echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " data-class=" . $attendance->classID . " value='[" . $attendance->attendanceID . ", " . $attendance->classID . ", 0]'></input>";
+                                        echo "<td class='record col-" . $colspan ."' colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id=" . $attendance->attendanceID . " data-class=" . $attendance->classID . " value='[" . $attendance->attendanceID . ", " . $attendance->classID . ", 0]'></input>";
                                         echo "<input type='hidden' class='schedule_toggle' data-id=" . $attendance->attendanceID . " value='0'></input>";
                                         echo "<input type='checkbox' class='schedule_checkbox' data-id=" . $attendance->attendanceID . "></input></td>";
                                     }
                                 } else {
-                                    echo "<td colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id='-" . $nullID . "' value='[-" . $nullID . ", -" . $nullID . ", 0]'></input>";
+                                    echo "<td class='record col-" . $colspan ."' colspan='" . $colspan . "'><input type='hidden' class='schedule_input' name='attendance[]' data-id='-" . $nullID . "' value='[-" . $nullID . ", -" . $nullID . ", 0]'></input>";
                                     echo "<input type='hidden' class='schedule_toggle' data-id='-" . $nullID . "' value='0'></input>";
                                     echo "<input type='checkbox' class='schedule_checkbox' data-id='-" . $nullID . "' disabled></input></td>";
 
@@ -166,6 +175,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
             $("#save-submit").click(function() {
                 $("#timetable").submit();
             });
+
+            $("#key-indeterminate").prop("indeterminate", true);
 
             $(".schedule_input").each(function(index) {
                 var value = $(this).val().replace("[", "").replace("]", "").split(",");

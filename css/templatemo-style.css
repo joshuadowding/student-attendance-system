@@ -329,7 +329,7 @@ section {
 	width: 75%;
 	background-color: #eee;
 	border-radius: .25rem;
-	margin-bottom: 32px;
+	margin-bottom: 16px;
 }
 
 .container#user-admin-wrapper .user-admin-search #admin-search {
@@ -342,11 +342,19 @@ section {
 	margin: 0 16px 0 0;
 }
 
+.container#user-admin-wrapper .user-admin-search #admin-search #input-username {
+	border: 0;
+	box-shadow: none;
+	height: 32px;
+	margin: 0 16px 0 0;
+}
+
 .container#user-admin-wrapper .user-admin-search .btn#save-submit {
 	background-color: #009e0f;
 	border: 0;
 	border-radius: .25rem;
 	transition: all .25s ease-in-out !important;
+	height: 32px;
 }
 
 .container#user-admin-wrapper .user-admin-search .btn#save-submit:hover {
@@ -360,6 +368,7 @@ section {
 	border: 0;
 	border-radius: .25rem;
 	transition: all .25s ease-in-out !important;
+	height: 32px;
 }
 
 .container#user-admin-wrapper .user-admin-search .btn#login-submit:hover {
@@ -368,7 +377,21 @@ section {
 	transition: all .25s ease-in-out !important;
 }
 
-.container#user-admin-wrapper .form-control {
+.container#user-admin-wrapper .user-admin-key {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+	flex-grow: 1;
+	margin: 0 0 32px 0;
+	padding: 16px;
+	width: 75%;
+	background-color: #eee;
+	border-radius: .25rem;
+}
+
+.container#user-admin-wrapper .user-admin-key .key-item {
 	margin: 0 16px 0 0;
 }
 
@@ -396,6 +419,42 @@ section {
 
 .container#user-admin-wrapper .timetable-module {
 	margin-bottom: 32px;
+}
+
+.container#user-admin-wrapper .timetable-module .table caption {
+	font-weight: 600;
+	color: #1A1A1A;
+}
+
+.container#user-admin-wrapper .timetable-module .table th,
+.container#user-admin-wrapper .timetable-module .table td {
+	border: 0;
+	text-align: center;
+	font-weight: 400;
+}
+
+.container#user-admin-wrapper .timetable-module .table th.week {
+	border-right: 1px solid #eee;
+}
+
+.container#user-admin-wrapper .timetable-module .table th.week:first-child {
+	border-left: 1px solid #eee;
+}
+
+/* Note: Satisfies the edge-case of double-spanned columns. Not an ideal solution. */
+.container#user-admin-wrapper .timetable-module .table th.class.col-2,
+.container#user-admin-wrapper .timetable-module .table td.record.col-2 {
+	border-right: 1px solid #eee;
+}
+
+.container#user-admin-wrapper .timetable-module .table th.class:nth-child(2n+0),
+.container#user-admin-wrapper .timetable-module .table td.record:nth-child(2n+0) {
+	border-right: 1px solid #eee;
+}
+
+.container#user-admin-wrapper .timetable-module .table th.class:first-child,
+.container#user-admin-wrapper .timetable-module .table td.record:first-child {
+	border-left: 1px solid #eee;
 }
 
 
