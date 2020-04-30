@@ -38,7 +38,7 @@ class Login extends CI_Controller {
                             break;
 
                         case "Lecturer":
-                            redirect(base_url() . "index.php/staff", 'location');
+                            redirect(base_url() . "index.php/lecturer", 'location');
                             break;
 
                         case "Manager":

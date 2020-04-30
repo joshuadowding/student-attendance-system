@@ -39,9 +39,33 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <?php include("includes/body-preloader-contents.php"); ?>
     <?php include("includes/body-menu-contents.php"); ?>
 
-    <!-- 'As a lecturer I want to know attendance by module' Task #8 (Trinath) -->
+    <!-- 'As a lecturer I want to know attendance by module' Task #8 (Trinath, Mani) -->
     <div class="container">
-        <!-- TODO -->
+        <script type="text/javascript">
+            window.onload = function() {
+                var moduleChart = new CanvasJS.Chart("moduleChartContainer", {
+                    animationEnabled: true,
+                    title: {
+                        text: "Attendance by Module"
+                    },
+                    subtitles: [{
+                        text: "Specific Year"
+                    }],
+                    data: [{
+                        type: "pie",
+                        yValueFormatString: "#,##0.00",
+                        indexLabel: "{label} {y}",
+                        dataPoints: <?php echo json_encode($moduleAttendance, JSON_NUMERIC_CHECK); ?>
+                    }]
+                });
+
+                moduleChart.render();
+            }
+        </script>
+
+        <?php if(isset($moduleAttendance)) : ?>
+            <div id="moduleChartContainer" style="height: 370px; width: 100%;"></div>
+        <?php endif; ?>
     </div>
 
     <!-- 'As a lecturer I want to know an individual student’s attendance' Task #6 (Trinath) -->
@@ -51,10 +75,36 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- 'As a lecturer I want to know attendance by class' Task #7 (Mani) -->
     <div class="container">
-        <!-- TODO -->
+        <script type="text/javascript">
+            window.onload = function() {
+                var classChart = new CanvasJS.Chart("classChartContainer", {
+                    animationEnabled: true,
+                    title: {
+                        text: "Attendance by Class"
+                    },
+                    subtitles: [{
+                        text: "Specific Year"
+                    }],
+                    data: [{
+                        type: "pie",
+                        yValueFormatString: "#,##0.00",
+                        indexLabel: "{label} {y}",
+                        dataPoints: <?php echo json_encode($classAttendance, JSON_NUMERIC_CHECK); ?>
+                    }]
+                });
+
+                classChart.render();
+            }
+        </script>
+
+        <?php if(isset($classAttendance)) : ?>
+            <div id="classChartContainer" style="height: 370px; width: 100%;"></div>
+        <?php endif; ?>
     </div>
 
     <?php //include("includes/body-footer-contents.php"); ?>
+
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>
 
 </html>

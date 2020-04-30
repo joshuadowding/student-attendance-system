@@ -41,10 +41,36 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- 'As a student, I want to see a report on my overall attendance' Task #1 (Mani) -->
     <div class="container">
-        <!-- TODO -->
+        <script>
+            window.onload = function() {
+                var chart = new CanvasJS.Chart("chartContainer", {
+                    animationEnabled: true,
+                    title: {
+                        text: "Your Attendance by Class"
+                    },
+                    subtitles: [{
+                        text: "Specific Year"
+                    }],
+                    data: [{
+                        type: "pie",
+                        yValueFormatString: "#,##0.00",
+                        indexLabel: "{label} {y}",
+                        dataPoints: <?php echo json_encode($dataPoints, JSON_NUMERIC_CHECK); ?>
+                    }]
+                });
+
+                chart.render();
+            }
+        </script>
+
+        <?php if(isset($dataPoints)) : ?>
+            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+        <?php endif; ?>
     </div>
 
     <?php //include("includes/body-footer-contents.php"); ?>
+
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>
 
 </html>
