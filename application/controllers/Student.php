@@ -29,20 +29,28 @@ class Student extends CI_Controller {
         // NOTE: Catch unauthorised users before processing the request:
         if (!empty($_SESSION["currentUser"])) {
             if ($_SESSION["currentUser"]->userType != "Student") {
+                $_SESSION["loginError"] = "Internal Error: Incorrect User Type";
+
                 $this->load->helper('url');
                 redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (login) page.
-
-                // TODO: Return error 'wrong user type'.
             } else {
                 $this->load->database();
             }
         } else {
+            $_SESSION["loginError"] = "Session Expired: Please Login";
+
             $this->load->helper('url');
             redirect(base_url(), 'location'); // DEBUG: Redirect back to the 'index' (login) page.
-
-            // TODO: Return error 'wrong user type'.
         }
 
+        $this->populate_student_attendance($viewModel);
+
+        $this->load->database();
+        $this->load->view('student', $viewModel);
+    }
+
+    // 'As a student, I want to see a report on my overall attendance' Task #1 (Mani)
+    private function populate_student_attendance($viewModel) {
         try {
             $userID = $_SESSION["currentUser"]->userID;
 
@@ -66,8 +74,5 @@ class Student extends CI_Controller {
         } catch (PDOException $exception) {
             $_SESSION["loginError"] = "Internal Server Error";
         }
-
-        $this->load->database();
-        $this->load->view('student', $viewModel);
     }
 }
