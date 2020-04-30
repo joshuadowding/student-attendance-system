@@ -39,19 +39,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <?php include("includes/body-preloader-contents.php"); ?>
     <?php include("includes/body-menu-contents.php"); ?>
 
-    <?php
-        if (isset($_SESSION["sessionError"])) {
-            echo "<div class='alert alert-primary' role='alert'>";
-            echo $_SESSION["sessionError"];
-            echo "</div>";
-        }
-    ?>
-
-    <!-- 'As a manager I want to know which lectures have been poorly attended' Task #5 (Josh) -->
-    <div class="container" id="user-manager-wrapper">
-         <?php
-        if (isset($timetable)) {
-
     <?php if (isset($_SESSION["sessionError"])) {
         echo "<div class='alert alert-primary' role='alert'>";
         echo $_SESSION["sessionError"];
@@ -61,7 +48,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <!-- 'As a manager I want to know which lectures have been poorly attended' Task #5 (Josh) -->
     <div class="container" id="user-manager-wrapper">
         <?php if (isset($timetable)) {
-
             echo "<div class='timetable-wrapper'>";
             echo "<div class='timetable-header'><h1 class='header'>Overall Module Attendance</h1></div>";
             echo "<div class='list-group' id='list-tab' role='tablist'>";
@@ -164,7 +150,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                                 echo "<td>" . count($enrolments) . "</td>";
                             } else {
                                 echo "<td>X</td>";
-                                }
+                            }
 
                             echo "</table></div>";
                         }
@@ -176,84 +162,74 @@ defined('BASEPATH') or exit('No direct script access allowed');
                 }
 
                 echo "</div><div class='scroll-overlay overlay-right'></div></div>";
-                echo "</div>";
             }
 
-            ?>
-        </div>
-
             echo "</div></div>";
-               }
-        ?>
+        } ?>
     </div>
 
-
-
-
     <!--'As a Manager I want to be alerted when a student has attendance below certain thresholds.' Task #3 (Janvi) -->
-        
-        <h1 class ="header"> Student's Bad Attendance</h1>
+    <div class="container">
+        <h1 class="header"> Student's Bad Attendance</h1>
 
         <form id="user-manager-search" class="form-inline" method="POST" action="/student-attendance-system/index.php/manager">
-        	<div class="form-group">
-    			<label for="input-number"> Change a bad attendance threshold:</label>
-    			<div class="input-group">
-    				<?php $threshold = is_numeric($threshold) ? $threshold : 20; ?>
-    				<input type="text" class="form-control" name="input-search" required="required" placeholder="<?php echo $threshold; ?>" value="<?php echo $threshold; ?>">
-     				<div class="input-group-addon">%</div>
-    			</div>
- 			</div>
-        	
-        	<input type="submit" name="submit" class="btn btn-primary" id="login-submit" value="Update">
+            <div class="form-group">
+                <label for="input-number"> Change a bad attendance threshold:</label>
+                <div class="input-group">
+                    <?php $threshold = is_numeric($threshold) ? $threshold : 20; ?>
+                    <input type="text" class="form-control" name="input-search" required="required" placeholder="<?php echo $threshold; ?>" value="<?php echo $threshold; ?>">
+                    <div class="input-group-addon">%</div>
+                </div>
+            </div>
+
+            <input type="submit" name="submit" class="btn btn-primary" id="login-submit" value="Update">
         </form>
 
-        <?php if (is_array($badAttendees)) : ?>    
-      	  	<?php foreach($badAttendees as $badAttendance) : ?> 
-    	<div class="alert alert-danger alert-dismissible">
-       	 	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
- 	    	<strong>Attention bad attendee!</strong> Student <?php echo $badAttendance->studentName; ?> with ID= <?php echo $badAttendance->studentID; ?> has attendance of <?php echo ceil($badAttendance->attendance); ?> % for class with ID = <?php echo $badAttendance->classID; ?>
- 	   	</div>
-	  		<?php endforeach; ?>
-	  	<?php endif; ?>
+        <?php if (is_array($badAttendees)) : ?>
+            <?php foreach ($badAttendees as $badAttendance) : ?>
+                <div class="alert alert-danger alert-dismissible">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    <strong>Attention bad attendee!</strong> Student <?php echo $badAttendance->studentName; ?> with ID= <?php echo $badAttendance->studentID; ?> has attendance of <?php echo ceil($badAttendance->attendance); ?> % for class with ID = <?php echo $badAttendance->classID; ?>
+                </div>
+            <?php endforeach; ?>
+        <?php endif; ?>
+    </div>
 
-
-    
-   
     <!-- 'As a manager I want to know room usage vs capacity' Task #4 (Janvi) -->
-                        
+    <div class="container">
         <h1 class="header"> Room's Usage or Capacity View</h1>
 
-        <form id = "user-manager-search" method = "POST" action = "/student-attendance-system/index.php/manager">
-         	<label for = "input-room">Search To View Room's Details:</label>
-         	<input type ="text" class="form-control" name="input-search" required="required" placeholder ="Room's ID">
-         	<input type="submit" name="submit" class="btn btn-primary" id="login-submit" value="Search">   
+        <form id="user-manager-search" method="POST" action="/student-attendance-system/index.php/manager">
+            <label for="input-room">Search To View Room's Details:</label>
+            <input type="text" class="form-control" name="input-search" required="required" placeholder="Room's ID">
+            <input type="submit" name="submit" class="btn btn-primary" id="login-submit" value="Search">
         </form>
 
         <table style="width:100%">
-        	<tr>
-        		<th>RoomID</th>
-        		<th>Name</th>
-        		<th>Location</th>
-        		<th>Capacity</th>
-        		<th>PCs</th>
-        		<th>Printer</th>
-        		<th>Type</th>
-        	</tr>
-        	<?php if (isset($room)) : ?>
             <tr>
-   				<td><?php echo $room->roomID; ?></td>
-   				<td><?php echo $room->name; ?></td>
-  			    <td><?php echo $room->location; ?></td>
-  			    <td><?php echo $room->capacity; ?></td>
-  			    <td><?php echo $room->pcs; ?></td>
-  			    <td><?php echo $room->printer; ?></td>
-  			    <td><?php echo $room->type; ?></td>
-  			</tr>
-  			<?php endif; ?>	
+                <th>RoomID</th>
+                <th>Name</th>
+                <th>Location</th>
+                <th>Capacity</th>
+                <th>PCs</th>
+                <th>Printer</th>
+                <th>Type</th>
+            </tr>
+
+            <?php if (isset($room)) : ?>
+                <tr>
+                    <td><?php echo $room->roomID; ?></td>
+                    <td><?php echo $room->name; ?></td>
+                    <td><?php echo $room->location; ?></td>
+                    <td><?php echo $room->capacity; ?></td>
+                    <td><?php echo $room->pcs; ?></td>
+                    <td><?php echo $room->printer; ?></td>
+                    <td><?php echo $room->type; ?></td>
+                </tr>
+            <?php endif; ?>
         </table>
     </div>
-    
-                        
+
     <?php //include("includes/body-footer-contents.php"); ?>
 
     <script type="text/javascript">
