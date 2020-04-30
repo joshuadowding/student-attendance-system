@@ -43,7 +43,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
         echo "<div class='alert alert-primary' role='alert'>";
         echo $_SESSION["sessionError"];
         echo "</div>";
-    }?>
+    } ?>
 
     <!-- 'As a manager I want to know which lectures have been poorly attended' Task #5 (Josh) -->
     <div class="container" id="user-manager-wrapper">
@@ -91,71 +91,62 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     echo "<div class='timetable-item'>";
                     echo "<div class='item-header'><span class='header'>Week " . ($x + 1) . "</span></div>";
 
-                    echo "<div class='tab-list'>";
+                    echo "<div class='item-content'>";
 
-                    for ($x = 0; $x < count($schedule); $x++) {
-                        echo "<div class='timetable-item'>";
-                        echo "<div class='item-header'><span class='header'>Week " . ($x + 1) . "</span></div>";
+                    for ($y = 0; $y < count($schedule[$x]); $y++) {
+                        echo "<div class='content'>";
+                        echo "<table class='lesson'>";
 
-                        echo "<div class='item-content'>";
-
-                        for ($y = 0; $y < count($schedule[$x]); $y++) {
-                            echo "<div class='content'>";
-                            echo "<table class='lesson'>";
-
-                            if ($y == 0) {
-                                echo "<tr><th></th><th>A</th><th>L</th><th>T</th></tr>";
-                            }
-
-                            echo "<tr><td class='type'>" . $schedule[$x][$y]->classType . "</td>";
-
-                            $attendance = $schedule[$x][$y]->attendance;
-                            $enrolments = $schedule[$x][$y]->enrolments;
-
-                            if (isset($attendance)) {
-                                $attended = 0;
-                                $late = 0;
-
-                                foreach ($attendance as $record) {
-                                    if ($record->attended == "1" || $record->attended == 1) {
-                                        if ($record->late == "1" || $record->late == 1) {
-                                            $late = $late + 1;
-                                        }
-
-                                        $attended = $attended + 1;
-                                    }
-                                }
-
-                                $percent = (70 / 100);
-                                $total = count($enrolments);
-                                $threshold = ($total * $percent);
-
-                                if ($attended >= $threshold) {
-                                    echo "<td>" . $attended . "</td>";
-                                } else {
-                                    echo "<td class='concern'>" . $attended . "</td>";
-                                }
-
-                                if ($late > 0) {
-                                    echo "<td class='late'>" . $late . "</td>";
-                                } else {
-                                    echo "<td>" . $late . "</td>";
-                                }
-                            } else {
-                                echo "<td>X</td>";
-                                echo "<td>X</td>";
-                            }
-
-                            if (isset($enrolments)) {
-                                echo "<td>" . count($enrolments) . "</td>";
-                            } else {
-                                echo "<td>X</td>";
-                            }
-
-                            echo "</table></div>";
+                        if ($y == 0) {
+                            echo "<tr><th></th><th>A</th><th>L</th><th>T</th></tr>";
                         }
 
-                        echo "</div></div>";
+                        echo "<tr><td class='type'>" . $schedule[$x][$y]->classType . "</td>";
+
+                        $attendance = $schedule[$x][$y]->attendance;
+                        $enrolments = $schedule[$x][$y]->enrolments;
+
+                        if (isset($attendance)) {
+                            $attended = 0;
+                            $late = 0;
+
+                            foreach ($attendance as $record) {
+                                if ($record->attended == "1" || $record->attended == 1) {
+                                    if ($record->late == "1" || $record->late == 1) {
+                                        $late = $late + 1;
+                                    }
+
+                                    $attended = $attended + 1;
+                                }
+                            }
+
+                            $percent = (70 / 100);
+                            $total = count($enrolments);
+                            $threshold = ($total * $percent);
+
+                            if ($attended >= $threshold) {
+                                echo "<td>" . $attended . "</td>";
+                            } else {
+                                echo "<td class='concern'>" . $attended . "</td>";
+                            }
+
+                            if ($late > 0) {
+                                echo "<td class='late'>" . $late . "</td>";
+                            } else {
+                                echo "<td>" . $late . "</td>";
+                            }
+                        } else {
+                            echo "<td>X</td>";
+                            echo "<td>X</td>";
+                        }
+
+                        if (isset($enrolments)) {
+                            echo "<td>" . count($enrolments) . "</td>";
+                        } else {
+                            echo "<td>X</td>";
+                        }
+
+                        echo "</table></div>";
                     }
 
                     echo "</div></div>";
@@ -169,7 +160,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
 
     <!--'As a Manager I want to be alerted when a student has attendance below certain thresholds.' Task #3 (Janvi) -->
-    <div class="container">
+    <div class="container" id="threshold-manager-wrapper">
         <h1 class="header">Student's Bad Attendance</h1>
 
         <form id="user-manager-search" class="form-inline" method="POST" action="/student-attendance-system/index.php/manager">
@@ -196,7 +187,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
     </div>
 
     <!-- 'As a manager I want to know room usage vs capacity' Task #4 (Janvi) -->
-    <div class="container">
+    <div class="container" id="usage-manager-wrapper">
         <h1 class="header">Room's Usage or Capacity View</h1>
 
         <form id="user-manager-search" method="POST" action="/student-attendance-system/index.php/manager">

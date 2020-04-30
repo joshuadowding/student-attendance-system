@@ -345,6 +345,8 @@ section {
     MANAGER
   -----------------------------------------*/
 
+/* (Josh) */
+
 .container#user-manager-wrapper {
 	margin-bottom: 32px;
 }
@@ -465,6 +467,25 @@ section {
 
 .container#user-manager-wrapper .tab-content .tab-pane.active {
 	display: table-row;
+}
+
+/* (Janvi) */
+
+.container#usage-manager-wrapper {
+	margin-bottom: 32px;
+}
+
+.container#usage-manager-wrapper table {
+	width: 100%;
+	background-color: #f1f1c1;
+}
+
+.container#usage-manager-wrapper table th,
+.container#usage-manager-wrapper table td {
+	padding: 15px;
+	border: 1px solid black;
+	border-collapse: collapse;
+	background-color: #f1f1c1;
 }
 
 
@@ -653,37 +674,3 @@ section {
 		top: 60%;
 	}
 }
-
-
-/*****************  Manager (Janvi work)
-
-***************************/
-.container#user-manager-wrapper{
-	margin-bottom: 32px;
-}
-.container#user-manager-wrapper .table, th, td{
-	border: 1px solid black;
-	border-collapse: collapse;
-}
-
-.container#user-manager-wrapper .table, th, td{
-	padding: 15px;
-}
-.container#user-manager-wrapper .table {
-	width: 100%;
-	background-color: #f1f1c1;
-}
-
-
-
-
-
-
-: 0 24px 0 0;
-	border-right: 1px solid #DDD;
-	border-top-right-radius: .35rem;
-	border-bottom-right-radius: .35rem;
-}
-
-
-
