@@ -131,7 +131,7 @@ class Manager extends CI_Controller
 
         $viewModel->timetable = $timetable;
         $viewModel->modules = $modules;
-    }
+    } 
        
 
 
@@ -315,7 +315,7 @@ class Manager extends CI_Controller
         }
 
         return $enrolments;
-    }
+    } 
 
 
    // Janvi's work.//
