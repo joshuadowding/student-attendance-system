@@ -34,6 +34,7 @@ h1.header {
 	font-size: 2.4rem;
 	font-weight: 700;
 	text-align: left;
+	line-height: 4.2rem;
 }
 
 h2 {
@@ -347,6 +348,7 @@ section {
 	box-shadow: none;
 	height: 32px;
 	margin: 0 16px 0 0;
+	border-radius: .25rem;
 }
 
 .container#user-admin-wrapper .user-admin-search .btn#save-submit {
@@ -395,12 +397,30 @@ section {
 	margin: 0 16px 0 0;
 }
 
+.container#user-admin-wrapper .user-admin-key .key-item:nth-child(3) {
+	margin: 0 32px 0 0;
+}
+
 .container#user-admin-wrapper {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-content: center;
 	align-items: center;
+}
+
+.container#user-admin-wrapper .header-wrapper {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+	margin: 32px 0 32px 0;
+}
+
+.container#user-admin-wrapper .header-wrapper .header,
+.container#user-admin-wrapper .header-wrapper .info {
+	margin: 0;
 }
 
 .container#user-admin-wrapper .timetable-header {

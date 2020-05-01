@@ -47,7 +47,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
             echo "</div>";
         }?>
 
-        <h1 class="header">Modify Attendance Record</h1>
+        <div class="header-wrapper">
+            <h1 class="header">Modify Attendance Record</h1>
+            <p class="info">Search for and modify a given student's attendance records.</p>
+        </div>
 
         <div class="user-admin-search">
             <form id="admin-search" method="POST" action="/student-attendance-system/index.php/admin">
