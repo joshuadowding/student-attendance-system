@@ -79,7 +79,7 @@ class Login extends CI_Controller {
     }
 
     // Process the input and search for the corresponding user in the db.users database. (Josh)
-    public function process() {
+    private function process() {
         $validationSuccess = false; // NOTE: Result
         $inputUsername = null;
         $inputPassword = null;

@@ -67,6 +67,10 @@ class Manager extends CI_Controller {
 
             $this->load->view('manager', $viewModel);
         }
+
+        // DEBUG: Uncomment to conduct unit tests.
+        // $this->test_fetch_attendance();
+        // $this->test_fetch_enrolments();
     }
 
     // 'As a manager I want to know which lectures have been poorly attended' Task #5 (Josh)
@@ -158,6 +162,10 @@ class Manager extends CI_Controller {
         $viewModel->badAttendees = $badAttendees;
         $viewModel->threshold = $threshold;
     }
+
+    /*
+     * Helper Functions
+     */
 
     // Fetch each module from the db.modules database. (Josh)
     private function fetch_modules() {
@@ -345,5 +353,35 @@ class Manager extends CI_Controller {
         }
 
         return $badAttendances;
+    }
+
+    /*
+     * Unit Tests (CodeIgniter)
+     */
+
+    // Tests fetch_attendance to see whether it returns a known-good record. (Josh)
+    private function test_fetch_attendance() {
+        $this->load->library('unit_test');
+
+        $test = $this->fetch_attendance("1", "1")[0]->attendanceID; // Known-good database values (change as nessisary).
+        $result = "1"; // Should return a known-good attendance record.
+        $name = "test_fetch_attendance";
+
+        $this->unit->run($test, $result, $name);
+
+        echo $this->unit->report();
+    }
+
+    // Tests fetch_enrolments to see whether it returns an appropriately-sized array of known-good records. (Josh)
+    private function test_fetch_enrolments() {
+        $this->load->library('unit_test');
+
+        $test = $this->fetch_enrolments("1")[0]->enrolmentID; // Known-good database values (change as nessisary).
+        $result = "1"; // Should return a known-good enrolment record.
+        $name = "test_fetch_enrolments";
+
+        $this->unit->run($test, $result, $name);
+
+        echo $this->unit->report();
     }
 }

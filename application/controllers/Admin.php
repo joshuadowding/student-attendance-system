@@ -203,6 +203,10 @@ class Admin extends CI_Controller {
         }
     }
 
+    /*
+     * Helper Functions
+     */
+
     // Insert new/missing attendance records into the db.attendance database. (Josh)
     private function commit_attendance($record) {
         $success = false;
