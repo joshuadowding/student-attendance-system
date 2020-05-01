@@ -145,6 +145,13 @@ class Admin extends CI_Controller {
         } else if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $this->load->view('admin', $viewModel);
         }
+
+        // DEBUG: Uncomment to conduct unit tests.
+        // $this->test_fetch_attendance();
+        // $this->test_fetch_lessons();
+        // $this->test_fetch_modules();
+        // $this->test_fetch_enrolments();
+        // $this->test_fetch_students();
     }
 
     // HTTP Endpoint: response to timetable-wrapper submit. (Josh)
@@ -392,6 +399,75 @@ class Admin extends CI_Controller {
         }
 
         return $attendanceModel;
+    }
+
+    /*
+     * Unit Tests (CodeIgniter)
+     */
+
+    // Tests fetch_attendance to see whether it returns a known-good record. (Josh)
+    private function test_fetch_attendance() {
+        $this->load->library('unit_test');
+
+        $test = $this->fetch_attendance("1", "1", "1")->attendanceID; // Known-good database values (change as nessisary).
+        $result = "1"; // Should return a known-good attendance record.
+        $name = "test_fetch_attendance";
+
+        $this->unit->run($test, $result, $name);
+
+        echo $this->unit->report();
+    }
+
+    // Tests fetch_lessons to see whether it returns an appropriately-sized array of known-good records. (Josh)
+    private function test_fetch_lessons() {
+        $this->load->library('unit_test');
+
+        $test = count($this->fetch_lessons("1")); // Known-good database values (change as nessisary).
+        $result = 2; // Should return a count of known-good lesson records.
+        $name = "test_fetch_lessons";
+
+        $this->unit->run($test, $result, $name);
+
+        echo $this->unit->report();
+    }
+
+    // Tests fetch_modules to see whether it returns a specific module record. (Josh)
+    private function test_fetch_modules() {
+        $this->load->library('unit_test');
+
+        $test = $this->fetch_modules("1")[0]->moduleID; // Known-good database values (change as nessisary).
+        $result = "1"; // Should return a known-good module record.
+        $name = "test_fetch_modules";
+
+        $this->unit->run($test, $result, $name);
+
+        echo $this->unit->report();
+    }
+
+    // Tests fetch_enrolments to see whether it returns an appropriately-sized array of known-good records. (Josh)
+    private function test_fetch_enrolments() {
+        $this->load->library('unit_test');
+
+        $test = count($this->fetch_enrolments("1")); // Known-good database values (change as nessisary).
+        $result = 5; // Should return a count of known-good enrolment record.
+        $name = "test_fetch_enrolments";
+
+        $this->unit->run($test, $result, $name);
+
+        echo $this->unit->report();
+    }
+
+    // Tests fetch_students to see whether it returns a specific student record. (Josh)
+    private function test_fetch_students() {
+        $this->load->library('unit_test');
+
+        $test = $this->fetch_students("Josh")[0]->firstName; // Known-good database values (change as nessisary).
+        $result = "Joshua"; // Should return a known-good student record.
+        $name = "test_fetch_students";
+
+        $this->unit->run($test, $result, $name);
+
+        echo $this->unit->report();
     }
 }
 ?>
