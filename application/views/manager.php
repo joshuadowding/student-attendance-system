@@ -47,9 +47,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
     <!-- 'As a manager I want to know which lectures have been poorly attended' Task #5 (Josh) -->
     <div class="container" id="user-manager-wrapper">
+        <div class="header-wrapper">
+            <h1 class="header">Overall Module Attendance</h1>
+            <p class="info">Browse overall attendance by module.</p>
+        </div>
+
+        <div class="user-manager-key">
+            <p class="key-item">A - Attended</p>
+            <p class="key-item">L - Late</p>
+            <p class="key-item">T - Total</p>
+        </div>
+
         <?php if (isset($timetable)) {
             echo "<div class='timetable-wrapper'>";
-            echo "<div class='timetable-header'><h1 class='header'>Overall Module Attendance</h1></div>";
             echo "<div class='list-group' id='list-tab' role='tablist'>";
 
             foreach ($timetable->schedule as $schedule) {
@@ -152,10 +162,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     echo "</div></div>";
                 }
 
-                echo "</div><div class='scroll-overlay overlay-right'></div></div>";
+                echo "</div></div>";
             }
 
-            echo "</div></div></div>";
+            echo "</div><div class='scroll-overlay overlay-right'></div></div>";
         }?>
     </div>
 

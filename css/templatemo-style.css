@@ -489,15 +489,42 @@ section {
 	margin-bottom: 32px;
 }
 
-.container#user-manager-wrapper .timetable-header {
+.container#user-manager-wrapper .header-wrapper {
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+	margin: 32px 0 32px 0;
+}
+
+.container#user-manager-wrapper .header-wrapper .header,
+.container#user-manager-wrapper .header-wrapper .info {
+	margin: 0;
 }
 
 .container#user-manager-wrapper .timetable-header .header {
 	font-size: 2.4rem;
 	font-weight: 700;
 	text-align: left;
+}
+
+.container#user-manager-wrapper .user-manager-key {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+	flex-grow: 1;
+	margin: 0 0 32px 0;
+	padding: 16px;
+	width: 100%;
+	background-color: #eee;
+	border-radius: .25rem;
+}
+
+.container#user-manager-wrapper .user-manager-key .key-item {
+	margin: 0 16px 0 0;
 }
 
 .container#user-manager-wrapper .tab-list {
@@ -511,20 +538,20 @@ section {
 	min-height: 128px;
 	padding: 12px;
 	border-radius: 0;
-	border: 1px solid #DDD;
+	border: 1px solid #eee;
 	border-right: 0;
 }
 
 .container#user-manager-wrapper .tab-list .timetable-item:first-child {
-	border-top-left-radius: .35rem;
-	border-bottom-left-radius: .35rem;
+	border-top-left-radius: .25rem;
+	border-bottom-left-radius: .25rem;
 }
 
 .container#user-manager-wrapper .tab-list .timetable-item:last-child {
 	margin: 0 24px 0 0;
-	border-right: 1px solid #DDD;
-	border-top-right-radius: .35rem;
-	border-bottom-right-radius: .35rem;
+	border-right: 1px solid #eee;
+	border-top-right-radius: .25rem;
+	border-bottom-right-radius: .25rem;
 }
 
 .container#user-manager-wrapper .tab-list .timetable-item .item-header {
@@ -649,23 +676,31 @@ section {
 	padding: 0 16px;
 	border-radius: 0;
 	cursor: pointer;
+	border-color: #eee;
+	font-size: 14px;
+	transition: all .25s ease-in-out !important;
+}
+
+.list-group .list-group-item.active {
+	background-color: #2b78e4;
+	transition: all .25s ease-in-out !important;
 }
 
 .list-group .list-group-item:first-child {
 	border-top-left-radius: .25rem;
 	border-bottom-left-radius: .25rem;
-	border-left: 1px solid #DDD;
+	border-left: 1px solid #eee;
 }
 
 .list-group .list-group-item:not(:last-child) {
-	border-left: 1px solid #DDD;
+	border-left: 1px solid #eee;
 	border-right: 0;
 }
 
 .list-group .list-group-item:last-child {
 	border-top-right-radius: .25rem;
 	border-bottom-right-radius: .25rem;
-	border-right: 1px solid #DDD;
+	border-right: 1px solid #eee;
 }
 
 
