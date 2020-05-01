@@ -72,6 +72,10 @@ class Login extends CI_Controller {
         } else if ($_SERVER["REQUEST_METHOD"] == "GET") {
             $this->load->view('login');
         }
+
+        // DEBUG: Uncomment to conduct unit tests.
+        // $this->test_retrieve();
+        // $this->test_process();
     }
 
     // Process the input and search for the corresponding user in the db.users database. (Josh)
@@ -161,6 +165,48 @@ class Login extends CI_Controller {
         $_SESSION["internalError"] = null;
 
         return $retrievalSuccess;
+    }
+
+    /*
+     * Unit Tests (CodeIgniter)
+     */
+
+    // Test process to see whether it can process user input correctly. (Josh)
+    private function test_process() {
+        $this->load->library('unit_test');
+
+        // TODO: I realize this is bad (improve):
+        $_POST["input-username"] = "josh.dowding";
+        $_POST["input-password"] = "test1";
+
+        $this->process();
+
+        $test = $this->id;
+        $result = "2"; // Result: the user has been found!
+        $name = "test_retrieve";
+
+        $this->unit->run($test, $result, $name);
+
+        $this->id = null; // Remove, just in-case.
+
+        echo $this->unit->report();
+    }
+
+    // Test retrive to see whether it can successfully reach the database. (Josh)
+    private function test_retrieve() {
+        $this->load->library('unit_test');
+
+        $this->id = "2";
+
+        $test = $this->retrieve();
+        $result = true; // Result: a user has been found!
+        $name = "test_retrieve";
+
+        $this->unit->run($test, $result, $name);
+
+        $this->id = null; // Remove, just in-case.
+
+        echo $this->unit->report();
     }
 }
 ?>
