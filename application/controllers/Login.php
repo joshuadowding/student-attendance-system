@@ -29,8 +29,9 @@ class Login extends CI_Controller {
         $this->load->database();
 
         $_SESSION["currentUser"] = null; // NOTE: Remove existing user from session.
-
+        //var_dump($_SERVER["REQUEST_METHOD"]); die;
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            var_dump($this->process()); die;
             if ($this->process()) {
                 if ($this->retrieve()) {
                     switch ($_SESSION["currentUser"]->userType) {
@@ -85,7 +86,7 @@ class Login extends CI_Controller {
         $inputPassword = null;
 
         $inputHelper = new InputHelper();
-
+        
         if (!empty($_POST["input-username"])) {
             $inputUsername = $inputHelper->validate($_POST["input-username"]);
         } else {
@@ -98,16 +99,16 @@ class Login extends CI_Controller {
             return $validationSuccess;
         }
 
-        $username = null;
-        $password = null;
+       // $username = null;
+       // $password = null;
 
-        try {
+       // try {
             $queryString = "SELECT * FROM `users` WHERE `Username` = ?;";
             $queryResult = $this->db->query($queryString, array($inputUsername));
-
+            
             if ($queryResult->num_rows() != 0) {
                 $password = $queryResult->row()->Password;
-
+                var_dump(password_verify($inputPassword, $password)); die;
                 if (password_verify($inputPassword, $password)) {
                     $username = $queryResult->row()->Username;
                     $this->id = $queryResult->row()->UserID;
@@ -119,10 +120,10 @@ class Login extends CI_Controller {
             } else {
                 return $validationSuccess;
             }
-        } catch (PDOException $exception) {
+       /* } catch (PDOException $exception) {
             $_SESSION["internalError"] = "Internal server error; please try again.";
             return $validationSuccess;
-        }
+        } */
 
         $_SESSION["loginError"] = null; // NOTE: Remove any error that might already be present.
         $_SESSION["internalError"] = null;
